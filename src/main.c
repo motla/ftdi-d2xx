@@ -1,40 +1,28 @@
-#include <assert.h>
 #include <node_api.h>
 
-#include <string.h>
-#include <stdio.h>
-#include "ftd2xx.h"
+#include "error_check.h"
+#include "module_data.h"
+#include "api/getDeviceInfoList.h"
 
+// Function called to initialize the module
+static napi_value init_module(napi_env env, napi_value exports) {
+  
+  // Create the module data structure
+  module_data_t* module_data = allocate_module_data();
 
-static napi_value Method(napi_env env, napi_callback_info info) {
-  napi_status status;
-  napi_value world;
+  // Free module data when the module is unloaded
+  error_check(env, napi_wrap(env, exports, module_data, free_module_data, NULL, NULL) == napi_ok);
 
-  FT_STATUS   ftStatus;
-  DWORD       standardDevices = 0;
+  // Declare JavaScript module object properties and symbol
+  napi_property_descriptor props[] = {
+    { "getDeviceInfoList", NULL, getDeviceInfoList, NULL, NULL, NULL, napi_enumerable, module_data },
+  };
 
-  char buffer[300] = {0};
-
-  ftStatus = FT_ListDevices(&standardDevices, 
-                              NULL, 
-                              FT_LIST_NUMBER_ONLY);
-
-  sprintf(buffer, "%d device%s with standard FTDI Vendor and Product Ids detected.\n", (int)standardDevices, standardDevices == 1 ? "" : "s");
-
-  status = napi_create_string_utf8(env, buffer, strlen(buffer), &world);
-  assert(status == napi_ok);
-  return world;
-}
-
-#define DECLARE_NAPI_METHOD(name, func)                                        \
-  { name, 0, func, 0, 0, 0, napi_default, 0 }
-
-static napi_value Init(napi_env env, napi_value exports) {
-  napi_status status;
-  napi_property_descriptor desc = DECLARE_NAPI_METHOD("hello", Method);
-  status = napi_define_properties(env, exports, 1, &desc);
-  assert(status == napi_ok);
+  // Add these properties to the `exports` variable
+  size_t nb_props = sizeof(props)/sizeof(napi_property_descriptor);
+  error_check(env, napi_define_properties(env, exports, nb_props, props) == napi_ok);
+  
   return exports;
 }
 
-NAPI_MODULE(hello, Init)
+NAPI_MODULE(ftdi_d2xx, init_module)

@@ -1,3 +1,5 @@
-import ftdi from "./main.mjs";
+import FTDI from "./main.mjs";
 
-console.log(ftdi.hello()); // 'world'
+let devices = await FTDI.getDeviceInfoList();
+
+console.log(`${devices.length} device(s) found:`, devices);

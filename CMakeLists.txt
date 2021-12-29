@@ -6,6 +6,9 @@ project(ftdi-d2xx)
 
 # Declare the source files list
 list(APPEND SRC "src/main.c")
+list(APPEND SRC "src/module_data.c")
+list(APPEND SRC "src/error_check.c")
+list(APPEND SRC "src/api/getDeviceInfoList.c")
 
 # Declare the include files folder
 include_directories("inc")
