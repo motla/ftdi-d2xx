@@ -4,6 +4,17 @@ cmake_minimum_required(VERSION 3.10)
 # Set the project name
 project(ftdi-d2xx)
 
+# Set minimum Node-API version
+# Node-API version 3 is a good choice as this is the Node-API version active when Node-API left experimental status.
+add_definitions(-DNAPI_VERSION=3)
+
+# Show warnings on compilation
+if(MSVC)
+  add_compile_options(/W4)
+else()
+  add_compile_options(-Wall -Wextra)
+endif()
+
 # Declare the source files list
 list(APPEND SRC "src/main.c")
 list(APPEND SRC "src/module_data.c")
@@ -26,7 +37,3 @@ target_link_libraries(${PROJECT_NAME} ${LIB} ${CMAKE_JS_LIB})
 # Link macOS native frameworks to the library
 target_link_libraries(${PROJECT_NAME} "-framework CoreFoundation")
 target_link_libraries(${PROJECT_NAME} "-framework IOKit")
-
-# Set minimum Node-API version
-# Node-API version 3 is a good choice as this is the Node-API version active when Node-API left experimental status.
-add_definitions(-DNAPI_VERSION=3)

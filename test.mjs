@@ -1,4 +1,4 @@
-import FTDI from "./main.mjs";
+import FTDI from "./main.js";
 
 let devices = await FTDI.getDeviceInfoList();
 

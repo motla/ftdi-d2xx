@@ -5,9 +5,13 @@
 
 // Structure for dynamically allocated module data (needed for asynchronous work)
 typedef struct {
+  // Node API variables
   napi_async_work async_work;
   napi_deferred deferred;
-  napi_value return_value;
+
+  // Variables used to transfer result from the worker to the main thread
+  uint32_t count_buffer;
+  void* return_buffer;
 } module_data_t;
 
 // Function to allocate dynamically and initialize the module data structure

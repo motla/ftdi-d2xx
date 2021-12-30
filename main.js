@@ -1,0 +1,1 @@
+module.exports = require("./build/Release/ftdi-d2xx.node");

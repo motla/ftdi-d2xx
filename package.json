@@ -2,7 +2,7 @@
   "name": "ftdi-d2xx",
   "version": "1.0.0",
   "description": "Pre-compiled FTDI D2XX driver for Node.js (Node-API/CMake)",
-  "main": "main.mjs",
+  "main": "main.js",
   "scripts": {
     "compile": "cmake-js compile",
     "test": "node test.mjs"
