@@ -9,6 +9,9 @@ typedef struct {
   napi_async_work async_work;
   napi_deferred deferred;
 
+  // List of detected FTDI devices
+  napi_value devices_array;
+
   // Variables used to transfer result from the worker to the main thread
   uint32_t count_buffer;
   void* return_buffer;

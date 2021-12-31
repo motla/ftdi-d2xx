@@ -1,14 +1,12 @@
 #include <stdlib.h>
+#include <string.h>
 #include "module_data.h"
 #include "error_check.h"
 
 // Function to allocate dynamically and initialize the module data structure
 module_data_t* allocate_module_data(void) {
   module_data_t* module_data = malloc(sizeof(module_data_t));
-  module_data->async_work = NULL;
-  module_data->deferred = NULL;
-  module_data->return_buffer = NULL;
-  module_data->count_buffer = 0;
+  memset(module_data, 0, sizeof(module_data_t));
   return module_data;
 }
 
