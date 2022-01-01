@@ -4,8 +4,10 @@
   "description": "Pre-compiled FTDI D2XX driver for Node.js (Node-API/CMake)",
   "main": "main.js",
   "scripts": {
-    "compile": "cmake-js compile",
-    "test": "node test.mjs"
+    "cmake:clean": "cmake-js clean",
+    "cmake:rebuild-release": "cmake-js rebuild",
+    "node:test-release": "node test-release.js",
+    "cmake:rebuild-debug": "cmake-js rebuild --debug"
   },
   "devDependencies": {
     "cmake-js": "^6.3.0"

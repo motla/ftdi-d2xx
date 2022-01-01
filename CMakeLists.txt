@@ -19,7 +19,7 @@ endif()
 list(APPEND SRC "src/main.c")
 list(APPEND SRC "src/module_data.c")
 list(APPEND SRC "src/error_check.c")
-list(APPEND SRC "src/api/getDeviceInfoList.c")
+list(APPEND SRC "src/api/listDevices.c")
 
 # Declare the include files folder
 include_directories("inc")

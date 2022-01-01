@@ -1,7 +1,8 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "api/getDeviceInfoList.h"
+#include "api/listDevices.h"
 #include "error_check.h"
 #include "module_data.h"
 #include "ftd2xx.h"
@@ -47,17 +48,18 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   error_check(env, napi_get_boolean(env, true, &napi_bool_true) == napi_ok);
   error_check(env, napi_get_boolean(env, false, &napi_bool_false) == napi_ok);
 
-  // If not already done, create JavaScript array for the device list that will be returned
-  if(!module_data->devices_array) error_check(env, napi_create_array(env, &(module_data->devices_array)) == napi_ok);
+  // Get device array from its reference
+  napi_value devices_array;
+  status = napi_get_reference_value(env, module_data->devices_array_ref, &devices_array);
 
   // Get device array length
-  uint32_t devices_array_length;
-  error_check(env, napi_get_array_length(env, module_data->devices_array, &devices_array_length) == napi_ok);
+  uint32_t devices_array_length = 0;
+  status = napi_get_array_length(env, devices_array, &devices_array_length);
 
   // Reset current devices `isConnected` flag
   for(uint32_t i = 0; i < devices_array_length; i++) {
     napi_value dev_obj;
-    error_check(env, napi_get_element(env, module_data->devices_array, i, &dev_obj) == napi_ok);
+    error_check(env, napi_get_element(env, devices_array, i, &dev_obj) == napi_ok);
     error_check(env, napi_set_named_property(env, dev_obj, "isConnected", napi_bool_false) == napi_ok);
   }
 
@@ -82,7 +84,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
         napi_value dev_obj;
         napi_value dev_sn;
         bool is_found;
-        error_check(env, napi_get_element(env, module_data->devices_array, i, &dev_obj) == napi_ok);
+        error_check(env, napi_get_element(env, devices_array, i, &dev_obj) == napi_ok);
         error_check(env, napi_get_named_property(env, dev_obj, "SerialNumber", &dev_sn) == napi_ok);
         error_check(env, napi_strict_equals(env, dev_sn, SerialNumber, &is_found) == napi_ok);
         if(is_found) {
@@ -94,7 +96,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
       // If not, create a new JavaScript device object, fill it with class methods, and add it to the list
       if(!device_object) {
         error_check(env, napi_create_object(env, &device_object) == napi_ok);
-        napi_set_element(env, module_data->devices_array, devices_array_length++, device_object);
+        napi_set_element(env, devices_array, devices_array_length++, device_object);
       }
 
       // Set the device object with new info returned by FTDI FT_GetDeviceInfoList
@@ -119,7 +121,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   }
 
   // Resolve the JavaScript Promise with the return value
-  error_check(env, napi_resolve_deferred(env, module_data->deferred, module_data->devices_array) == napi_ok);
+  error_check(env, napi_resolve_deferred(env, module_data->deferred, devices_array) == napi_ok);
 
   // Clean up the work item associated with this run
   error_check(env, napi_delete_async_work(env, module_data->async_work) == napi_ok);
@@ -131,7 +133,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 
 
 // Create a deferred JavaScript Promise and an async queue work item
-napi_value getDeviceInfoList(napi_env env, napi_callback_info info) {
+napi_value listDevices(napi_env env, napi_callback_info info) {
   
   // Get the global module data
   module_data_t* module_data;
@@ -147,7 +149,7 @@ napi_value getDeviceInfoList(napi_env env, napi_callback_info info) {
   // Create an async work item, passing in the addon data, which will give the
   // worker thread access to the Promise
   napi_value name;
-  error_check(env, napi_create_string_utf8(env, "getDeviceInfoList", NAPI_AUTO_LENGTH, &name) == napi_ok);
+  error_check(env, napi_create_string_utf8(env, "listDevices", NAPI_AUTO_LENGTH, &name) == napi_ok);
   error_check(env, napi_create_async_work(env, NULL, name, execute_callback, complete_callback, module_data, &(module_data->async_work)) == napi_ok);
 
   // Queue the work item for execution

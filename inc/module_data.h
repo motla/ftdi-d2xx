@@ -10,7 +10,7 @@ typedef struct {
   napi_deferred deferred;
 
   // List of detected FTDI devices
-  napi_value devices_array;
+  napi_ref devices_array_ref;
 
   // Variables used to transfer result from the worker to the main thread
   uint32_t count_buffer;
@@ -18,7 +18,7 @@ typedef struct {
 } module_data_t;
 
 // Function to allocate dynamically and initialize the module data structure
-module_data_t* allocate_module_data(void);
+module_data_t* allocate_module_data(napi_env env);
 
 // Handler function to free the module data before module is unloaded
 void free_module_data(napi_env env, void* data, void* hint);
