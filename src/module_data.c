@@ -3,13 +3,19 @@
 #include <string.h>
 #include "module_data.h"
 #include "error_check.h"
+#include "api/Device.h"
 
 // Function to allocate dynamically and initialize the module data structure
 module_data_t* allocate_module_data(napi_env env) {
   module_data_t* module_data = malloc(sizeof(module_data_t));
   memset(module_data, 0, sizeof(module_data_t));
 
-  // Initialize devices array (we make it persistent by referencing it to avoid automatic garbage collection)
+  // Initialize Device class (make it persistent by referencing it to avoid automatic garbage collection)
+  napi_value device_class;
+  initialize_device_class(env, &device_class);
+  error_check(env, napi_create_reference(env, device_class, 1, &(module_data->device_class_ref)) == napi_ok);
+
+  // Initialize devices array (make it persistent by referencing it to avoid automatic garbage collection)
   napi_value devices_array;
   error_check(env, napi_create_array(env, &devices_array) == napi_ok);
   error_check(env, napi_create_reference(env, devices_array, 1, &(module_data->devices_array_ref)) == napi_ok);

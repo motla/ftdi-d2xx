@@ -48,6 +48,10 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   error_check(env, napi_get_boolean(env, true, &napi_bool_true) == napi_ok);
   error_check(env, napi_get_boolean(env, false, &napi_bool_false) == napi_ok);
 
+  // Get Device class from its reference
+  napi_value device_class;
+  status = napi_get_reference_value(env, module_data->device_class_ref, &device_class);
+
   // Get device array from its reference
   napi_value devices_array;
   status = napi_get_reference_value(env, module_data->devices_array_ref, &devices_array);
@@ -93,9 +97,10 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
         }
       }
 
-      // If not, create a new JavaScript device object, fill it with class methods, and add it to the list
+      // If not, create a new JavaScript Device object, fill it with class methods, and add it to the list
       if(!device_object) {
-        error_check(env, napi_create_object(env, &device_object) == napi_ok);
+        //error_check(env, napi_create_object(env, &device_object) == napi_ok);
+        error_check(env, napi_new_instance(env, device_class, 0, NULL, &device_object) == napi_ok);
         napi_set_element(env, devices_array, devices_array_length++, device_object);
       }
 

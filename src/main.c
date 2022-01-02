@@ -24,7 +24,7 @@ static napi_value init_module(napi_env env, napi_value exports) {
   error_check(env, napi_create_string_utf8(env, "FTDI D2XX Driver", NAPI_AUTO_LENGTH, &tag_name) == napi_ok);
 
   // Declare properties for JavaScript `exports` object
-  napi_property_descriptor props[] = {
+  const napi_property_descriptor props[] = {
     { "listDevices", NULL, listDevices, NULL, NULL, NULL, napi_enumerable, module_data },
     { NULL, symbol_to_string_tag, NULL, NULL, NULL, tag_name, napi_enumerable, NULL }
   };
