@@ -1,13 +1,10 @@
-const FTDI = {
-  ...require("./build/Debug/ftdi-d2xx.node"),
-  [Symbol.toStringTag]: "FTDI D2XX Driver"
-}
+const FTDI = require("./build/Debug/ftdi-d2xx.node");
 
 async function test () {
 
   try {
   
-    let devices = await FTDI.getDeviceInfoList();
+    let devices = await FTDI.listDevices();
     
     console.log(`${devices.length} device(s) found:`, devices);
   

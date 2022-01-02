@@ -1,14 +1,20 @@
 const FTDI = require("./main.js");
 
-try {
+async function test () {
 
-  let devices = await FTDI.getDeviceInfoList();
+  try {
   
-  console.log(`${devices.length} device(s) found:`, devices);
+    let devices = await FTDI.listDevices();
+    
+    console.log(`${devices.length} device(s) found:`, devices);
+  
+  } catch(e) {
+  
+    console.log(e);
+  }
+  
+  console.log("ok");
 
-} catch(e) {
-
-  console.log(e);
 }
 
-console.log("ok");
+test();

@@ -13,13 +13,24 @@ static napi_value init_module(napi_env env, napi_value exports) {
   // Free module data when the module is unloaded
   error_check(env, napi_wrap(env, exports, module_data, free_module_data, NULL, NULL) == napi_ok);
 
-  // Declare JavaScript module object properties and symbol
+  // Get JavaScript global Symbol.toStringTag
+  napi_value global, symbol, symbol_to_string_tag;
+  error_check(env, napi_get_global(env, &global) == napi_ok);
+  error_check(env, napi_get_named_property(env, global, "Symbol", &symbol) == napi_ok);
+  error_check(env, napi_get_named_property(env, symbol, "toStringTag", &symbol_to_string_tag) == napi_ok);
+
+  // Declare JavaScript tag name
+  napi_value tag_name;
+  error_check(env, napi_create_string_utf8(env, "FTDI D2XX Driver", NAPI_AUTO_LENGTH, &tag_name) == napi_ok);
+
+  // Declare properties for JavaScript `exports` object
   napi_property_descriptor props[] = {
     { "listDevices", NULL, listDevices, NULL, NULL, NULL, napi_enumerable, module_data },
+    { NULL, symbol_to_string_tag, NULL, NULL, NULL, tag_name, napi_enumerable, NULL }
   };
 
-  // Add these properties to the `exports` variable
-  size_t nb_props = sizeof(props)/sizeof(napi_property_descriptor);
+  // Write properties to JavaScript `exports` object
+  size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
   error_check(env, napi_define_properties(env, exports, nb_props, props) == napi_ok);
   
   return exports;
