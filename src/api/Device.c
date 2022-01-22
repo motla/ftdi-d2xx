@@ -3,11 +3,15 @@
 #include "error_check.h"
 
 static napi_value constructor(napi_env env, napi_callback_info info) {
+  // We set the object properties outside the constructor
   return NULL;
 }
 
 static napi_value open(napi_env env, napi_callback_info info) {
-  return NULL;
+  napi_value this_arg;
+  error_check(env, napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL) == napi_ok);
+
+  return this_arg;
 }
 
 static napi_value close(napi_env env, napi_callback_info info) {

@@ -7,7 +7,7 @@
 // Function called to initialize the module
 static napi_value init_module(napi_env env, napi_value exports) {
   
-  // Create the module data structure
+  // Create the module data structure, initialize classes and arrays
   module_data_t* module_data = allocate_module_data(env);
 
   // Free module data when the module is unloaded

@@ -99,7 +99,6 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 
       // If not, create a new JavaScript Device object, fill it with class methods, and add it to the list
       if(!device_object) {
-        //error_check(env, napi_create_object(env, &device_object) == napi_ok);
         error_check(env, napi_new_instance(env, device_class, 0, NULL, &device_object) == napi_ok);
         napi_set_element(env, devices_array, devices_array_length++, device_object);
       }
@@ -151,8 +150,7 @@ napi_value listDevices(napi_env env, napi_callback_info info) {
   napi_value promise;
   error_check(env, napi_create_promise(env, &(module_data->deferred), &promise) == napi_ok);
 
-  // Create an async work item, passing in the addon data, which will give the
-  // worker thread access to the Promise
+  // Create an async work item, passing in the addon data, which will give the worker thread access to the Promise
   napi_value name;
   error_check(env, napi_create_string_utf8(env, "listDevices", NAPI_AUTO_LENGTH, &name) == napi_ok);
   error_check(env, napi_create_async_work(env, NULL, name, execute_callback, complete_callback, module_data, &(module_data->async_work)) == napi_ok);

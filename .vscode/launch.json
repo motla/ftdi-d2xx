@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+    "name": "Debug test.js (macOS)",
+    "type": "lldb",
+    "request": "launch",
+    "program": "/usr/local/bin/node",
+    "args": ["./test-debug.js"],
+    "cwd": "${workspaceRoot}",
+    "preLaunchTask": "npm: cmake:rebuild-debug",
+  }]
+}

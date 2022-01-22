@@ -5,9 +5,9 @@
   "main": "main.js",
   "scripts": {
     "cmake:clean": "cmake-js clean",
+    "cmake:rebuild-debug": "cmake-js rebuild --debug",
     "cmake:rebuild-release": "cmake-js rebuild",
-    "node:test-release": "node test-release.js",
-    "cmake:rebuild-debug": "cmake-js rebuild --debug"
+    "node:test": "node test.js"
   },
   "devDependencies": {
     "cmake-js": "^6.3.0"
