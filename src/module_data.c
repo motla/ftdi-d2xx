@@ -3,22 +3,23 @@
 #include <string.h>
 #include "module_data.h"
 #include "error_check.h"
-#include "api/Device.h"
+#include "api/FTDI_Device.h"
+#include "api/FTDI_DeviceInfo.h"
 
 // Function to allocate dynamically and initialize the module data structure
 module_data_t* allocate_module_data(napi_env env) {
   module_data_t* module_data = malloc(sizeof(module_data_t)); // allocate memory for module data
   memset(module_data, 0, sizeof(module_data_t)); // initialize module data to zeros
 
-  // Initialize Device class (make it persistent by referencing it to avoid automatic garbage collection)
+  // Initialize FTDI_DeviceInfo class (make it persistent by referencing it to avoid automatic garbage collection)
+  napi_value device_info_class;
+  device_info_initialize_class(env, &device_info_class);
+  error_check(env, napi_create_reference(env, device_info_class, 1, &(module_data->device_info_class_ref)) == napi_ok);
+
+  // Initialize FTDI_Device class (make it persistent by referencing it to avoid automatic garbage collection)
   napi_value device_class;
   device_initialize_class(env, &device_class);
   error_check(env, napi_create_reference(env, device_class, 1, &(module_data->device_class_ref)) == napi_ok);
-
-  // Initialize devices array (make it persistent by referencing it to avoid automatic garbage collection)
-  napi_value devices_array;
-  error_check(env, napi_create_array(env, &devices_array) == napi_ok);
-  error_check(env, napi_create_reference(env, devices_array, 1, &(module_data->devices_array_ref)) == napi_ok);
 
   return module_data;
 }

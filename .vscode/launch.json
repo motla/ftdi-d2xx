@@ -5,7 +5,7 @@
     "type": "lldb",
     "request": "launch",
     "program": "/usr/local/bin/node",
-    "args": ["./test-debug.js"],
+    "args": ["./test.js"],
     "cwd": "${workspaceRoot}",
     "preLaunchTask": "npm: cmake:rebuild-debug",
   }]

@@ -17,9 +17,11 @@ endif()
 # Declare the source files list
 list(APPEND SRC "src/main.c")
 list(APPEND SRC "src/module_data.c")
+list(APPEND SRC "src/utils.c")
 list(APPEND SRC "src/error_check.c")
-list(APPEND SRC "src/api/Device.c")
-list(APPEND SRC "src/api/listDevices.c")
+list(APPEND SRC "src/api/FTDI_Device.c")
+list(APPEND SRC "src/api/FTDI_DeviceInfo.c")
+list(APPEND SRC "src/api/getDeviceInfoList.c")
 
 # Declare the include files folder
 include_directories("inc")

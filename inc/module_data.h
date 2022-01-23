@@ -9,11 +9,11 @@ typedef struct {
   napi_async_work async_work;
   napi_deferred deferred;
 
-  // Representing the JavaScript constructor function for the Device class
-  napi_ref device_class_ref;
+  // Representing the JavaScript constructor function for the FTDI_DeviceInfo class
+  napi_ref device_info_class_ref;
 
-  // Reference to the JavaScript Array list of detected FTDI devices
-  napi_ref devices_array_ref;
+  // Representing the JavaScript constructor function for the FTDI_Device class
+  napi_ref device_class_ref;
 
   // Variables used to transfer result from the worker to the main thread
   uint32_t count_buffer;

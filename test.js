@@ -11,22 +11,17 @@ catch (e) { FTDI = require("./main.js"); } // Else load the main.js file that lo
 cli.context.FTDI = FTDI;
 
 // Print some testing
-async function test () {
+(async function () {
 
   try {
   
-    let devices = await FTDI.listDevices();
+    let devices = await FTDI.getDeviceInfoList();
     cli.context.devices = devices;
     
     console.log(`${devices.length} device(s) found:`, devices);
-    console.log(devices[0].open());
   
   } catch(e) {
-  
-    console.log(e);
+    console.log("Error!", e);
   }
   
-  console.log("ok");
-
-}
-test();
+})();
