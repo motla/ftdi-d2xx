@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "api/listDevices.h"
+#include "api/Device.h"
 #include "error_check.h"
 #include "module_data.h"
 #include "ftd2xx.h"
@@ -62,9 +63,9 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 
   // Reset current devices `isConnected` flag
   for(uint32_t i = 0; i < devices_array_length; i++) {
-    napi_value dev_obj;
-    error_check(env, napi_get_element(env, devices_array, i, &dev_obj) == napi_ok);
-    error_check(env, napi_set_named_property(env, dev_obj, "isConnected", napi_bool_false) == napi_ok);
+    napi_value device_object;
+    error_check(env, napi_get_element(env, devices_array, i, &device_object) == napi_ok);
+    device_update_instance_info(env, device_object, NULL, false);
   }
 
   // Get device info list allocated by FTDI in the `execute_callback` function
@@ -78,10 +79,9 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
       FT_DEVICE_LIST_INFO_NODE device_info = device_info_list[i];
       napi_value device_object = NULL;
 
-      // Encode values returned by FTDI FT_GetDeviceInfoList in JavaScript
-      napi_value SerialNumber, Description;
+      // Encode the device S/N returned by FTDI FT_GetDeviceInfoList in JavaScript
+      napi_value SerialNumber;
       error_check(env, napi_create_string_utf8(env, device_info.SerialNumber, sizeof(device_info.SerialNumber), &SerialNumber) == napi_ok);
-      error_check(env, napi_create_string_utf8(env, device_info.Description, sizeof(device_info.Description), &Description) == napi_ok);
 
       // Find the JS device object if it was previously discovered, based on its serial number
       for(uint32_t j = 0; j < devices_array_length; j++) {
@@ -104,19 +104,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
       }
 
       // Set the device object with new info returned by FTDI FT_GetDeviceInfoList
-      error_check(env, napi_set_named_property(env, device_object, "isConnected", napi_bool_true) == napi_ok);
-      error_check(env, napi_set_named_property(env, device_object, "SerialNumber", SerialNumber) == napi_ok);
-      error_check(env, napi_set_named_property(env, device_object, "Description", Description) == napi_ok);
-
-      // printf("Dev %d:\n", i);
-      // printf("  Flags=0x%x\n", device_info.Flags);
-      // printf("  Type=0x%x\n", device_info.Type);
-      // printf("  ID=0x%x\n", device_info.ID);
-      // printf("  LocId=0x%x\n", device_info.LocId);
-      // printf("  SerialNumber=%s\n", device_info.SerialNumber);
-      // printf("  Description=%s\n", device_info.Description);
-      // printf("  ftHandle=0x%x\n", device_info.ftHandle);
-
+      device_update_instance_info(env, device_object, &device_info, true);
     }
 
     // Free previously allocated memory

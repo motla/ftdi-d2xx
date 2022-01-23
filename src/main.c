@@ -10,7 +10,7 @@ static napi_value init_module(napi_env env, napi_value exports) {
   // Create the module data structure, initialize classes and arrays
   module_data_t* module_data = allocate_module_data(env);
 
-  // Free module data when the module is unloaded
+  // Wrap the module data to `exports`, and free it when the module is unloaded
   error_check(env, napi_wrap(env, exports, module_data, free_module_data, NULL, NULL) == napi_ok);
 
   // Get JavaScript global Symbol.toStringTag

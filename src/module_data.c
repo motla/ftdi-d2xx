@@ -7,12 +7,12 @@
 
 // Function to allocate dynamically and initialize the module data structure
 module_data_t* allocate_module_data(napi_env env) {
-  module_data_t* module_data = malloc(sizeof(module_data_t));
-  memset(module_data, 0, sizeof(module_data_t));
+  module_data_t* module_data = malloc(sizeof(module_data_t)); // allocate memory for module data
+  memset(module_data, 0, sizeof(module_data_t)); // initialize module data to zeros
 
   // Initialize Device class (make it persistent by referencing it to avoid automatic garbage collection)
   napi_value device_class;
-  initialize_device_class(env, &device_class);
+  device_initialize_class(env, &device_class);
   error_check(env, napi_create_reference(env, device_class, 1, &(module_data->device_class_ref)) == napi_ok);
 
   // Initialize devices array (make it persistent by referencing it to avoid automatic garbage collection)

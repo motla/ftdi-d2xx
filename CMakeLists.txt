@@ -5,8 +5,7 @@ cmake_minimum_required(VERSION 3.10)
 project(ftdi-d2xx)
 
 # Set minimum Node-API version
-# Node-API version 3 is a good choice as this is the Node-API version active when Node-API left experimental status.
-add_definitions(-DNAPI_VERSION=3)
+add_definitions(-DNAPI_VERSION=8)
 
 # Show warnings on compilation
 if(MSVC)
