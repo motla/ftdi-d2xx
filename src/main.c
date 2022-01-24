@@ -3,6 +3,7 @@
 #include "error_check.h"
 #include "module_data.h"
 #include "api/getDeviceInfoList.h"
+#include "api/openDevice.h"
 
 // Function called to initialize the module
 static napi_value init_module(napi_env env, napi_value exports) {
@@ -26,6 +27,7 @@ static napi_value init_module(napi_env env, napi_value exports) {
   // Declare properties for JavaScript `exports` object
   const napi_property_descriptor props[] = {
     { "getDeviceInfoList", NULL, getDeviceInfoList, NULL, NULL, NULL, napi_enumerable, module_data },
+    { "openDevice", NULL, openDevice, NULL, NULL, NULL, napi_enumerable, module_data },
     { NULL, symbol_to_string_tag, NULL, NULL, NULL, tag_name, napi_enumerable, NULL }
   };
 

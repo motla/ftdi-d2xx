@@ -2,6 +2,7 @@
 #define module_data_h
 
 #include <node_api.h>
+#include "ftd2xx.h"
 
 // Structure for dynamically allocated module data (needed for asynchronous work)
 typedef struct {
@@ -18,6 +19,10 @@ typedef struct {
   // Variables used to transfer result from the worker to the main thread
   uint32_t count_buffer;
   void* return_buffer;
+
+  // Variables used for openDevice
+  char string_buffer[256];
+  FT_HANDLE ftHandle;
 } module_data_t;
 
 // Function to allocate dynamically and initialize the module data structure

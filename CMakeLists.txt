@@ -22,6 +22,7 @@ list(APPEND SRC "src/error_check.c")
 list(APPEND SRC "src/api/FTDI_Device.c")
 list(APPEND SRC "src/api/FTDI_DeviceInfo.c")
 list(APPEND SRC "src/api/getDeviceInfoList.c")
+list(APPEND SRC "src/api/openDevice.c")
 
 # Declare the include files folder
 include_directories("inc")
