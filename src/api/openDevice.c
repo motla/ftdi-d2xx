@@ -4,9 +4,9 @@
 
 #include "api/openDevice.h"
 #include "api/FTDI_Device.h"
-#include "error_check.h"
 #include "module_data.h"
 #include "ftd2xx.h"
+#include "utils.h"
 
 
 // This function runs on a worker thread.
@@ -18,8 +18,9 @@ static void execute_callback(napi_env env, void* data) {
   module_data->ftHandle = NULL;
 
   // Open FTDI device
+  //TODO manage error
   module_data->string_buffer[sizeof(module_data->string_buffer) - 1] = '\0'; // force character termination
-  error_check(env, FT_OpenEx(module_data->string_buffer, FT_OPEN_BY_SERIAL_NUMBER, &(module_data->ftHandle)) == FT_OK);
+  utils_check(FT_OpenEx(module_data->string_buffer, FT_OPEN_BY_SERIAL_NUMBER, &(module_data->ftHandle)));
 }
 
 
@@ -31,25 +32,25 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 
   // Get FTDI_Device class from its reference
   napi_value device_class;
-  error_check(env, napi_get_reference_value(env, module_data->device_class_ref, &device_class) == napi_ok);
+  utils_check(napi_get_reference_value(env, module_data->device_class_ref, &device_class));
 
   // Convert serial number string to JavaScript
   napi_value serial_number;
-  error_check(env, napi_create_string_utf8(env, module_data->string_buffer, NAPI_AUTO_LENGTH, &serial_number) == napi_ok);
+  utils_check(napi_create_string_utf8(env, module_data->string_buffer, NAPI_AUTO_LENGTH, &serial_number));
 
   // Create FTDI_Device class instance
   napi_value device_instance;
-  error_check(env, napi_new_instance(env, device_class, 1, &serial_number, &device_instance) == napi_ok);
+  utils_check(napi_new_instance(env, device_class, 1, &serial_number, &device_instance));
   device_instance_set_handler(env, device_instance, module_data->ftHandle);
 
   // Reinitialize module data
   module_data->ftHandle = NULL;
 
   // Resolve the JavaScript `Promise` with the return value
-  error_check(env, napi_resolve_deferred(env, module_data->deferred, device_instance) == napi_ok);
+  utils_check(napi_resolve_deferred(env, module_data->deferred, device_instance));
 
   // Clean up the work item associated with this run
-  error_check(env, napi_delete_async_work(env, module_data->async_work) == napi_ok);
+  utils_check(napi_delete_async_work(env, module_data->async_work));
 
   // Set both values to NULL so JavaScript can order a new run of the thread.
   module_data->async_work = NULL;
@@ -62,30 +63,30 @@ napi_value openDevice(napi_env env, napi_callback_info info) {
   // Get JavaScript `argc`/`argv` passed to the function
   size_t argc = 1; // size of the buffer
   napi_value argv[argc];
-  error_check(env, napi_get_cb_info(env, info, &argc, argv, NULL, NULL) == napi_ok);
-  error_check(env, argc >= 1); // check that all expected arguments were passed
+  utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
+  if(utils_check(argc < 1, "Missing argument")) return NULL;
 
   // Get the global module data
   module_data_t* module_data;
-  error_check(env, napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&module_data)) == napi_ok);
+  utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&module_data)));
 
   // Ensure that no work is currently in progress
-  error_check(env, module_data->async_work == NULL);
+  if(utils_check(module_data->async_work != NULL, "Work is already in progress")) return NULL;
 
   // Get the device serial number from argument and copy it to module data buffer
-  error_check(env, napi_get_value_string_utf8(env, argv[0], module_data->string_buffer, sizeof(module_data->string_buffer), NULL) == napi_ok);
+  utils_check(napi_get_value_string_utf8(env, argv[0], module_data->string_buffer, sizeof(module_data->string_buffer), NULL));
 
   // Create a deferred `Promise` which we will resolve at the completion of the work
   napi_value promise;
-  error_check(env, napi_create_promise(env, &(module_data->deferred), &promise) == napi_ok);
+  utils_check(napi_create_promise(env, &(module_data->deferred), &promise));
 
   // Create an async work item, passing in the addon data, which will give the worker thread access to the `Promise`
   napi_value name;
-  error_check(env, napi_create_string_utf8(env, "openDevice", NAPI_AUTO_LENGTH, &name) == napi_ok);
-  error_check(env, napi_create_async_work(env, NULL, name, execute_callback, complete_callback, module_data, &(module_data->async_work)) == napi_ok);
+  utils_check(napi_create_string_utf8(env, "openDevice", NAPI_AUTO_LENGTH, &name));
+  utils_check(napi_create_async_work(env, NULL, name, execute_callback, complete_callback, module_data, &(module_data->async_work)));
 
   // Queue the work item for execution
-  error_check(env, napi_queue_async_work(env, module_data->async_work) == napi_ok);
+  utils_check(napi_queue_async_work(env, module_data->async_work));
 
   // This causes created `Promise` to be returned to JavaScript
   return promise;

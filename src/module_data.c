@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "module_data.h"
-#include "error_check.h"
+#include "utils.h"
 #include "api/FTDI_Device.h"
 #include "api/FTDI_DeviceInfo.h"
 
@@ -14,12 +14,12 @@ module_data_t* allocate_module_data(napi_env env) {
   // Initialize FTDI_DeviceInfo class (make it persistent by referencing it to avoid automatic garbage collection)
   napi_value device_info_class;
   device_info_initialize_class(env, &device_info_class);
-  error_check(env, napi_create_reference(env, device_info_class, 1, &(module_data->device_info_class_ref)) == napi_ok);
+  utils_check(napi_create_reference(env, device_info_class, 1, &(module_data->device_info_class_ref)));
 
   // Initialize FTDI_Device class (make it persistent by referencing it to avoid automatic garbage collection)
   napi_value device_class;
   device_initialize_class(env, &device_class);
-  error_check(env, napi_create_reference(env, device_class, 1, &(module_data->device_class_ref)) == napi_ok);
+  utils_check(napi_create_reference(env, device_class, 1, &(module_data->device_class_ref)));
 
   return module_data;
 }
@@ -28,6 +28,5 @@ module_data_t* allocate_module_data(napi_env env) {
 void free_module_data(napi_env env, void* data, void* hint) {
   (void) hint; // hide unused parameter warning
   module_data_t* module_data = (module_data_t*) data;
-  error_check(env, module_data->async_work == NULL);
   free(module_data);
 }

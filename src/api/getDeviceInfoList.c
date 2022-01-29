@@ -5,7 +5,6 @@
 #include "api/getDeviceInfoList.h"
 #include "api/FTDI_DeviceInfo.h"
 #include "utils.h"
-#include "error_check.h"
 #include "module_data.h"
 #include "ftd2xx.h"
 
@@ -21,7 +20,8 @@ static void execute_callback(napi_env env, void* data) {
   module_data->count_buffer = 0;
 
   // Create FTDI device info list
-  error_check(env, FT_CreateDeviceInfoList(&nb_devices) == FT_OK);
+  //TODO remove error check
+  utils_check(FT_CreateDeviceInfoList(&nb_devices));
 
   // If devices are detected, query device info
   if(nb_devices > 0) {
@@ -30,7 +30,8 @@ static void execute_callback(napi_env env, void* data) {
     FT_DEVICE_LIST_INFO_NODE* device_info_list = malloc(sizeof(FT_DEVICE_LIST_INFO_NODE) * nb_devices);
     
     // Fill the allocated memory with the list of device info
-    error_check(env, FT_GetDeviceInfoList(device_info_list, &nb_devices) == FT_OK);
+    //TODO remove error check
+    utils_check(FT_GetDeviceInfoList(device_info_list, &nb_devices));
 
     // Write the allocated memory pointer and the number of devices in the module data
     module_data->return_buffer = device_info_list;
@@ -47,7 +48,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 
   // Get FTDI_DeviceInfo class from its reference
   napi_value device_info_class;
-  error_check(env, napi_get_reference_value(env, module_data->device_info_class_ref, &device_info_class) == napi_ok);
+  utils_check(napi_get_reference_value(env, module_data->device_info_class_ref, &device_info_class));
 
   // Get device info list allocated by FTDI in the `execute_callback` function
   FT_DEVICE_LIST_INFO_NODE* device_info_list = module_data->return_buffer;
@@ -55,7 +56,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   // Create a new array containing the FTDI_DeviceInfo instances
   napi_value info_array;
   size_t info_array_length = 0;
-  error_check(env, napi_create_array(env, &info_array) == napi_ok);
+  utils_check(napi_create_array(env, &info_array));
   
   // Check that a device info list was allocated (no allocation if no devices were detected)
   if(module_data->count_buffer && device_info_list) {
@@ -66,22 +67,22 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 
       // Convert values to JavaScript
       napi_value serial_number, description, type, is_open, usb_speed, usb_vid, usb_pid, usb_loc_id;
-      error_check(env, napi_create_string_utf8(env, device_info.SerialNumber, sizeof(device_info.SerialNumber), &serial_number) == napi_ok);
-      error_check(env, napi_create_string_utf8(env, device_info.Description, sizeof(device_info.Description), &description) == napi_ok);
-      type = utils_get_device_type_string(env, (FT_DEVICE)(device_info.Type));
-      error_check(env, napi_get_boolean(env, (device_info.Flags & 0b0001), &is_open) == napi_ok);
-      error_check(env, napi_create_string_utf8(env, (device_info.Flags & 0b0010) ? "high-speed" : "full-speed", NAPI_AUTO_LENGTH, &usb_speed) == napi_ok);
-      error_check(env, napi_create_uint32(env, (device_info.ID >> 16), &usb_vid) == napi_ok);
-      error_check(env, napi_create_uint32(env, (device_info.ID & 0xFFFF), &usb_pid) == napi_ok);
-      error_check(env, napi_create_uint32(env, device_info.LocId, &usb_loc_id) == napi_ok);
+      utils_check(napi_create_string_utf8(env, device_info.SerialNumber, NAPI_AUTO_LENGTH, &serial_number));
+      utils_check(napi_create_string_utf8(env, device_info.Description, NAPI_AUTO_LENGTH, &description));
+      type = utils_ft_device_to_js_string(env, (FT_DEVICE)(device_info.Type));
+      utils_check(napi_get_boolean(env, (device_info.Flags & 0b0001), &is_open));
+      utils_check(napi_create_string_utf8(env, (device_info.Flags & 0b0010) ? "high-speed" : "full-speed", NAPI_AUTO_LENGTH, &usb_speed));
+      utils_check(napi_create_uint32(env, (device_info.ID >> 16), &usb_vid));
+      utils_check(napi_create_uint32(env, (device_info.ID & 0xFFFF), &usb_pid));
+      utils_check(napi_create_uint32(env, device_info.LocId, &usb_loc_id));
 
       // Create a FTDI_DeviceInfo instance representing the device
       napi_value device_info_instance;
       napi_value argv[] = { serial_number, description, type, is_open, usb_vid, usb_pid, usb_loc_id, usb_speed };
-      error_check(env, napi_new_instance(env, device_info_class, sizeof(argv)/sizeof(argv[0]), argv, &device_info_instance) == napi_ok);
+      utils_check(napi_new_instance(env, device_info_class, sizeof(argv)/sizeof(argv[0]), argv, &device_info_instance));
 
       // Add the device info to the array
-      error_check(env, napi_set_element(env, info_array, info_array_length++, device_info_instance) == napi_ok);
+      utils_check(napi_set_element(env, info_array, info_array_length++, device_info_instance));
     }
 
     // Free previously allocated memory
@@ -90,10 +91,10 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   }
 
   // Resolve the JavaScript `Promise` with the return value
-  error_check(env, napi_resolve_deferred(env, module_data->deferred, info_array) == napi_ok);
+  utils_check(napi_resolve_deferred(env, module_data->deferred, info_array));
 
   // Clean up the work item associated with this run
-  error_check(env, napi_delete_async_work(env, module_data->async_work) == napi_ok);
+  utils_check(napi_delete_async_work(env, module_data->async_work));
 
   // Set both values to NULL so JavaScript can order a new run of the thread.
   module_data->async_work = NULL;
@@ -106,22 +107,22 @@ napi_value getDeviceInfoList(napi_env env, napi_callback_info info) {
   
   // Get the global module data
   module_data_t* module_data;
-  error_check(env, napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&module_data)) == napi_ok);
+  utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&module_data)));
 
   // Ensure that no work is currently in progress
-  error_check(env, module_data->async_work == NULL);
+  if(utils_check(module_data->async_work != NULL, "Work is already in progress")) return NULL;
 
   // Create a deferred `Promise` which we will resolve at the completion of the work
   napi_value promise;
-  error_check(env, napi_create_promise(env, &(module_data->deferred), &promise) == napi_ok);
+  utils_check(napi_create_promise(env, &(module_data->deferred), &promise));
 
   // Create an async work item, passing in the addon data, which will give the worker thread access to the `Promise`
   napi_value name;
-  error_check(env, napi_create_string_utf8(env, "getDeviceInfoList", NAPI_AUTO_LENGTH, &name) == napi_ok);
-  error_check(env, napi_create_async_work(env, NULL, name, execute_callback, complete_callback, module_data, &(module_data->async_work)) == napi_ok);
+  utils_check(napi_create_string_utf8(env, "getDeviceInfoList", NAPI_AUTO_LENGTH, &name));
+  utils_check(napi_create_async_work(env, NULL, name, execute_callback, complete_callback, module_data, &(module_data->async_work)));
 
   // Queue the work item for execution
-  error_check(env, napi_queue_async_work(env, module_data->async_work) == napi_ok);
+  utils_check(napi_queue_async_work(env, module_data->async_work));
 
   // This causes created `Promise` to be returned to JavaScript
   return promise;

@@ -1,13 +1,13 @@
 #include "api/FTDI_DeviceInfo.h"
-#include "error_check.h"
+#include "utils.h"
 
 // Class constructor (runs either the class function is called using `new` or not)
 static napi_value constructor(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to the instance of the class and get `argc`/`argv` passed to the constructor
   size_t argc = 8; // size of the buffer
   napi_value this_arg, argv[argc];
-  error_check(env, napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL) == napi_ok);
-  error_check(env, argc >= 8); // check that all expected arguments were passed
+  utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
+  if(utils_check(argc < 8)) return NULL; // check that all expected arguments were passed
 
   // Add instance properties from constructor arguments
   const napi_property_descriptor props[] = {
@@ -21,7 +21,7 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
     { "usb_speed", NULL, NULL, NULL, NULL, argv[7], napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
-  error_check(env, napi_define_properties(env, this_arg, nb_props, props) == napi_ok);
+  utils_check(napi_define_properties(env, this_arg, nb_props, props));
 
   // Return class instance
   return this_arg;
@@ -29,5 +29,5 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
 
 // Called once to initialize class (then to reference it in module data)
 void device_info_initialize_class(napi_env env, napi_value* result) {
-  error_check(env, napi_define_class(env, "FTDI_DeviceInfo", NAPI_AUTO_LENGTH, constructor, NULL, 0, NULL, result) == napi_ok);
+  utils_check(napi_define_class(env, "FTDI_DeviceInfo", NAPI_AUTO_LENGTH, constructor, NULL, 0, NULL, result));
 }

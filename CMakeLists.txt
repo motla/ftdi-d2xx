@@ -18,7 +18,6 @@ endif()
 list(APPEND SRC "src/main.c")
 list(APPEND SRC "src/module_data.c")
 list(APPEND SRC "src/utils.c")
-list(APPEND SRC "src/error_check.c")
 list(APPEND SRC "src/api/FTDI_Device.c")
 list(APPEND SRC "src/api/FTDI_DeviceInfo.c")
 list(APPEND SRC "src/api/getDeviceInfoList.c")
@@ -36,6 +35,10 @@ include_directories(${CMAKE_JS_INC})
 add_library(${PROJECT_NAME} SHARED ${SRC} ${CMAKE_JS_SRC})
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 target_link_libraries(${PROJECT_NAME} ${LIB} ${CMAKE_JS_LIB})
+
+# Set SOURCE_PATH_SIZE to hide file paths in error_check messages
+string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
+add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
 
 # Link macOS native frameworks to the library
 target_link_libraries(${PROJECT_NAME} "-framework CoreFoundation")

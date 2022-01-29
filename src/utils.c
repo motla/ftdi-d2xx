@@ -1,8 +1,79 @@
 #include <stdio.h>
+#include <string.h>
 #include "utils.h"
-#include "error_check.h"
 
-napi_value utils_get_device_type_string(napi_env env, FT_DEVICE device) {
+#define MAX_MSG_SIZE 256
+
+// Throw formatted error
+bool utils_test_throw(int assertion, char* assertion_str, napi_env env, char* file, int line, utils_error_desc_t err_desc) {
+  char buffer[MAX_MSG_SIZE];
+
+  // Test assertion, return without error if its result is 0 as expected
+  if(assertion == 0) return false;
+
+  // Else, we are throwing an error with a useful message:
+
+  // If a specific message is provided: write it directly
+  if(err_desc.message) {
+    snprintf(buffer, MAX_MSG_SIZE, "%s (%s:%d)", err_desc.message, file, line);
+    napi_throw_error(env, NULL, buffer);
+    return true;
+  }
+
+  // Else, check Node API for errors
+  const napi_extended_error_info* err_info;
+  napi_get_last_error_info(env, &err_info);
+
+  // If the Node API has an error, write its description
+  if(err_info->error_code) {
+    snprintf(buffer, MAX_MSG_SIZE, "%s (%s:%d)", err_info->error_message, file, line);
+    napi_throw_error(env, NULL, buffer);
+    return true;
+  }
+
+  // Else, try to see if we check an FTDI function, then write its explicit status code
+  if(strncmp(assertion_str, "FT_", 3) == 0) {
+    snprintf(buffer, MAX_MSG_SIZE, "`%s` returned %s (%s:%d)", assertion_str, utils_ft_status_to_string((FT_STATUS)assertion), file, line);
+    napi_throw_error(env, NULL, buffer);
+    return true;
+  };
+
+  // Else, write the assertion result and expected result in plain integers
+  snprintf(buffer, MAX_MSG_SIZE, "`%s` returned %d instead of 0 (%s:%d)", assertion_str, assertion, file, line);
+  napi_throw_error(env, NULL, buffer);
+  return true;
+}
+
+
+// Convert FT_STATUS to C string
+const char* utils_ft_status_to_string(FT_STATUS status) {
+  switch(status) {
+    case FT_OK: return "FT_OK";
+	  case FT_INVALID_HANDLE: return "FT_INVALID_HANDLE";
+	  case FT_DEVICE_NOT_FOUND: return "FT_DEVICE_NOT_FOUND";
+	  case FT_DEVICE_NOT_OPENED: return "FT_DEVICE_NOT_OPENED";
+	  case FT_IO_ERROR: return "FT_IO_ERROR";
+	  case FT_INSUFFICIENT_RESOURCES: return "FT_INSUFFICIENT_RESOURCES";
+	  case FT_INVALID_PARAMETER: return "FT_INVALID_PARAMETER";
+	  case FT_INVALID_BAUD_RATE: return "FT_INVALID_BAUD_RATE";
+	  case FT_DEVICE_NOT_OPENED_FOR_ERASE: return "FT_DEVICE_NOT_OPENED_FOR_ERASE";
+	  case FT_DEVICE_NOT_OPENED_FOR_WRITE: return "FT_DEVICE_NOT_OPENED_FOR_WRITE";
+	  case FT_FAILED_TO_WRITE_DEVICE: return "FT_FAILED_TO_WRITE_DEVICE";
+	  case FT_EEPROM_READ_FAILED: return "FT_EEPROM_READ_FAILED";
+	  case FT_EEPROM_WRITE_FAILED: return "FT_EEPROM_WRITE_FAILED";
+	  case FT_EEPROM_ERASE_FAILED: return "FT_EEPROM_ERASE_FAILED";
+	  case FT_EEPROM_NOT_PRESENT: return "FT_EEPROM_NOT_PRESENT";
+	  case FT_EEPROM_NOT_PROGRAMMED: return "FT_EEPROM_NOT_PROGRAMMED";
+	  case FT_INVALID_ARGS: return "FT_INVALID_ARGS";
+	  case FT_NOT_SUPPORTED: return "FT_NOT_SUPPORTED";
+	  case FT_OTHER_ERROR: return "FT_OTHER_ERROR";
+	  case FT_DEVICE_LIST_NOT_READY: return "FT_DEVICE_LIST_NOT_READY";
+    default: return "an unknown error";
+  }
+}
+
+// Convert FT_DEVICE to JS string
+napi_value utils_ft_device_to_js_string(napi_env env, FT_DEVICE device) {
   char value[32];
   char* value_ptr = value;
 
@@ -38,6 +109,6 @@ napi_value utils_get_device_type_string(napi_env env, FT_DEVICE device) {
   
   // Convert to JavaScript string
   napi_value js_value;
-  error_check(env, napi_create_string_utf8(env, value_ptr, NAPI_AUTO_LENGTH, &js_value) == napi_ok);
+  utils_check(napi_create_string_utf8(env, value_ptr, NAPI_AUTO_LENGTH, &js_value));
   return js_value;
 }
