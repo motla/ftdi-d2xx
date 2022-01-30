@@ -3,6 +3,6 @@
 
 #include <node_api.h>
 
-napi_value close(napi_env env, napi_callback_info info);
+napi_value device_close(napi_env env, napi_callback_info info);
 
 #endif

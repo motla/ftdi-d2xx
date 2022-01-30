@@ -1,6 +1,7 @@
 #include <stdlib.h>
+#include <string.h>
 
-#include "api/FTDI_Device_close.h"
+#include "api/FTDI_Device_write.h"
 #include "api/FTDI_Device.h"
 #include "ftd2xx.h"
 #include "utils.h"
@@ -12,9 +13,12 @@ typedef struct {
 
   // Data passed to execute_callback
   device_instance_data_t* instance_data;
+  uint32_t tx_bytes_to_write;
+  uint8_t* tx_buffer;
 
   // Data passed to complete_callback
   FT_STATUS ftStatus;
+  DWORD tx_bytes_written;
 
 } async_data_t;
 
@@ -24,14 +28,9 @@ typedef struct {
 static void execute_callback(napi_env env, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
-  // Abort if there is no device handle
-  if(!async_data->instance_data->ftHandle) return;
-
-  // Close FTDI device
-  async_data->ftStatus = FT_Close(async_data->instance_data->ftHandle);
-
-  // Clear device handle
-  async_data->instance_data->ftHandle = NULL;
+  // Write to FTDI device (this is a blocking function)
+  async_data->ftStatus = FT_Write(async_data->instance_data->ftHandle, async_data->tx_buffer,
+                                  async_data->tx_bytes_to_write, &(async_data->tx_bytes_written));
 }
 
 
@@ -40,8 +39,9 @@ static void execute_callback(napi_env env, void* data) {
 static void complete_callback(napi_env env, napi_status status, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
-  // Check for FTDI error if any
-  utils_check(FT_|async_data->ftStatus);
+  // Manage FTDI error if any
+  utils_check(async_data->ftStatus == FT_IO_ERROR, "USB was lost during write operation");
+  utils_check(FT_|async_data->ftStatus); // manage other errors
 
   // Resolve the JavaScript `Promise`:
   bool is_exception_pending;
@@ -56,31 +56,52 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 
   } else {
     // Else resolve the JavaScript `Promise` with the return value
-    napi_value undefined;
-    napi_get_undefined(env, &undefined);
-    napi_resolve_deferred(env, async_data->deferred, undefined);
+    napi_value nb_bytes_written;
+    napi_create_uint32(env, async_data->tx_bytes_written, &nb_bytes_written);
+    napi_resolve_deferred(env, async_data->deferred, nb_bytes_written);
   }
 
   // Clean up the work item associated with this run
   napi_delete_async_work(env, async_data->async_work);
 
   // Free async instance data structure
+  free(async_data->tx_buffer);
   free(async_data);
 }
 
 
 // Create a deferred JavaScript `Promise` and an async queue work item
-napi_value device_close(napi_env env, napi_callback_info info) {
-  // Get JavaScript `this` corresponding to this instance of the class
-  napi_value this_arg;
-  utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
+napi_value device_write(napi_env env, napi_callback_info info) {
+  // Get JavaScript `this` corresponding to this instance of the class and `argc`/`argv` passed to the function
+  size_t argc = 1; // size of the argv buffer
+  napi_value this_arg, argv[argc];
+  utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
+  if(utils_check(argc < 1, "Missing argument")) return NULL;
+
+  // Check that the data argument is a TypedArray
+  bool is_typedarray;
+  utils_check(napi_is_typedarray(env, argv[0], &is_typedarray));
+  if(utils_check(is_typedarray == false, "The data to send must be a TypedArray")) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
   if(utils_check(async_data == NULL, "Malloc failed")) return NULL;
 
-  // Initialize async instance data
-  async_data->ftStatus = FT_OK;
+  // Allocate memory for TX buffer
+  void* data;
+  napi_value array_buffer;
+  size_t byte_offset, byte_length;
+  utils_check(napi_get_typedarray_info(env, argv[0], NULL, NULL, NULL, &array_buffer, &byte_offset));
+  utils_check(napi_get_arraybuffer_info(env, array_buffer, &data, &byte_length));
+  byte_length -= byte_offset;
+  async_data->tx_buffer = malloc(byte_length);
+  if(utils_check(async_data->tx_buffer == NULL, "Malloc failed")) return NULL;
+
+  // Copy TX buffer
+  memcpy(async_data->tx_buffer, data + byte_offset, byte_length);
+
+  // Set the number of bytes to be written
+  async_data->tx_bytes_to_write = byte_length;
 
   // Get the class instance data containing FTDI device handle
   utils_check(napi_unwrap(env, this_arg, (void**)&(async_data->instance_data)));
@@ -91,7 +112,7 @@ napi_value device_close(napi_env env, napi_callback_info info) {
 
   // Create an async work item, passing in the addon data, which will give the worker thread access to the `Promise`
   napi_value name;
-  utils_check(napi_create_string_utf8(env, "deviceClose", NAPI_AUTO_LENGTH, &name));
+  utils_check(napi_create_string_utf8(env, "deviceWrite", NAPI_AUTO_LENGTH, &name));
   utils_check(napi_create_async_work(env, NULL, name, execute_callback, complete_callback, async_data, &(async_data->async_work)));
 
   // Queue the work item for execution

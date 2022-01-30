@@ -4,7 +4,7 @@
 // Class constructor (runs either the class function is called using `new` or not)
 static napi_value constructor(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to the instance of the class and get `argc`/`argv` passed to the constructor
-  size_t argc = 8; // size of the buffer
+  size_t argc = 8; // size of the argv buffer
   napi_value this_arg, argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
   if(utils_check(argc < 8)) return NULL; // check that all expected arguments were passed

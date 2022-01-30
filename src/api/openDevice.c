@@ -40,7 +40,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   napi_value device_class, serial_number, device_instance;
   async_data_t* async_data = (async_data_t*) data;
 
-  // Manage FT_OpenEx error if any. Otherwise, process the return value
+  // Manage FTDI error if any. Otherwise, process the return value
   if(!utils_check(async_data->ftStatus == FT_DEVICE_NOT_FOUND, "Device not found")
     && !utils_check(async_data->ftStatus == FT_DEVICE_NOT_OPENED, "Device could not be opened. It is maybe already open")
     && !utils_check(FT_|async_data->ftStatus)) { // manage other errors
@@ -83,7 +83,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 // Create a deferred JavaScript `Promise` and an async queue work item
 napi_value openDevice(napi_env env, napi_callback_info info) {
   // Get JavaScript `argc`/`argv` passed to the function
-  size_t argc = 1; // size of the buffer
+  size_t argc = 1; // size of the argv buffer
   napi_value argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
   if(utils_check(argc < 1, "Missing argument")) return NULL;
@@ -95,6 +95,7 @@ napi_value openDevice(napi_env env, napi_callback_info info) {
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
+  if(utils_check(async_data == NULL, "Malloc failed")) return NULL;
 
   // Copy the global module data pointer to the async instance data
   utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&(async_data->module_data))));

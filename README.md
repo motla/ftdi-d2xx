@@ -6,6 +6,7 @@
 - Includes static FTDI Driver vendor libraries
 - Written in pure C language using [Node-API](https://nodejs.org/api/n-api.html#node-api)
 - Compilation with [CMake.js](https://github.com/cmake-js/cmake-js) (no `gyp` / no Python required)
+- TypeScript types for auto-completion and validation
 
 ## Installation
 ###### In your Node.js project:

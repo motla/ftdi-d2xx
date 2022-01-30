@@ -3,17 +3,10 @@
 
 #include "api/FTDI_Device.h"
 #include "api/FTDI_Device_close.h"
+#include "api/FTDI_Device_read.h"
+#include "api/FTDI_Device_write.h"
 #include "utils.h"
 
-// FTDI Device read function
-static napi_value read(napi_env env, napi_callback_info info) {
-  return NULL;
-}
-
-// FTDI Device write function
-static napi_value write(napi_env env, napi_callback_info info) {
-  return NULL;
-}
 
 // Getter for is_open property
 static napi_value is_open(napi_env env, napi_callback_info info) {
@@ -77,14 +70,22 @@ static napi_value get_info(napi_env env, napi_callback_info info) {
 
 // Utility function to free instance data before it is deleted
 static void finalize_cb(napi_env env, void* finalize_data, void* finalize_hint) {
-  free(finalize_data); // free class instance data
+  device_instance_data_t* instance_data = (device_instance_data_t*)finalize_data;
+
+  // Try to close FTDI device now that its device object is deleted
+  if(instance_data->ftHandle) {
+    FT_Close(instance_data->ftHandle);
+  }
+
+  // Free class instance data
+  free(instance_data);
 }
 
 
 // Class constructor (runs either the class function is called using `new` or not)
 static napi_value constructor(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to the instance of the class and get `argc`/`argv` passed to the constructor
-  size_t argc = 1; // size of the buffer
+  size_t argc = 1; // size of the argv buffer
   napi_value this_arg, argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
   if(utils_check(argc < 1)) return NULL; // check that all expected arguments were passed
@@ -99,6 +100,7 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
 
   // Create and wrap C instance data containing the FTDI device handle that will be set by calling `device_set_instance_handler()`
   device_instance_data_t* instance_data = malloc(sizeof(device_instance_data_t)); // allocate memory for instance data
+  if(utils_check(instance_data == NULL, "Malloc failed")) return NULL;
   memset(instance_data, 0, sizeof(device_instance_data_t)); // initialize instance data to zeros
   utils_check(napi_wrap(env, this_arg, instance_data, finalize_cb, NULL, NULL));
 
@@ -113,9 +115,9 @@ void device_initialize_class(napi_env env, napi_value* result) {
   const napi_property_descriptor props[] = {
     { "is_open", NULL, NULL, is_open, NULL, NULL, napi_enumerable, NULL },
     { "info", NULL, NULL, get_info, NULL, NULL, napi_enumerable, NULL },
-    { "close", NULL, close, NULL, NULL, NULL, napi_enumerable, NULL },
-    { "read", NULL, read, NULL, NULL, NULL, napi_enumerable, NULL },
-    { "write", NULL, write, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "close", NULL, device_close, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "read", NULL, device_read, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "write", NULL, device_write, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 
