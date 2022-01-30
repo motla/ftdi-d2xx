@@ -4,6 +4,7 @@
 #include "api/FTDI_Device.h"
 #include "api/FTDI_Device_close.h"
 #include "api/FTDI_Device_read.h"
+#include "api/FTDI_Device_setBaudRate.h"
 #include "api/FTDI_Device_write.h"
 #include "utils.h"
 
@@ -118,6 +119,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "close", NULL, device_close, NULL, NULL, NULL, napi_enumerable, NULL },
     { "read", NULL, device_read, NULL, NULL, NULL, napi_enumerable, NULL },
     { "write", NULL, device_write, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setBaudRate", NULL, device_setBaudRate, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 
