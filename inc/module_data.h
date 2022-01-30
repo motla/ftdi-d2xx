@@ -4,25 +4,14 @@
 #include <node_api.h>
 #include "ftd2xx.h"
 
-// Structure for dynamically allocated module data (needed for asynchronous work)
+// Structure for dynamically allocated module data
 typedef struct {
-  // Node API variables
-  napi_async_work async_work;
-  napi_deferred deferred;
-
-  // Representing the JavaScript constructor function for the FTDI_DeviceInfo class
+  
+  // Reference to JavaScript constructor function for the FTDI_DeviceInfo class
   napi_ref device_info_class_ref;
-
-  // Representing the JavaScript constructor function for the FTDI_Device class
+  // Reference to JavaScript constructor function for the FTDI_Device class
   napi_ref device_class_ref;
 
-  // Variables used to transfer result from the worker to the main thread
-  uint32_t count_buffer;
-  void* return_buffer;
-
-  // Variables used for openDevice
-  char string_buffer[256];
-  FT_HANDLE ftHandle;
 } module_data_t;
 
 // Function to allocate dynamically and initialize the module data structure

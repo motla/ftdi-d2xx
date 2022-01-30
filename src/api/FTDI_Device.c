@@ -46,8 +46,8 @@ static napi_value write(napi_env env, napi_callback_info info) {
   return NULL;
 }
 
-// Getter for is_closed property
-static napi_value is_closed(napi_env env, napi_callback_info info) {
+// Getter for is_open property
+static napi_value is_open(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to this instance of the class
   napi_value this_arg;
   utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
@@ -57,9 +57,9 @@ static napi_value is_closed(napi_env env, napi_callback_info info) {
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Return boolean if ftHandle exists
-  napi_value handle_is_closed;
-  utils_check(napi_get_boolean(env, instance_data->ftHandle == NULL, &handle_is_closed));
-  return handle_is_closed;
+  napi_value handle_is_open;
+  utils_check(napi_get_boolean(env, instance_data->ftHandle != NULL, &handle_is_open));
+  return handle_is_open;
 }
 
 // Getter for info property
@@ -81,8 +81,8 @@ static napi_value get_info(napi_env env, napi_callback_info info) {
 
   // Convert values to JavaScript
   napi_value serial_number, description, type, usb_vid, usb_pid;
-  utils_check(napi_create_string_utf8(env, SerialNumber, sizeof(SerialNumber), &serial_number));
-  utils_check(napi_create_string_utf8(env, Description, sizeof(Description), &description));
+  utils_check(napi_create_string_utf8(env, SerialNumber, NAPI_AUTO_LENGTH, &serial_number));
+  utils_check(napi_create_string_utf8(env, Description, NAPI_AUTO_LENGTH, &description));
   type = utils_ft_device_to_js_string(env, ftDevice);
   utils_check(napi_create_uint32(env, deviceID >> 16, &usb_vid));
   utils_check(napi_create_uint32(env, deviceID & 0xFFFF, &usb_pid));
@@ -139,7 +139,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
 
   // Define class prototype
   const napi_property_descriptor props[] = {
-    { "is_closed", NULL, NULL, is_closed, NULL, NULL, napi_enumerable, NULL },
+    { "is_open", NULL, NULL, is_open, NULL, NULL, napi_enumerable, NULL },
     { "info", NULL, NULL, get_info, NULL, NULL, napi_enumerable, NULL },
     { "close", NULL, close, NULL, NULL, NULL, napi_enumerable, NULL },
     { "read", NULL, read, NULL, NULL, NULL, napi_enumerable, NULL },

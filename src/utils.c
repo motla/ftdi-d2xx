@@ -20,11 +20,11 @@ bool utils_test_throw(int assertion, char* assertion_str, napi_env env, char* fi
     return true;
   }
 
-  // Else, check Node API for errors
+  // Else, check Node-API for errors
   const napi_extended_error_info* err_info;
   napi_get_last_error_info(env, &err_info);
 
-  // If the Node API has an error, write its description
+  // If the Node-API has an error, write its description
   if(err_info->error_code) {
     snprintf(buffer, MAX_MSG_SIZE, "%s (%s:%d)", err_info->error_message, file, line);
     napi_throw_error(env, NULL, buffer);
@@ -72,7 +72,7 @@ const char* utils_ft_status_to_string(FT_STATUS status) {
   }
 }
 
-// Convert FT_DEVICE to JS string
+// Convert FT_DEVICE to JavaScript string
 napi_value utils_ft_device_to_js_string(napi_env env, FT_DEVICE device) {
   char value[32];
   char* value_ptr = value;
