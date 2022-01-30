@@ -2,31 +2,8 @@
 #include <string.h>
 
 #include "api/FTDI_Device.h"
+#include "api/FTDI_Device_close.h"
 #include "utils.h"
-
-typedef struct {
-  FT_HANDLE ftHandle;
-} instance_data_t;
-
-
-// FTDI Device close function
-static napi_value close(napi_env env, napi_callback_info info) {
-  // Get JavaScript `this` corresponding to this instance of the class
-  napi_value this_arg;
-  utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
-
-  // Get the class instance data containing FTDI device handle
-  instance_data_t* instance_data;
-  utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
-
-  // Check that device handle exists
-  if(!instance_data->ftHandle) return NULL;
-
-  // Close device
-  utils_check(FT_Close(instance_data->ftHandle));
-
-  return NULL;
-}
 
 // FTDI Device read function
 static napi_value read(napi_env env, napi_callback_info info) {
@@ -45,7 +22,7 @@ static napi_value is_open(napi_env env, napi_callback_info info) {
   utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
 
   // Get the class instance data containing FTDI device handle
-  instance_data_t* instance_data;
+  device_instance_data_t* instance_data;
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Return boolean if ftHandle exists
@@ -61,8 +38,11 @@ static napi_value get_info(napi_env env, napi_callback_info info) {
   utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
 
   // Get the class instance data containing FTDI device handle
-  instance_data_t* instance_data;
+  device_instance_data_t* instance_data;
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
+
+  // Check the device is open and its handle is still there
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object")) return NULL;
 
   // Get info from FTDI (this is not async but hopefully the data has already been retrieved...)
   FT_DEVICE ftDevice;
@@ -82,7 +62,7 @@ static napi_value get_info(napi_env env, napi_callback_info info) {
   // Return JavaScript info object
   napi_value info_object;
   const napi_property_descriptor props[] = {
-    { "serial_number", NULL, NULL, NULL, NULL, serial_number, napi_enumerable, NULL },
+    //{ "serial_number", NULL, NULL, NULL, NULL, serial_number, napi_enumerable, NULL }, // omit this as it is already in the constructor
     { "description", NULL, NULL, NULL, NULL, description, napi_enumerable, NULL },
     { "type", NULL, NULL, NULL, NULL, type, napi_enumerable, NULL },
     { "usb_vid", NULL, NULL, NULL, NULL, usb_vid, napi_enumerable, NULL },
@@ -112,14 +92,14 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
   // Add instance properties
   const napi_property_descriptor props[] = {
     // the first argument passed to the constructor contains the SerialNumber
-    { "sn", NULL, NULL, NULL, NULL, argv[0], napi_enumerable, NULL },
+    { "serial_number", NULL, NULL, NULL, NULL, argv[0], napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
   utils_check(napi_define_properties(env, this_arg, nb_props, props));
 
   // Create and wrap C instance data containing the FTDI device handle that will be set by calling `device_set_instance_handler()`
-  instance_data_t* instance_data = malloc(sizeof(instance_data_t)); // allocate memory for instance data
-  memset(instance_data, 0, sizeof(instance_data_t)); // initialize instance data to zeros
+  device_instance_data_t* instance_data = malloc(sizeof(device_instance_data_t)); // allocate memory for instance data
+  memset(instance_data, 0, sizeof(device_instance_data_t)); // initialize instance data to zeros
   utils_check(napi_wrap(env, this_arg, instance_data, finalize_cb, NULL, NULL));
 
   // Return class instance
@@ -145,7 +125,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
 
 // Set the ftHandler of opened FTDI device in class instance data
 void device_instance_set_handler(napi_env env, napi_value device_instance, FT_HANDLE ftHandle) {
-  instance_data_t* instance_data;
+  device_instance_data_t* instance_data;
   utils_check(napi_unwrap(env, device_instance, (void**)(&instance_data)));
   if(utils_check(instance_data == NULL)) return;
   instance_data->ftHandle = ftHandle;

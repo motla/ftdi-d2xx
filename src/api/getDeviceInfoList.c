@@ -1,12 +1,10 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "api/getDeviceInfoList.h"
 #include "api/FTDI_DeviceInfo.h"
-#include "utils.h"
 #include "module_data.h"
 #include "ftd2xx.h"
+#include "utils.h"
 
 typedef struct {
   // Node-API variables
