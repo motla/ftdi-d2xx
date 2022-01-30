@@ -14,14 +14,12 @@ cli.context.FTDI = FTDI;
 (async function () {
 
   try {
-  
     let devices = await FTDI.getDeviceInfoList();
-    cli.context.devices = devices;
-    
-    console.log(`${devices.length} device(s) found:`, devices);
-  
+    console.log(`${devices.length} device${devices.length > 1 ? 's' : ''} found:`, devices);
   } catch(e) {
     console.log("Error!", e);
   }
+
+  console.log("Write FTDI to access to the driver functions.");
   
 })();

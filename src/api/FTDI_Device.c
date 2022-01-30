@@ -20,18 +20,10 @@ static napi_value close(napi_env env, napi_callback_info info) {
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check that device handle exists
-  if(!instance_data->ftHandle) {
-    //TODO throw error
-  }
+  if(!instance_data->ftHandle) return NULL;
 
   // Close device
-  FT_STATUS status = FT_Close(instance_data->ftHandle);
-  if(status == FT_OK){
-    instance_data->ftHandle = NULL;
-
-  } else {
-    //TODO throw error
-  }
+  utils_check(FT_Close(instance_data->ftHandle));
 
   return NULL;
 }
@@ -155,5 +147,6 @@ void device_initialize_class(napi_env env, napi_value* result) {
 void device_instance_set_handler(napi_env env, napi_value device_instance, FT_HANDLE ftHandle) {
   instance_data_t* instance_data;
   utils_check(napi_unwrap(env, device_instance, (void**)(&instance_data)));
+  if(utils_check(instance_data == NULL)) return;
   instance_data->ftHandle = ftHandle;
 }

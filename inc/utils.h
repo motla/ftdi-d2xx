@@ -13,7 +13,7 @@ typedef struct {
   utils_test_throw(assertion, #assertion, env, &(__FILE__[SOURCE_PATH_SIZE]), __LINE__, (utils_error_desc_t){__VA_ARGS__})
 bool utils_test_throw(int assertion, char* assertion_str, napi_env env, char* file, int line, utils_error_desc_t err_desc);
 
-// To force displaying explicit FT_STATUS code, write FT_|ftStatus
+// To force displaying the explicit FT_STATUS code, write FT_|ftStatus
 #define FT_ 0
 
 // Convert FT_STATUS to C string
