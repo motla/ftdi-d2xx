@@ -2,7 +2,7 @@
 #define utils_h
 
 #include <stdbool.h>
-#include "node_api.h"
+#include <node_api.h>
 #include "ftd2xx.h"
 
 // Error management (SOURCE_PATH_SIZE is set in CMakeLists.txt in order to hide absolute file tree)

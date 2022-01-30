@@ -4,6 +4,8 @@
 #include "module_data.h"
 #include "api/getDeviceInfoList.h"
 #include "api/openDevice.h"
+#include "api/setVIDPID.h"
+#include "api/getVIDPID.h"
 
 // Function called to initialize the module
 static napi_value init_module(napi_env env, napi_value exports) {
@@ -28,6 +30,8 @@ static napi_value init_module(napi_env env, napi_value exports) {
   const napi_property_descriptor props[] = {
     { "getDeviceInfoList", NULL, getDeviceInfoList, NULL, NULL, NULL, napi_enumerable, module_data },
     { "openDevice", NULL, openDevice, NULL, NULL, NULL, napi_enumerable, module_data },
+    { "setVIDPID", NULL, setVIDPID, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "getVIDPID", NULL, getVIDPID, NULL, NULL, NULL, napi_enumerable, NULL },
     { NULL, symbol_to_string_tag, NULL, NULL, NULL, tag_name, napi_enumerable, NULL }
   };
 

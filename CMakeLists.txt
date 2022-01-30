@@ -24,7 +24,9 @@ list(APPEND SRC "src/api/FTDI_Device_write.c")
 list(APPEND SRC "src/api/FTDI_Device.c")
 list(APPEND SRC "src/api/FTDI_DeviceInfo.c")
 list(APPEND SRC "src/api/getDeviceInfoList.c")
+list(APPEND SRC "src/api/getVIDPID.c")
 list(APPEND SRC "src/api/openDevice.c")
+list(APPEND SRC "src/api/setVIDPID.c")
 
 # Declare the include files folder
 include_directories("inc")
