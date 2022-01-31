@@ -7,14 +7,14 @@ napi_value setVIDPID(napi_env env, napi_callback_info info) {
   size_t argc = 2; // size of the argv buffer
   napi_value argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-  if(utils_check(argc < 2, "Missing argument")) return NULL;
+  if(utils_check(argc < 2, "Missing argument", "missarg")) return NULL;
 
   // Check that the VID/PID arguments are numbers
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_number, "Vendor ID must be a number")) return NULL;
+  if(utils_check(type != napi_number, "Vendor ID must be a number", "wrongarg")) return NULL;
   utils_check(napi_typeof(env, argv[1], &type));
-  if(utils_check(type != napi_number, "Product ID must be a number")) return NULL;
+  if(utils_check(type != napi_number, "Product ID must be a number", "wrongarg")) return NULL;
 
   // Convert JavaScript numbers to C values
   DWORD vid, pid;

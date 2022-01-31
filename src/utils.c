@@ -16,7 +16,7 @@ bool utils_test_throw(int assertion, char* assertion_str, napi_env env, char* fi
   // If a specific message is provided: write it directly
   if(err_desc.message) {
     snprintf(buffer, MAX_MSG_SIZE, "%s (%s:%d)", err_desc.message, file, line);
-    napi_throw_error(env, NULL, buffer);
+    napi_throw_error(env, err_desc.code, buffer);
     return true;
   }
 
@@ -27,23 +27,53 @@ bool utils_test_throw(int assertion, char* assertion_str, napi_env env, char* fi
   // If the Node-API has an error, write its description
   if(err_info->error_code) {
     snprintf(buffer, MAX_MSG_SIZE, "%s (%s:%d)", err_info->error_message, file, line);
-    napi_throw_error(env, NULL, buffer);
+    napi_throw_error(env, utils_napi_status_to_string(err_info->error_code), buffer);
     return true;
   }
 
   // Else, try to see if we check an FTDI function, then write its explicit status code
   if(strncmp(assertion_str, "FT_", 3) == 0) {
-    snprintf(buffer, MAX_MSG_SIZE, "`%s` returned %s (%s:%d)", assertion_str, utils_ft_status_to_string((FT_STATUS)assertion), file, line);
-    napi_throw_error(env, NULL, buffer);
+    const char* error_code = utils_ft_status_to_string((FT_STATUS)assertion);
+    snprintf(buffer, MAX_MSG_SIZE, "`%s` returned %s (%s:%d)", assertion_str, error_code, file, line);
+    napi_throw_error(env, error_code, buffer);
     return true;
   };
 
   // Else, write the assertion result and expected result in plain integers
   snprintf(buffer, MAX_MSG_SIZE, "`%s` returned %d instead of 0 (%s:%d)", assertion_str, assertion, file, line);
-  napi_throw_error(env, NULL, buffer);
+  napi_throw_error(env, err_desc.code, buffer);
   return true;
 }
 
+
+// Convert napi_status to C string
+const char* utils_napi_status_to_string(napi_status status) {
+  switch(status) {
+    case napi_ok: return "napi_ok";
+    case napi_invalid_arg: return "napi_invalid_arg";
+    case napi_object_expected: return "napi_object_expected";
+    case napi_string_expected: return "napi_string_expected";
+    case napi_name_expected: return "napi_name_expected";
+    case napi_function_expected: return "napi_function_expected";
+    case napi_number_expected: return "napi_number_expected";
+    case napi_boolean_expected: return "napi_boolean_expected";
+    case napi_array_expected: return "napi_array_expected";
+    case napi_generic_failure: return "napi_generic_failure";
+    case napi_pending_exception: return "napi_pending_exception";
+    case napi_cancelled: return "napi_cancelled";
+    case napi_escape_called_twice: return "napi_escape_called_twice";
+    case napi_handle_scope_mismatch: return "napi_handle_scope_mismatch";
+    case napi_callback_scope_mismatch: return "napi_callback_scope_mismatch";
+    case napi_queue_full: return "napi_queue_full";
+    case napi_closing: return "napi_closing";
+    case napi_bigint_expected: return "napi_bigint_expected";
+    case napi_date_expected: return "napi_date_expected";
+    case napi_arraybuffer_expected: return "napi_arraybuffer_expected";
+    case napi_detachable_arraybuffer_expected: return "napi_detachable_arraybuffer_expected";
+    case napi_would_deadlock: return "napi_would_deadlock";
+    default: return "an unknown Node-API error";
+  }
+}
 
 // Convert FT_STATUS to C string
 const char* utils_ft_status_to_string(FT_STATUS status) {
@@ -68,7 +98,7 @@ const char* utils_ft_status_to_string(FT_STATUS status) {
 	  case FT_NOT_SUPPORTED: return "FT_NOT_SUPPORTED";
 	  case FT_OTHER_ERROR: return "FT_OTHER_ERROR";
 	  case FT_DEVICE_LIST_NOT_READY: return "FT_DEVICE_LIST_NOT_READY";
-    default: return "an unknown error";
+    default: return "an unknown FTDI error";
   }
 }
 

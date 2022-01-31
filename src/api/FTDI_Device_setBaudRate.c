@@ -8,19 +8,19 @@ napi_value device_setBaudRate(napi_env env, napi_callback_info info) {
   size_t argc = 1; // size of the argv buffer
   napi_value this_arg, argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
-  if(utils_check(argc < 1, "Missing argument")) return NULL;
+  if(utils_check(argc < 1, "Missing argument", "missarg")) return NULL;
 
   // Get the class instance data containing FTDI device handle
   device_instance_data_t* instance_data;
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check the device is open if its handle is still there
-  if(utils_check(instance_data->ftHandle == NULL, "Dead device object")) return NULL;
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
 
   // Check that the baudrate argument is a number
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_number, "Baud rate must be a number")) return NULL;
+  if(utils_check(type != napi_number, "Baud rate must be a number", "wrongarg")) return NULL;
 
   // Convert JavaScript number to C value
   ULONG baudRate;

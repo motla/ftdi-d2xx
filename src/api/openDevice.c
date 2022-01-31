@@ -43,8 +43,8 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
   // Manage FTDI error if any. Otherwise, process the return value
-  if(!utils_check(async_data->ftStatus == FT_DEVICE_NOT_FOUND, "Device not found")
-    && !utils_check(async_data->ftStatus == FT_DEVICE_NOT_OPENED, "Device could not be opened. It is maybe already open")
+  if(!utils_check(async_data->ftStatus == FT_DEVICE_NOT_FOUND, "FTDI device not found with this serial number", "FT_DEVICE_NOT_FOUND")
+    && !utils_check(async_data->ftStatus == FT_DEVICE_NOT_OPENED, "FTDI device could not be opened. It is maybe already open", "FT_DEVICE_NOT_OPENED")
     && !utils_check(FT_|async_data->ftStatus)) { // manage other errors
 
     // Get FTDI_Device class from its reference
@@ -88,16 +88,16 @@ napi_value openDevice(napi_env env, napi_callback_info info) {
   size_t argc = 1; // size of the argv buffer
   napi_value argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-  if(utils_check(argc < 1, "Missing argument")) return NULL;
+  if(utils_check(argc < 1, "Missing argument", "missarg")) return NULL;
 
   // Check that the serial number argument is a string
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_string, "Device serial number must be a string")) return NULL;
+  if(utils_check(type != napi_string, "FTDI device serial number must be a string", "wrongarg")) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
 
   // Copy the global module data pointer to the async instance data
   utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&(async_data->module_data))));

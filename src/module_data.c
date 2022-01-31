@@ -9,7 +9,7 @@
 // Function to allocate dynamically and initialize the module data structure
 module_data_t* allocate_module_data(napi_env env) {
   module_data_t* module_data = malloc(sizeof(module_data_t)); // allocate memory for module data
-  if(utils_check(module_data == NULL, "Malloc failed")) return NULL;
+  if(utils_check(module_data == NULL, "Malloc failed", "malloc")) return NULL;
   memset(module_data, 0, sizeof(module_data_t)); // initialize module data to zeros
 
   // Initialize FTDI_DeviceInfo class (make it persistent by referencing it to avoid automatic garbage collection)

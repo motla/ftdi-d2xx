@@ -37,7 +37,7 @@ static napi_value get_info(napi_env env, napi_callback_info info) {
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check the device is open if its handle is still there
-  if(utils_check(instance_data->ftHandle == NULL, "Dead device object")) return NULL;
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
 
   // Get info from FTDI (this is not async but hopefully the data has already been retrieved...)
   FT_DEVICE ftDevice;
@@ -103,7 +103,7 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
 
   // Create and wrap C instance data containing the FTDI device handle that will be set by calling `device_set_instance_handler()`
   device_instance_data_t* instance_data = malloc(sizeof(device_instance_data_t)); // allocate memory for instance data
-  if(utils_check(instance_data == NULL, "Malloc failed")) return NULL;
+  if(utils_check(instance_data == NULL, "Malloc failed", "malloc")) return NULL;
   memset(instance_data, 0, sizeof(device_instance_data_t)); // initialize instance data to zeros
   utils_check(napi_wrap(env, this_arg, instance_data, finalize_cb, NULL, NULL));
 

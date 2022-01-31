@@ -42,7 +42,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
   // Manage FTDI error if any. Otherwise, process the return value
-  if(!utils_check(async_data->ftStatus == FT_IO_ERROR, "USB was lost during read operation")
+  if(!utils_check(async_data->ftStatus == FT_IO_ERROR, "USB was lost during read operation", "usblost")
     && !utils_check(FT_|async_data->ftStatus)) { // manage other errors
 
     // Create JavaScript Uint8Array containing the read data
@@ -81,21 +81,21 @@ napi_value device_read(napi_env env, napi_callback_info info) {
   size_t argc = 1; // size of the argv buffer
   napi_value this_arg, argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
-  if(utils_check(argc < 1, "Missing argument")) return NULL;
+  if(utils_check(argc < 1, "Missing argument", "missarg")) return NULL;
 
   // Check that the number of bytes argument is a Number
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_number, "The number of bytes to read must be a number")) return NULL;
+  if(utils_check(type != napi_number, "The number of bytes to read must be a number", "wrongarg")) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
 
   // Allocate memory for RX buffer
   utils_check(napi_get_value_uint32(env, argv[0], &(async_data->rx_bytes_to_read)));
   async_data->rx_buffer = malloc(async_data->rx_bytes_to_read);
-  if(utils_check(async_data->rx_buffer == NULL, "Malloc failed")) return NULL;
+  if(utils_check(async_data->rx_buffer == NULL, "Malloc failed", "malloc")) return NULL;
 
   // Get the class instance data containing FTDI device handle
   utils_check(napi_unwrap(env, this_arg, (void**)&(async_data->instance_data)));

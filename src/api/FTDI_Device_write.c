@@ -42,7 +42,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
   // Manage FTDI error if any
-  utils_check(async_data->ftStatus == FT_IO_ERROR, "USB was lost during write operation");
+  utils_check(async_data->ftStatus == FT_IO_ERROR, "USB was lost during write operation", "usblost");
   utils_check(FT_|async_data->ftStatus); // manage other errors
 
   // Resolve the JavaScript `Promise`:
@@ -78,16 +78,16 @@ napi_value device_write(napi_env env, napi_callback_info info) {
   size_t argc = 1; // size of the argv buffer
   napi_value this_arg, argv[argc];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
-  if(utils_check(argc < 1, "Missing argument")) return NULL;
+  if(utils_check(argc < 1, "Missing argument", "missarg")) return NULL;
 
   // Check that the data argument is a TypedArray
   bool is_typedarray;
   utils_check(napi_is_typedarray(env, argv[0], &is_typedarray));
-  if(utils_check(is_typedarray == false, "The data to send must be a TypedArray")) return NULL;
+  if(utils_check(is_typedarray == false, "The data to send must be a TypedArray", "wrongarg")) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
 
   // Allocate memory for TX buffer
   void* data;
@@ -97,7 +97,7 @@ napi_value device_write(napi_env env, napi_callback_info info) {
   utils_check(napi_get_arraybuffer_info(env, array_buffer, &data, &byte_length));
   byte_length -= byte_offset;
   async_data->tx_buffer = malloc(byte_length);
-  if(utils_check(async_data->tx_buffer == NULL, "Malloc failed")) return NULL;
+  if(utils_check(async_data->tx_buffer == NULL, "Malloc failed", "malloc")) return NULL;
 
   // Copy TX buffer
   memcpy(async_data->tx_buffer, data + byte_offset, byte_length);
