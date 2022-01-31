@@ -17,7 +17,7 @@ napi_value device_setDataCharacteristics(napi_env env, napi_callback_info info) 
   // Check the device is open if its handle is still there
   if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
 
-  // Check arguments, and convert JavaScript numbers to C values
+  // Check arguments, and convert JavaScript values to C values
   uint32_t word_length, stop_bits, parity;
   if(utils_check(
       ((napi_get_value_uint32(env, argv[0], &word_length) != napi_ok) || (word_length != FT_BITS_8 && word_length != FT_BITS_7)),
@@ -29,7 +29,7 @@ napi_value device_setDataCharacteristics(napi_env env, napi_callback_info info) 
       ((napi_get_value_uint32(env, argv[2], &parity) != napi_ok) || (parity > FT_PARITY_SPACE)),
       "Parity must be FT_PARITY_NONE, FT_PARITY_ODD, FT_PARITY_EVEN, FT_PARITY_MARK or FT_PARITY_SPACE", "wrongarg")) return NULL;
 
-  // Set FTDI device data characteristics
+  // Set FTDI device parameters
   utils_check(FT_SetDataCharacteristics(instance_data->ftHandle, word_length, stop_bits, parity));
 
   return NULL;

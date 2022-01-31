@@ -6,6 +6,8 @@
 #include "api/FTDI_Device_read.h"
 #include "api/FTDI_Device_setBaudRate.h"
 #include "api/FTDI_Device_setDataCharacteristics.h"
+#include "api/FTDI_Device_setFlowControl.h"
+#include "api/FTDI_Device_setTimeouts.h"
 #include "api/FTDI_Device_write.h"
 #include "utils.h"
 
@@ -123,6 +125,8 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "write", NULL, device_write, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setBaudRate", NULL, device_setBaudRate, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setDataCharacteristics", NULL, device_setDataCharacteristics, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setFlowControl", NULL, device_setFlowControl, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setTimeouts", NULL, device_setTimeouts, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 
