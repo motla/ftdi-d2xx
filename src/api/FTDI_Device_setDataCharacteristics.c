@@ -29,7 +29,7 @@ napi_value device_setDataCharacteristics(napi_env env, napi_callback_info info) 
       ((napi_get_value_uint32(env, argv[2], &parity) != napi_ok) || (parity > FT_PARITY_SPACE)),
       "Parity must be FT_PARITY_NONE, FT_PARITY_ODD, FT_PARITY_EVEN, FT_PARITY_MARK or FT_PARITY_SPACE", "wrongarg")) return NULL;
 
-  // Set FTDI device parameters
+  // Update FTDI device
   utils_check(FT_SetDataCharacteristics(instance_data->ftHandle, word_length, stop_bits, parity));
 
   return NULL;

@@ -30,7 +30,7 @@ napi_value device_setFlowControl(napi_env env, napi_callback_info info) {
         "Byte to signal Xoff must be a byte number (0-255)", "wrongarg")) return NULL;
   }
 
-  // Set FTDI device parameters
+  // Update FTDI device
   utils_check(FT_SetFlowControl(instance_data->ftHandle, flow, xon, xoff));
 
   return NULL;

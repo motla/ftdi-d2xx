@@ -22,7 +22,7 @@ napi_value device_setTimeouts(napi_env env, napi_callback_info info) {
   if(utils_check(napi_get_value_uint32(env, argv[0], &read_timeout), "Read timeout must be a number", "wrongarg")) return NULL;
   if(utils_check(napi_get_value_uint32(env, argv[1], &write_timeout), "Write timeout must be a number", "wrongarg")) return NULL;
 
-  // Set FTDI device parameters
+  // Update FTDI device
   utils_check(FT_SetTimeouts(instance_data->ftHandle, read_timeout, write_timeout));
 
   return NULL;

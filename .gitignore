@@ -1,5 +1,5 @@
 .DS_Store
 build/*
-!build/Release
+# !build/Release
 node_modules
 package-lock.json

@@ -21,7 +21,7 @@ napi_value device_setBaudRate(napi_env env, napi_callback_info info) {
   uint32_t baud_rate;
   if(utils_check(napi_get_value_uint32(env, argv[0], &baud_rate), "Baud rate must be a number", "wrongarg")) return NULL;
 
-  // Set FTDI device parameters
+  // Update FTDI device
   utils_check(FT_SetBaudRate(instance_data->ftHandle, baud_rate));
 
   return NULL;
