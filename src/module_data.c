@@ -27,7 +27,7 @@ module_data_t* allocate_module_data(napi_env env) {
 
 // Handler function to free the module data before module is unloaded
 void free_module_data(napi_env env, void* data, void* hint) {
-  (void) hint; // hide unused parameter warning
+  (void) env, (void) hint; // hide unused parameter warning
   module_data_t* module_data = (module_data_t*) data;
   free(module_data);
 }

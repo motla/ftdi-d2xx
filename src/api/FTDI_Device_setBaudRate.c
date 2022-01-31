@@ -14,7 +14,7 @@ napi_value device_setBaudRate(napi_env env, napi_callback_info info) {
   device_instance_data_t* instance_data;
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
-  // Check the device is open and its handle is still there
+  // Check the device is open if its handle is still there
   if(utils_check(instance_data->ftHandle == NULL, "Dead device object")) return NULL;
 
   // Check that the baudrate argument is a number

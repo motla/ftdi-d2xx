@@ -3,6 +3,7 @@
 #include "utils.h"
 
 napi_value getVIDPID(napi_env env, napi_callback_info info) {
+  (void) info; // hide unused parameter warning
 
   // Get the current VID/PID combination from FTDI driver
   DWORD vid, pid;

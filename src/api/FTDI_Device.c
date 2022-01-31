@@ -5,6 +5,7 @@
 #include "api/FTDI_Device_close.h"
 #include "api/FTDI_Device_read.h"
 #include "api/FTDI_Device_setBaudRate.h"
+#include "api/FTDI_Device_setDataCharacteristics.h"
 #include "api/FTDI_Device_write.h"
 #include "utils.h"
 
@@ -35,7 +36,7 @@ static napi_value get_info(napi_env env, napi_callback_info info) {
   device_instance_data_t* instance_data;
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
-  // Check the device is open and its handle is still there
+  // Check the device is open if its handle is still there
   if(utils_check(instance_data->ftHandle == NULL, "Dead device object")) return NULL;
 
   // Get info from FTDI (this is not async but hopefully the data has already been retrieved...)
@@ -71,6 +72,7 @@ static napi_value get_info(napi_env env, napi_callback_info info) {
 
 // Utility function to free instance data before it is deleted
 static void finalize_cb(napi_env env, void* finalize_data, void* finalize_hint) {
+  (void) env, (void) finalize_hint; // hide unused parameter warning
   device_instance_data_t* instance_data = (device_instance_data_t*)finalize_data;
 
   // Try to close FTDI device now that its device object is deleted
@@ -120,6 +122,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "read", NULL, device_read, NULL, NULL, NULL, napi_enumerable, NULL },
     { "write", NULL, device_write, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setBaudRate", NULL, device_setBaudRate, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setDataCharacteristics", NULL, device_setDataCharacteristics, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 

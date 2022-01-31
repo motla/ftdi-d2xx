@@ -16,11 +16,13 @@ endif()
 
 # Declare the source files list
 list(APPEND SRC "src/main.c")
+list(APPEND SRC "src/constants.c")
 list(APPEND SRC "src/module_data.c")
 list(APPEND SRC "src/utils.c")
 list(APPEND SRC "src/api/FTDI_Device_close.c")
 list(APPEND SRC "src/api/FTDI_Device_read.c")
 list(APPEND SRC "src/api/FTDI_Device_setBaudRate.c")
+list(APPEND SRC "src/api/FTDI_Device_setDataCharacteristics.c")
 list(APPEND SRC "src/api/FTDI_Device_write.c")
 list(APPEND SRC "src/api/FTDI_Device.c")
 list(APPEND SRC "src/api/FTDI_DeviceInfo.c")
