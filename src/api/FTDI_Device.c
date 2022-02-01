@@ -8,6 +8,7 @@
 #include "api/FTDI_Device_read.h"
 #include "api/FTDI_Device_readEE.h"
 #include "api/FTDI_Device_writeEE.h"
+#include "api/FTDI_Device_eraseEE.h"
 #include "api/FTDI_Device_setBaudRate.h"
 #include "api/FTDI_Device_simpleFunctions.h"
 #include "api/FTDI_Device_setDataCharacteristics.h"
@@ -85,6 +86,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "resetDevice", NULL, device_resetDevice, NULL, NULL, NULL, napi_enumerable, NULL },
     { "readEE", NULL, device_readEE, NULL, NULL, NULL, napi_enumerable, NULL },
     { "writeEE", NULL, device_writeEE, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "eraseEE", NULL, device_eraseEE, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 
