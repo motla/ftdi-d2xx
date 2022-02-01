@@ -6,5 +6,6 @@
 napi_value device_get_info(napi_env env, napi_callback_info info);
 napi_value device_get_is_open(napi_env env, napi_callback_info info);
 napi_value device_get_modem_status(napi_env env, napi_callback_info info);
+napi_value device_get_driver_version(napi_env env, napi_callback_info info);
 
 #endif
