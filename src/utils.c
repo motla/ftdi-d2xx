@@ -5,7 +5,7 @@
 #define MAX_MSG_SIZE 256
 
 // Throw formatted error
-bool utils_test_throw(int assertion, char* assertion_str, napi_env env, char* file, int line, utils_error_desc_t err_desc) {
+bool utils_test_throw(int assertion, const char* assertion_str, napi_env env, const char* file, int line, utils_error_desc_t err_desc) {
   char buffer[MAX_MSG_SIZE];
 
   // Test assertion, return without error if its result is 0 as expected
@@ -34,7 +34,9 @@ bool utils_test_throw(int assertion, char* assertion_str, napi_env env, char* fi
   // Else, try to see if we check an FTDI function, then write its explicit status code
   if(strncmp(assertion_str, "FT_", 3) == 0) {
     const char* error_code = utils_ft_status_to_string((FT_STATUS)assertion);
-    snprintf(buffer, MAX_MSG_SIZE, "`%s` returned %s (%s:%d)", assertion_str, error_code, file, line);
+    const char* cut_at = strchr(assertion_str, '('); // cut the expression to keep only the function name (remove arguments)
+    int assertion_maxlen = cut_at ? (int)(cut_at - assertion_str) : 100;
+    snprintf(buffer, MAX_MSG_SIZE, "`%.*s` returned %s (%s:%d)", assertion_maxlen, assertion_str, error_code, file, line);
     napi_throw_error(env, error_code, buffer);
     return true;
   };

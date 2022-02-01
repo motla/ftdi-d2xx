@@ -39,7 +39,7 @@ napi_value device_get_info(napi_env env, napi_callback_info info) {
   DWORD deviceID;
   char SerialNumber[16];
   char Description[64];
-  utils_check(FT_GetDeviceInfo(instance_data->ftHandle, &ftDevice, &deviceID, SerialNumber, Description, NULL));
+  if(utils_check(FT_GetDeviceInfo(instance_data->ftHandle, &ftDevice, &deviceID, SerialNumber, Description, NULL))) return NULL;
 
   // Convert values to JavaScript
   napi_value serial_number, description, type, usb_vid, usb_pid;
@@ -52,7 +52,7 @@ napi_value device_get_info(napi_env env, napi_callback_info info) {
   // Return JavaScript object containing infos
   napi_value object;
   const napi_property_descriptor props[] = {
-    //{ "serial_number", NULL, NULL, NULL, NULL, serial_number, napi_enumerable, NULL }, // omit this as it is already in the constructor
+    //{ "serial_number", NULL, NULL, NULL, NULL, serial_number, napi_enumerable, NULL }, // omit S/N as it is already set by Device constructor
     { "description", NULL, NULL, NULL, NULL, description, napi_enumerable, NULL },
     { "type", NULL, NULL, NULL, NULL, type, napi_enumerable, NULL },
     { "usb_vid", NULL, NULL, NULL, NULL, usb_vid, napi_enumerable, NULL },
@@ -79,7 +79,7 @@ napi_value device_get_modem_status(napi_env env, napi_callback_info info) {
 
   // Get info from FTDI
   ULONG ModemStatus;
-  utils_check(FT_GetModemStatus(instance_data->ftHandle, &ModemStatus));
+  if(utils_check(FT_GetModemStatus(instance_data->ftHandle, &ModemStatus))) return NULL;
 
   // Convert values to JavaScript
   napi_value bool_true, bool_false;
@@ -119,7 +119,7 @@ napi_value device_get_driver_version(napi_env env, napi_callback_info info) {
 
   // Get info from FTDI
   DWORD DriverVersion;
-  utils_check(FT_GetDriverVersion(instance_data->ftHandle, &DriverVersion));
+  if(utils_check(FT_GetDriverVersion(instance_data->ftHandle, &DriverVersion))) return NULL;
 
   // Convert values to JavaScript
   char buffer[16];
@@ -127,4 +127,49 @@ napi_value device_get_driver_version(napi_env env, napi_callback_info info) {
   snprintf(buffer, 16, "%u.%02u.%02u", (DriverVersion >> 16) & 0xFF, (DriverVersion >> 8) & 0xFF, (DriverVersion) & 0xFF);
   utils_check(napi_create_string_utf8(env, buffer, NAPI_AUTO_LENGTH, &version));
   return version;
+}
+
+
+napi_value device_get_status(napi_env env, napi_callback_info info) {
+  // Get JavaScript `this` corresponding to this instance of the class
+  napi_value this_arg;
+  utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
+
+  // Get the class instance data containing FTDI device handle
+  device_instance_data_t* instance_data;
+  utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
+
+  // Check the device is open if its handle is still there
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
+
+  // Get info from FTDI
+  DWORD RxBytes, TxBytes, EventStatus;
+  if(utils_check(FT_GetStatus(instance_data->ftHandle, &RxBytes, &TxBytes, &EventStatus))) return NULL;
+
+  // Convert values to JavaScript
+  napi_value rx_queue_bytes, tx_queue_bytes, bool_true, bool_false, events;
+  utils_check(napi_create_uint32(env, RxBytes, &rx_queue_bytes));
+  utils_check(napi_create_uint32(env, TxBytes, &tx_queue_bytes));
+  utils_check(napi_get_boolean(env, true, &bool_true));
+  utils_check(napi_get_boolean(env, false, &bool_false));
+  const napi_property_descriptor events_props[] = {
+    { "rxchar", NULL, NULL, NULL, NULL, (EventStatus & FT_EVENT_RXCHAR) ? bool_true : bool_false, napi_enumerable, NULL },
+    { "modem", NULL, NULL, NULL, NULL, (EventStatus & FT_EVENT_MODEM_STATUS) ? bool_true : bool_false, napi_enumerable, NULL },
+    { "line", NULL, NULL, NULL, NULL, (EventStatus & FT_EVENT_LINE_STATUS) ? bool_true : bool_false, napi_enumerable, NULL },
+  };
+  size_t nb_events_props = sizeof(events_props) / sizeof(napi_property_descriptor);
+  utils_check(napi_create_object(env, &events));
+  utils_check(napi_define_properties(env, events, nb_events_props, events_props));
+
+  // Return JavaScript object containing infos
+  napi_value object;
+  const napi_property_descriptor props[] = {
+    { "rx_queue_bytes", NULL, NULL, NULL, NULL, rx_queue_bytes, napi_enumerable, NULL },
+    { "tx_queue_bytes", NULL, NULL, NULL, NULL, tx_queue_bytes, napi_enumerable, NULL },
+    { "events", NULL, NULL, NULL, NULL, events, napi_enumerable, NULL },
+  };
+  size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
+  utils_check(napi_create_object(env, &object));
+  utils_check(napi_define_properties(env, object, nb_props, props));
+  return object;
 }

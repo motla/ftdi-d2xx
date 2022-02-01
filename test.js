@@ -7,8 +7,12 @@ catch (e) { FTDI = require("./main.js"); } // Else load the main.js file that lo
 
 // Print some testing
 (async function () {
-  const devices = await FTDI.getDeviceInfoList();
-  console.log(`${devices.length} device${devices.length > 1 ? 's' : ''} found:`, devices);
+  try {
+    const devices = await FTDI.getDeviceInfoList();
+    console.log(`${devices.length} device${devices.length > 1 ? 's' : ''} found:`, devices);
+  } catch(e) {
+    console.error(e);
+  }
   console.log("Write « FTDI » to access to the driver functions.");
 
   // Start REPL

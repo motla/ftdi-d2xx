@@ -62,6 +62,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
   const napi_property_descriptor props[] = {
     { "is_open", NULL, NULL, device_get_is_open, NULL, NULL, napi_enumerable, NULL },
     { "info", NULL, NULL, device_get_info, NULL, NULL, napi_enumerable, NULL },
+    { "status", NULL, NULL, device_get_status, NULL, NULL, napi_enumerable, NULL },
     { "modem_status", NULL, NULL, device_get_modem_status, NULL, NULL, napi_enumerable, NULL },
     { "driver_version", NULL, NULL, device_get_driver_version, NULL, NULL, napi_enumerable, NULL },
     { "close", NULL, device_close, NULL, NULL, NULL, napi_enumerable, NULL },

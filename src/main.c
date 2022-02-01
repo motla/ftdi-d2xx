@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <node_api.h>
 
 #include "api/getDeviceInfoList.h"
@@ -31,6 +32,14 @@ static napi_value init_module(napi_env env, napi_value exports) {
   // Declare constants
   constants_t constants = initialize_constants(env);
 
+  // Get FTDI library version
+  DWORD DLLVersion;
+  char buffer[16];
+  napi_value version;
+  utils_check(FT_GetLibraryVersion(&DLLVersion));
+  snprintf(buffer, 16, "%u.%02u.%02u", (DLLVersion >> 16) & 0xFF, (DLLVersion >> 8) & 0xFF, (DLLVersion) & 0xFF);
+  utils_check(napi_create_string_utf8(env, buffer, NAPI_AUTO_LENGTH, &version));
+
   // Declare properties for JavaScript `exports` object
   const napi_property_descriptor props[] = {
     // Functions
@@ -40,6 +49,7 @@ static napi_value init_module(napi_env env, napi_value exports) {
     { "getVIDPID", NULL, getVIDPID, NULL, NULL, NULL, napi_enumerable, NULL },
 
     // Constants
+    { "library_version", NULL, NULL, NULL, NULL, version, napi_default, NULL },
     { "FT_BITS_8", NULL, NULL, NULL, NULL, constants.bits_8, napi_default, NULL },
     { "FT_BITS_7", NULL, NULL, NULL, NULL, constants.bits_7, napi_default, NULL },
     { "FT_STOP_BITS_1", NULL, NULL, NULL, NULL, constants.stop_bits_1, napi_default, NULL },
