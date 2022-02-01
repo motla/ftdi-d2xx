@@ -4,9 +4,10 @@
 #include "api/FTDI_Device.h"
 #include "api/FTDI_Device_close.h"
 #include "api/FTDI_Device_getters.h"
+#include "api/FTDI_Device_purge.h"
 #include "api/FTDI_Device_read.h"
 #include "api/FTDI_Device_setBaudRate.h"
-#include "api/FTDI_Device_setClrDtrRts.h"
+#include "api/FTDI_Device_simpleFunctions.h"
 #include "api/FTDI_Device_setDataCharacteristics.h"
 #include "api/FTDI_Device_setFlowControl.h"
 #include "api/FTDI_Device_setTimeouts.h"
@@ -68,6 +69,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "close", NULL, device_close, NULL, NULL, NULL, napi_enumerable, NULL },
     { "read", NULL, device_read, NULL, NULL, NULL, napi_enumerable, NULL },
     { "write", NULL, device_write, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "purge", NULL, device_purge, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setBaudRate", NULL, device_setBaudRate, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setDataCharacteristics", NULL, device_setDataCharacteristics, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setFlowControl", NULL, device_setFlowControl, NULL, NULL, NULL, napi_enumerable, NULL },
@@ -76,6 +78,9 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "clrDtr", NULL, device_clrDtr, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setRts", NULL, device_setRts, NULL, NULL, NULL, napi_enumerable, NULL },
     { "clrRts", NULL, device_clrRts, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setBreakOn", NULL, device_setBreakOn, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setBreakOff", NULL, device_setBreakOff, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "resetDevice", NULL, device_resetDevice, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 
