@@ -66,7 +66,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
     napi_value error;
     napi_get_and_clear_last_exception(env, &error);
 
-    // Reject the JavaScript `Promise` with the error
+    // Instead reject the JavaScript `Promise` with the error
     napi_reject_deferred(env, async_data->deferred, error);
 
   } else {
