@@ -1,15 +1,20 @@
 {
   "name": "ftdi-d2xx",
   "version": "1.0.0",
-  "description": "Pre-compiled FTDI D2XX driver for Node.js (Node-API/CMake)",
+  "description": "Pre-compiled FTDI D2XX drivers for Node.js (Node-API/CMake)",
   "main": "main.js",
+  "types": "main.d.ts",
   "scripts": {
     "cmake:clean": "cmake-js clean",
     "cmake:rebuild-debug": "cmake-js rebuild --debug",
     "cmake:rebuild-release": "cmake-js rebuild",
-    "node:test": "node test.js"
+    "node:test": "node test.js",
+    "typedoc": "typedoc"
   },
   "devDependencies": {
-    "cmake-js": "^6.3.0"
+    "cmake-js": "^6.3.0",
+    "typedoc": "^0.22.11",
+    "typedoc-github-wiki-theme": "^1.0.0",
+    "typedoc-plugin-markdown": "^3.11.12"
   }
 }

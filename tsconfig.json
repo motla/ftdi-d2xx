@@ -1,0 +1,9 @@
+{
+  "exclude": ["build"],
+  "typedocOptions": {
+    "entryPoints": ["main.d.ts"],
+    "out": "docs",
+    "theme": "github-wiki",
+    "readme": "none"
+  }
+}

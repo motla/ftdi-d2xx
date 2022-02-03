@@ -6,7 +6,7 @@
 - Includes static FTDI Driver vendor libraries
 - Written in pure C language using [Node-API](https://nodejs.org/api/n-api.html#node-api)
 - Detailed error messages and codes are thrown without crashing Node.js
-- TypeScript types for auto-completion and validation
+- Includes TypeScript typings for auto-completion and validation
 - Compiled with [CMake.js](https://github.com/cmake-js/cmake-js) (no `gyp` / no Python required)
 
 ## Installation
@@ -24,3 +24,10 @@ let devices = await FTDI.getDeviceInfoList();
 
 console.log(`${devices.length} device(s) found:`, devices);
 ```
+
+## To do
+To be added if the community needs it:
+- [ ] Add `FT_SetEventNotification` in a worker with JS event handlers
+- [ ] Add `FT_Rescan`, `FT_Reload`, `FT_CyclePort`, `FT_Rescan`, `FT_Reload`, `FT_SetResetPipeRetryCount`, `FT_StopInTask`, `FT_RestartInTask`, `FT_SetDeadmanTimeout`. Hopefully with the latest drivers on recent hardware, these functions are not needed anymore.
+- [ ] Add FT_SetChars function
+- [ ] Add FT_EE* functions

@@ -83,7 +83,7 @@ napi_value device_write(napi_env env, napi_callback_info info) {
   // Check that the data argument is a TypedArray
   bool is_typedarray;
   utils_check(napi_is_typedarray(env, argv[0], &is_typedarray));
-  if(utils_check(is_typedarray == false, "The data to send must be a TypedArray", "wrongarg")) return NULL;
+  if(utils_check(is_typedarray == false, "The data to write must be a TypedArray", "wrongarg")) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
