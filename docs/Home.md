@@ -41,7 +41,7 @@
 
 #### Defined in
 
-main.d.ts:191
+main.d.ts:192
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-main.d.ts:190
+main.d.ts:191
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-main.d.ts:201
+main.d.ts:202
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-main.d.ts:199
+main.d.ts:200
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-main.d.ts:200
+main.d.ts:201
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-main.d.ts:202
+main.d.ts:203
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-main.d.ts:196
+main.d.ts:197
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-main.d.ts:197
+main.d.ts:198
 
 ___
 
@@ -121,7 +121,7 @@ ___
 
 #### Defined in
 
-main.d.ts:194
+main.d.ts:195
 
 ___
 
@@ -131,7 +131,7 @@ ___
 
 #### Defined in
 
-main.d.ts:195
+main.d.ts:196
 
 ___
 
@@ -141,7 +141,7 @@ ___
 
 #### Defined in
 
-main.d.ts:198
+main.d.ts:199
 
 ___
 
@@ -151,7 +151,7 @@ ___
 
 #### Defined in
 
-main.d.ts:203
+main.d.ts:204
 
 ___
 
@@ -161,7 +161,7 @@ ___
 
 #### Defined in
 
-main.d.ts:204
+main.d.ts:205
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 #### Defined in
 
-main.d.ts:192
+main.d.ts:193
 
 ___
 
@@ -181,7 +181,7 @@ ___
 
 #### Defined in
 
-main.d.ts:193
+main.d.ts:194
 
 ___
 
@@ -193,7 +193,7 @@ Current D2XX library version number
 
 #### Defined in
 
-main.d.ts:187
+main.d.ts:188
 
 ## Functions
 
@@ -230,7 +230,7 @@ Retrieve the current VID and PID combination from within the internal device lis
 
 #### Defined in
 
-main.d.ts:179
+main.d.ts:180
 
 ___
 
@@ -250,9 +250,11 @@ Try to open a device from its serial number
 
 `Promise`<[`FTDI_Device`](../wiki/FTDI_Device)\>
 
+Device object
+
 #### Defined in
 
-main.d.ts:170
+main.d.ts:171
 
 ___
 
@@ -275,4 +277,4 @@ Include a custom VID and PID combination within the internal device list table. 
 
 #### Defined in
 
-main.d.ts:176
+main.d.ts:177

@@ -15,7 +15,7 @@ declare class FTDI_DeviceInfo {
   readonly usb_pid: number;
   /** The device USB port location on the system */
   readonly usb_loc_id: number;
-  /** The device USB speed (`high-speed` or `full-speed`)*/
+  /** The device USB speed (`high-speed` or `full-speed`) */
   readonly usb_speed: string;
 }
 
@@ -80,7 +80,7 @@ declare class FTDI_Device {
    * 
    * IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will trigger an error. Device should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object.
    */
-  close(): void;
+  close(): Promise<void>;
 
   /** Read data from the device
    * @param nb_bytes_to_read Number of bytes to read from the device

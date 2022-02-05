@@ -151,7 +151,7 @@ main.d.ts:40
 
 ### close
 
-▸ **close**(): `void`
+▸ **close**(): `Promise`<`void`\>
 
 Close the device
 
@@ -159,7 +159,7 @@ IMPORTANT: Device object is considered dead after this function has been called.
 
 #### Returns
 
-`void`
+`Promise`<`void`\>
 
 #### Defined in
 
