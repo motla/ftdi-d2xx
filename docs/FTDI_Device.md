@@ -14,6 +14,7 @@
 
 - [driver\_version](../wiki/FTDI_Device#driver_version)
 - [info](../wiki/FTDI_Device#info)
+- [is\_connected](../wiki/FTDI_Device#is_connected)
 - [modem\_status](../wiki/FTDI_Device#modem_status)
 - [status](../wiki/FTDI_Device#status)
 
@@ -70,7 +71,7 @@ Getter to the device driver version
 
 #### Defined in
 
-main.d.ts:77
+main.d.ts:79
 
 ___
 
@@ -90,6 +91,22 @@ Getter to device information
 | `type` | `string` | The device model type (FT232R, FT2232H)  NOTE: See `utils.c` for the list of possible types |
 | `usb_pid` | `number` | The device USB Product ID |
 | `usb_vid` | `number` | The device USB Vendor ID |
+
+#### Defined in
+
+main.d.ts:28
+
+___
+
+### is\_connected
+
+• `get` **is_connected**(): `boolean`
+
+Getter to device connection status
+
+#### Returns
+
+`boolean`
 
 #### Defined in
 
@@ -120,7 +137,7 @@ Getter to device modem status
 
 #### Defined in
 
-main.d.ts:57
+main.d.ts:59
 
 ___
 
@@ -145,7 +162,7 @@ Getter to device status
 
 #### Defined in
 
-main.d.ts:40
+main.d.ts:42
 
 ## Methods
 
@@ -163,7 +180,7 @@ IMPORTANT: Device object is considered dead after this function has been called.
 
 #### Defined in
 
-main.d.ts:83
+main.d.ts:85
 
 ___
 
@@ -179,7 +196,7 @@ Clears the Data Terminal Ready (DTR) control signal
 
 #### Defined in
 
-main.d.ts:131
+main.d.ts:133
 
 ___
 
@@ -195,7 +212,7 @@ Clears the Request To Send (RTS) control signal
 
 #### Defined in
 
-main.d.ts:137
+main.d.ts:139
 
 ___
 
@@ -211,7 +228,7 @@ Erases the device EEPROM
 
 #### Defined in
 
-main.d.ts:161
+main.d.ts:163
 
 ___
 
@@ -233,7 +250,7 @@ Purges receive and transmit buffers in the device
 
 #### Defined in
 
-main.d.ts:100
+main.d.ts:102
 
 ___
 
@@ -257,7 +274,7 @@ Bytes read from the device
 
 #### Defined in
 
-main.d.ts:89
+main.d.ts:91
 
 ___
 
@@ -281,7 +298,7 @@ EEPROM value (16 bit)
 
 #### Defined in
 
-main.d.ts:152
+main.d.ts:154
 
 ___
 
@@ -297,7 +314,7 @@ Send a reset command to the device
 
 #### Defined in
 
-main.d.ts:146
+main.d.ts:148
 
 ___
 
@@ -319,7 +336,7 @@ Sets the baud rate for the device
 
 #### Defined in
 
-main.d.ts:105
+main.d.ts:107
 
 ___
 
@@ -335,7 +352,7 @@ Resets the BREAK condition for the device
 
 #### Defined in
 
-main.d.ts:143
+main.d.ts:145
 
 ___
 
@@ -351,7 +368,7 @@ Sets the BREAK condition for the device
 
 #### Defined in
 
-main.d.ts:140
+main.d.ts:142
 
 ___
 
@@ -375,7 +392,7 @@ Sets the data characteristics for the device
 
 #### Defined in
 
-main.d.ts:112
+main.d.ts:114
 
 ___
 
@@ -391,7 +408,7 @@ Sets the Data Terminal Ready (DTR) control signal
 
 #### Defined in
 
-main.d.ts:128
+main.d.ts:130
 
 ___
 
@@ -415,7 +432,7 @@ Sets the flow control for the device
 
 #### Defined in
 
-main.d.ts:125
+main.d.ts:127
 
 ___
 
@@ -431,7 +448,7 @@ Sets the Request To Send (RTS) control signal
 
 #### Defined in
 
-main.d.ts:134
+main.d.ts:136
 
 ___
 
@@ -454,7 +471,7 @@ Sets the read ans write timeouts for the device
 
 #### Defined in
 
-main.d.ts:118
+main.d.ts:120
 
 ___
 
@@ -478,7 +495,7 @@ Number of bytes written to the device
 
 #### Defined in
 
-main.d.ts:95
+main.d.ts:97
 
 ___
 
@@ -501,4 +518,4 @@ Write a value to an EEPROM location
 
 #### Defined in
 
-main.d.ts:158
+main.d.ts:160

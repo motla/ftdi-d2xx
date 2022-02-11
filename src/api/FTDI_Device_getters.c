@@ -5,6 +5,24 @@
 #include "ftd2xx.h"
 #include "utils.h"
 
+
+napi_value device_get_is_connected(napi_env env, napi_callback_info info) {
+  // Get JavaScript `this` corresponding to this instance of the class
+  napi_value this_arg;
+  utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
+
+  // Get the class instance data containing FTDI device handle
+  device_instance_data_t* instance_data;
+  utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
+
+  // Return device connection status based on the ability to retrieve its basic information
+  napi_value is_connected;
+  char SerialNumber[16]; // at least SerialNumber or Description must be fetched for the fuction to return an error
+  utils_check(napi_get_boolean(env, (FT_GetDeviceInfo(instance_data->ftHandle, NULL, NULL, SerialNumber, NULL, NULL) == FT_OK), &is_connected));
+  return is_connected;
+}
+
+
 napi_value device_get_info(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to this instance of the class
   napi_value this_arg;

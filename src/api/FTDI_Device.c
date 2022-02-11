@@ -65,6 +65,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
   // Define class prototype
   const napi_property_descriptor props[] = {
     // Getters
+    { "is_connected", NULL, NULL, device_get_is_connected, NULL, NULL, napi_enumerable, NULL },
     { "info", NULL, NULL, device_get_info, NULL, NULL, napi_enumerable, NULL },
     { "status", NULL, NULL, device_get_status, NULL, NULL, napi_enumerable, NULL },
     { "modem_status", NULL, NULL, device_get_modem_status, NULL, NULL, napi_enumerable, NULL },

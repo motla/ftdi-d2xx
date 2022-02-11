@@ -22,6 +22,8 @@ declare class FTDI_DeviceInfo {
 declare class FTDI_Device {
   /** The device serial number */
   readonly serial_number: string;
+  /** Getter to device connection status */
+  get is_connected(): boolean;
   /** Getter to device information */
   get info(): {
     /** The device description */
