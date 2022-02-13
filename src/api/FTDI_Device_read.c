@@ -22,6 +22,13 @@ typedef struct {
 } async_data_t;
 
 
+// This function is called when the rx_buffer can be freed
+static void finalize_rx_buffer(napi_env env, void* rx_buffer, void* finalize_hint){
+  (void) env, (void) finalize_hint; // hide unused parameter warning
+  free(rx_buffer);
+}
+
+
 // This function runs on a worker thread.
 // It has no access to the JavaScript. Only FTDI functions are called here.
 static void execute_callback(napi_env env, void* data) {
@@ -46,7 +53,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
     && !utils_check(FT_|async_data->ftStatus)) { // manage other errors
 
     // Create JavaScript Uint8Array containing the read data
-    utils_check(napi_create_arraybuffer(env, async_data->rx_bytes_returned, (void**)&(async_data->rx_buffer), &array_buffer));
+    utils_check(napi_create_external_arraybuffer(env, async_data->rx_buffer, async_data->rx_bytes_returned, finalize_rx_buffer, NULL, &array_buffer));
     utils_check(napi_create_typedarray(env, napi_uint8_array, async_data->rx_bytes_returned, array_buffer, 0, &uint8_array));
   }
 
@@ -70,7 +77,6 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   napi_delete_async_work(env, async_data->async_work);
 
   // Free async instance data structure
-  free(async_data->rx_buffer);
   free(async_data);
 }
 
