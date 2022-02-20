@@ -3,7 +3,7 @@ name: Build Release for each available platform
 on: [push]
 
 jobs:
-  build-ubuntu:
+  build-release:
 
     runs-on: [ubuntu-latest, windows-latest, macos-latest]
 
