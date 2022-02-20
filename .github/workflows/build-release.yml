@@ -23,6 +23,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-  
-    - name: Build Ubuntu
+        
     - run: npm run cmake:rebuild-release
