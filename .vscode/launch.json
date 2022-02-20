@@ -1,7 +1,7 @@
 {
   "configurations": [
     {
-    "name": "Debug test.js (macOS)",
+    "name": "Debug test.js with LLDB",
     "type": "lldb",
     "request": "launch",
     "program": "/usr/local/bin/node",

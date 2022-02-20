@@ -43,13 +43,18 @@ list(APPEND SRC "src/api/setVIDPID.c")
 include_directories("inc")
 
 # Declare FTDI D2XX static library
-link_directories("lib")
+link_directories("lib/${CMAKE_SYSTEM_NAME}")
+link_directories("lib/${CMAKE_SYSTEM_NAME}/${CMAKE_SYSTEM_PROCESSOR}")
 list(APPEND LIB "ftd2xx")
 
 # Generate a .node library from declared files using CMake.js
 include_directories(${CMAKE_JS_INC})
 add_library(${PROJECT_NAME} SHARED ${SRC} ${CMAKE_JS_SRC})
-set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
+else()
+  set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".${CMAKE_SYSTEM_NAME}.${CMAKE_SYSTEM_PROCESSOR}.node")
+endif()
 target_link_libraries(${PROJECT_NAME} ${LIB} ${CMAKE_JS_LIB})
 
 # Set SOURCE_PATH_SIZE to hide file paths in error_check messages
@@ -57,5 +62,7 @@ string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
 add_definitions("-DSOURCE_PATH_SIZE=${SOURCE_PATH_SIZE}")
 
 # Link macOS native frameworks to the library
-target_link_libraries(${PROJECT_NAME} "-framework CoreFoundation")
-target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+if(APPLE)
+  target_link_libraries(${PROJECT_NAME} "-framework CoreFoundation")
+  target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+endif()

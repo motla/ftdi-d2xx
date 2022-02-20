@@ -2,6 +2,20 @@
   "name": "ftdi-d2xx",
   "version": "1.0.0",
   "description": "Pre-compiled FTDI D2XX drivers for Node.js (Node-API/CMake)",
+  "keywords": ["ftdi", "d2xx", "usb", "serial", "driver"],
+  "license": "LGPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/motla/ftdi-d2xx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/motla/ftdi-d2xx/issues"
+  },
+  "homepage": "https://github.com/motla/ftdi-d2xx",
+  "author": {
+    "name": "Romain Lamothe",
+    "url": "http://www.motla.fr/"
+  },
   "main": "main.js",
   "types": "main.d.ts",
   "scripts": {
