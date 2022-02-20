@@ -25,9 +25,3 @@ jobs:
     
     - name: Build Release
       run: npm run cmake:rebuild-release
-      
-    - name: Upload output file
-      uses: actions/upload-artifact@v2
-      with:
-        name: output-log-file
-        path: output.log
