@@ -3,6 +3,7 @@
   "typedocOptions": {
     "entryPoints": ["main.d.ts"],
     "out": "docs",
+    "publicPath": "./",
     "theme": "github-wiki",
     "readme": "none"
   }

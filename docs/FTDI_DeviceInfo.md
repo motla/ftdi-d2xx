@@ -4,18 +4,18 @@
 
 ### Constructors
 
-- [constructor](../wiki/FTDI_DeviceInfo#constructor)
+- [constructor](./FTDI_DeviceInfo.md#constructor)
 
 ### Properties
 
-- [description](../wiki/FTDI_DeviceInfo#description)
-- [is\_open](../wiki/FTDI_DeviceInfo#is_open)
-- [serial\_number](../wiki/FTDI_DeviceInfo#serial_number)
-- [type](../wiki/FTDI_DeviceInfo#type)
-- [usb\_loc\_id](../wiki/FTDI_DeviceInfo#usb_loc_id)
-- [usb\_pid](../wiki/FTDI_DeviceInfo#usb_pid)
-- [usb\_speed](../wiki/FTDI_DeviceInfo#usb_speed)
-- [usb\_vid](../wiki/FTDI_DeviceInfo#usb_vid)
+- [description](./FTDI_DeviceInfo.md#description)
+- [is\_open](./FTDI_DeviceInfo.md#is_open)
+- [serial\_number](./FTDI_DeviceInfo.md#serial_number)
+- [type](./FTDI_DeviceInfo.md#type)
+- [usb\_loc\_id](./FTDI_DeviceInfo.md#usb_loc_id)
+- [usb\_pid](./FTDI_DeviceInfo.md#usb_pid)
+- [usb\_speed](./FTDI_DeviceInfo.md#usb_speed)
+- [usb\_vid](./FTDI_DeviceInfo.md#usb_vid)
 
 ## Constructors
 
@@ -33,7 +33,7 @@ The device description
 
 #### Defined in
 
-main.d.ts:5
+[main.d.ts:5](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L5)
 
 ___
 
@@ -45,7 +45,7 @@ Will be true if the device is currently open
 
 #### Defined in
 
-main.d.ts:11
+[main.d.ts:11](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L11)
 
 ___
 
@@ -57,7 +57,7 @@ The device serial number
 
 #### Defined in
 
-main.d.ts:3
+[main.d.ts:3](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L3)
 
 ___
 
@@ -71,7 +71,7 @@ NOTE: See `utils.c` for the list of possible types
 
 #### Defined in
 
-main.d.ts:9
+[main.d.ts:9](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L9)
 
 ___
 
@@ -83,7 +83,7 @@ The device USB port location on the system
 
 #### Defined in
 
-main.d.ts:17
+[main.d.ts:17](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L17)
 
 ___
 
@@ -95,7 +95,7 @@ The device USB Product ID
 
 #### Defined in
 
-main.d.ts:15
+[main.d.ts:15](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L15)
 
 ___
 
@@ -107,7 +107,7 @@ The device USB speed (`high-speed` or `full-speed`)
 
 #### Defined in
 
-main.d.ts:19
+[main.d.ts:19](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L19)
 
 ___
 
@@ -119,4 +119,4 @@ The device USB Vendor ID
 
 #### Defined in
 
-main.d.ts:13
+[main.d.ts:13](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L13)

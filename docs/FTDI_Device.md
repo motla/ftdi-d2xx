@@ -4,40 +4,40 @@
 
 ### Constructors
 
-- [constructor](../wiki/FTDI_Device#constructor)
+- [constructor](./FTDI_Device.md#constructor)
 
 ### Properties
 
-- [serial\_number](../wiki/FTDI_Device#serial_number)
+- [serial\_number](./FTDI_Device.md#serial_number)
 
 ### Accessors
 
-- [driver\_version](../wiki/FTDI_Device#driver_version)
-- [info](../wiki/FTDI_Device#info)
-- [is\_connected](../wiki/FTDI_Device#is_connected)
-- [modem\_status](../wiki/FTDI_Device#modem_status)
-- [status](../wiki/FTDI_Device#status)
+- [driver\_version](./FTDI_Device.md#driver_version)
+- [info](./FTDI_Device.md#info)
+- [is\_connected](./FTDI_Device.md#is_connected)
+- [modem\_status](./FTDI_Device.md#modem_status)
+- [status](./FTDI_Device.md#status)
 
 ### Methods
 
-- [close](../wiki/FTDI_Device#close)
-- [clrDtr](../wiki/FTDI_Device#clrdtr)
-- [clrRts](../wiki/FTDI_Device#clrrts)
-- [eraseEE](../wiki/FTDI_Device#eraseee)
-- [purge](../wiki/FTDI_Device#purge)
-- [read](../wiki/FTDI_Device#read)
-- [readEE](../wiki/FTDI_Device#readee)
-- [resetDevice](../wiki/FTDI_Device#resetdevice)
-- [setBaudRate](../wiki/FTDI_Device#setbaudrate)
-- [setBreakOff](../wiki/FTDI_Device#setbreakoff)
-- [setBreakOn](../wiki/FTDI_Device#setbreakon)
-- [setDataCharacteristics](../wiki/FTDI_Device#setdatacharacteristics)
-- [setDtr](../wiki/FTDI_Device#setdtr)
-- [setFlowControl](../wiki/FTDI_Device#setflowcontrol)
-- [setRts](../wiki/FTDI_Device#setrts)
-- [setTimeouts](../wiki/FTDI_Device#settimeouts)
-- [write](../wiki/FTDI_Device#write)
-- [writeEE](../wiki/FTDI_Device#writeee)
+- [close](./FTDI_Device.md#close)
+- [clrDtr](./FTDI_Device.md#clrdtr)
+- [clrRts](./FTDI_Device.md#clrrts)
+- [eraseEE](./FTDI_Device.md#eraseee)
+- [purge](./FTDI_Device.md#purge)
+- [read](./FTDI_Device.md#read)
+- [readEE](./FTDI_Device.md#readee)
+- [resetDevice](./FTDI_Device.md#resetdevice)
+- [setBaudRate](./FTDI_Device.md#setbaudrate)
+- [setBreakOff](./FTDI_Device.md#setbreakoff)
+- [setBreakOn](./FTDI_Device.md#setbreakon)
+- [setDataCharacteristics](./FTDI_Device.md#setdatacharacteristics)
+- [setDtr](./FTDI_Device.md#setdtr)
+- [setFlowControl](./FTDI_Device.md#setflowcontrol)
+- [setRts](./FTDI_Device.md#setrts)
+- [setTimeouts](./FTDI_Device.md#settimeouts)
+- [write](./FTDI_Device.md#write)
+- [writeEE](./FTDI_Device.md#writeee)
 
 ## Constructors
 
@@ -55,7 +55,7 @@ The device serial number
 
 #### Defined in
 
-main.d.ts:24
+[main.d.ts:24](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L24)
 
 ## Accessors
 
@@ -71,7 +71,7 @@ Getter to the device driver version
 
 #### Defined in
 
-main.d.ts:79
+[main.d.ts:79](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L79)
 
 ___
 
@@ -94,7 +94,7 @@ Getter to device information
 
 #### Defined in
 
-main.d.ts:28
+[main.d.ts:28](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L28)
 
 ___
 
@@ -110,7 +110,7 @@ Getter to device connection status
 
 #### Defined in
 
-main.d.ts:26
+[main.d.ts:26](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L26)
 
 ___
 
@@ -137,7 +137,7 @@ Getter to device modem status
 
 #### Defined in
 
-main.d.ts:59
+[main.d.ts:59](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L59)
 
 ___
 
@@ -162,7 +162,7 @@ Getter to device status
 
 #### Defined in
 
-main.d.ts:42
+[main.d.ts:42](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L42)
 
 ## Methods
 
@@ -172,7 +172,7 @@ main.d.ts:42
 
 Close the device
 
-IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will trigger an error. Device should be reopened using the [openDevice](../wiki/Home#opendevice) function that will generate a new [FTDI_Device](../wiki/FTDI_Device) object.
+IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will trigger an error. Device should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
 
 #### Returns
 
@@ -180,7 +180,7 @@ IMPORTANT: Device object is considered dead after this function has been called.
 
 #### Defined in
 
-main.d.ts:85
+[main.d.ts:85](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L85)
 
 ___
 
@@ -196,7 +196,7 @@ Clears the Data Terminal Ready (DTR) control signal
 
 #### Defined in
 
-main.d.ts:133
+[main.d.ts:133](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L133)
 
 ___
 
@@ -212,7 +212,7 @@ Clears the Request To Send (RTS) control signal
 
 #### Defined in
 
-main.d.ts:139
+[main.d.ts:139](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L139)
 
 ___
 
@@ -228,7 +228,7 @@ Erases the device EEPROM
 
 #### Defined in
 
-main.d.ts:163
+[main.d.ts:163](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L163)
 
 ___
 
@@ -250,7 +250,7 @@ Purges receive and transmit buffers in the device
 
 #### Defined in
 
-main.d.ts:102
+[main.d.ts:102](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L102)
 
 ___
 
@@ -274,7 +274,7 @@ Bytes read from the device
 
 #### Defined in
 
-main.d.ts:91
+[main.d.ts:91](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L91)
 
 ___
 
@@ -298,7 +298,7 @@ EEPROM value (16 bit)
 
 #### Defined in
 
-main.d.ts:154
+[main.d.ts:154](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L154)
 
 ___
 
@@ -314,7 +314,7 @@ Send a reset command to the device
 
 #### Defined in
 
-main.d.ts:148
+[main.d.ts:148](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L148)
 
 ___
 
@@ -336,7 +336,7 @@ Sets the baud rate for the device
 
 #### Defined in
 
-main.d.ts:107
+[main.d.ts:107](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L107)
 
 ___
 
@@ -352,7 +352,7 @@ Resets the BREAK condition for the device
 
 #### Defined in
 
-main.d.ts:145
+[main.d.ts:145](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L145)
 
 ___
 
@@ -368,7 +368,7 @@ Sets the BREAK condition for the device
 
 #### Defined in
 
-main.d.ts:142
+[main.d.ts:142](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L142)
 
 ___
 
@@ -392,7 +392,7 @@ Sets the data characteristics for the device
 
 #### Defined in
 
-main.d.ts:114
+[main.d.ts:114](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L114)
 
 ___
 
@@ -408,7 +408,7 @@ Sets the Data Terminal Ready (DTR) control signal
 
 #### Defined in
 
-main.d.ts:130
+[main.d.ts:130](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L130)
 
 ___
 
@@ -432,7 +432,7 @@ Sets the flow control for the device
 
 #### Defined in
 
-main.d.ts:127
+[main.d.ts:127](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L127)
 
 ___
 
@@ -448,7 +448,7 @@ Sets the Request To Send (RTS) control signal
 
 #### Defined in
 
-main.d.ts:136
+[main.d.ts:136](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L136)
 
 ___
 
@@ -471,7 +471,7 @@ Sets the read ans write timeouts for the device
 
 #### Defined in
 
-main.d.ts:120
+[main.d.ts:120](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L120)
 
 ___
 
@@ -495,7 +495,7 @@ Number of bytes written to the device
 
 #### Defined in
 
-main.d.ts:97
+[main.d.ts:97](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L97)
 
 ___
 
@@ -518,4 +518,4 @@ Write a value to an EEPROM location
 
 #### Defined in
 
-main.d.ts:160
+[main.d.ts:160](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L160)
