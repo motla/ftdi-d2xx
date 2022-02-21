@@ -7,11 +7,12 @@
 
 // Error management (SOURCE_PATH_SIZE is set in CMakeLists.txt in order to hide absolute file tree)
 typedef struct {
+  char* dummy; // workaround to avoid empty struct initialization which is illegal in C99
   char* message; // will be NULL if omitted
   char* code; // will be NULL if omitted
 } utils_error_desc_t;
 #define utils_check(assertion, ...) \
-  utils_test_throw(assertion, #assertion, env, &(__FILE__[SOURCE_PATH_SIZE]), __LINE__, (utils_error_desc_t){__VA_ARGS__})
+  utils_test_throw(assertion, #assertion, env, &(__FILE__[SOURCE_PATH_SIZE]), __LINE__, (utils_error_desc_t){ 0, __VA_ARGS__ })
 bool utils_test_throw(int assertion, const char* assertion_str, napi_env env, const char* file, int line, utils_error_desc_t err_desc);
 
 // To force displaying the explicit FT_STATUS code, write FT_|ftStatus
