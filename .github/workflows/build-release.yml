@@ -3,25 +3,29 @@ name: Build Release for each available platform
 on: [push]
 
 jobs:
-  build-ubuntu:
-
-    runs-on: ubuntu-latest
-
+  build-release:
+  
     strategy:
       matrix:
-        node-version: [16.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     
-    - uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
     
-    - name: Get latest CMake and ninja
+    - name: Setup latest CMake and Ninja
       uses: lukka/get-cmake@latest
     
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        
-    - run: npm run cmake:rebuild-release
+        node-version: 16.x
+    
+    - name: Install NPM dependencies
+      run: npm install
+    
+    - name: Build Release
+      run: npm run cmake:rebuild-release
