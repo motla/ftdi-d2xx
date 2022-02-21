@@ -5,10 +5,11 @@
 
 napi_value device_setFlowControl(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to this instance of the class and `argc`/`argv` passed to the function
-  size_t argc = 3; // size of the argv buffer
-  napi_value this_arg, argv[argc];
+  const size_t nb_args = 3; // number of expected arguments
+  size_t argc = nb_args; // size of the argv buffer
+  napi_value this_arg, argv[nb_args];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
-  if(utils_check(argc < 3, "Missing argument", "missarg")) return NULL;
+  if(utils_check(argc < nb_args, "Missing argument", "missarg")) return NULL;
 
   // Get the class instance data containing FTDI device handle
   device_instance_data_t* instance_data;
@@ -31,7 +32,7 @@ napi_value device_setFlowControl(napi_env env, napi_callback_info info) {
   }
 
   // Update FTDI device
-  utils_check(FT_SetFlowControl(instance_data->ftHandle, flow, xon, xoff));
+  utils_check(FT_SetFlowControl(instance_data->ftHandle, (USHORT)flow, (UCHAR)xon, (UCHAR)xoff));
 
   return NULL;
 }

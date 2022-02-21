@@ -92,7 +92,7 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
       utils_check(napi_new_instance(env, device_info_class, sizeof(argv)/sizeof(argv[0]), argv, &device_info_instance));
 
       // Add the device info to the array
-      utils_check(napi_set_element(env, info_array, info_array_length++, device_info_instance));
+      utils_check(napi_set_element(env, info_array, (uint32_t)(info_array_length++), device_info_instance));
     }
 
     // Free device info list
