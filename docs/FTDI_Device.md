@@ -55,7 +55,7 @@ The device serial number
 
 #### Defined in
 
-[main.d.ts:24](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L24)
+[main.d.ts:24](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L24)
 
 ## Accessors
 
@@ -71,7 +71,7 @@ Getter to the device driver version
 
 #### Defined in
 
-[main.d.ts:79](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L79)
+[main.d.ts:79](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L79)
 
 ___
 
@@ -94,7 +94,7 @@ Getter to device information
 
 #### Defined in
 
-[main.d.ts:28](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L28)
+[main.d.ts:28](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L28)
 
 ___
 
@@ -110,7 +110,7 @@ Getter to device connection status
 
 #### Defined in
 
-[main.d.ts:26](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L26)
+[main.d.ts:26](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L26)
 
 ___
 
@@ -137,7 +137,7 @@ Getter to device modem status
 
 #### Defined in
 
-[main.d.ts:59](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L59)
+[main.d.ts:59](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L59)
 
 ___
 
@@ -153,7 +153,7 @@ Getter to device status
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `events` | `Object` | Current state of the event status |
+| `events` | { `line`: `boolean` ; `modem`: `boolean` ; `rxchar`: `boolean`  } | Current state of the event status |
 | `events.line` | `boolean` | Will be true if a change in the line status has been detected by the device |
 | `events.modem` | `boolean` | Will be true if a change in the modem signals has been detected by the device |
 | `events.rxchar` | `boolean` | Will be true if a character has been received by the device |
@@ -162,7 +162,7 @@ Getter to device status
 
 #### Defined in
 
-[main.d.ts:42](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L42)
+[main.d.ts:42](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L42)
 
 ## Methods
 
@@ -180,7 +180,7 @@ IMPORTANT: Device object is considered dead after this function has been called.
 
 #### Defined in
 
-[main.d.ts:85](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L85)
+[main.d.ts:85](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L85)
 
 ___
 
@@ -196,7 +196,7 @@ Clears the Data Terminal Ready (DTR) control signal
 
 #### Defined in
 
-[main.d.ts:133](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L133)
+[main.d.ts:133](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L133)
 
 ___
 
@@ -212,7 +212,7 @@ Clears the Request To Send (RTS) control signal
 
 #### Defined in
 
-[main.d.ts:139](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L139)
+[main.d.ts:139](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L139)
 
 ___
 
@@ -228,7 +228,7 @@ Erases the device EEPROM
 
 #### Defined in
 
-[main.d.ts:163](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L163)
+[main.d.ts:163](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L163)
 
 ___
 
@@ -250,7 +250,7 @@ Purges receive and transmit buffers in the device
 
 #### Defined in
 
-[main.d.ts:102](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L102)
+[main.d.ts:102](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L102)
 
 ___
 
@@ -274,7 +274,7 @@ Bytes read from the device
 
 #### Defined in
 
-[main.d.ts:91](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L91)
+[main.d.ts:91](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L91)
 
 ___
 
@@ -298,7 +298,7 @@ EEPROM value (16 bit)
 
 #### Defined in
 
-[main.d.ts:154](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L154)
+[main.d.ts:154](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L154)
 
 ___
 
@@ -314,7 +314,7 @@ Send a reset command to the device
 
 #### Defined in
 
-[main.d.ts:148](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L148)
+[main.d.ts:148](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L148)
 
 ___
 
@@ -336,7 +336,7 @@ Sets the baud rate for the device
 
 #### Defined in
 
-[main.d.ts:107](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L107)
+[main.d.ts:107](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L107)
 
 ___
 
@@ -352,7 +352,7 @@ Resets the BREAK condition for the device
 
 #### Defined in
 
-[main.d.ts:145](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L145)
+[main.d.ts:145](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L145)
 
 ___
 
@@ -368,7 +368,7 @@ Sets the BREAK condition for the device
 
 #### Defined in
 
-[main.d.ts:142](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L142)
+[main.d.ts:142](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L142)
 
 ___
 
@@ -392,7 +392,7 @@ Sets the data characteristics for the device
 
 #### Defined in
 
-[main.d.ts:114](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L114)
+[main.d.ts:114](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L114)
 
 ___
 
@@ -408,7 +408,7 @@ Sets the Data Terminal Ready (DTR) control signal
 
 #### Defined in
 
-[main.d.ts:130](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L130)
+[main.d.ts:130](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L130)
 
 ___
 
@@ -432,7 +432,7 @@ Sets the flow control for the device
 
 #### Defined in
 
-[main.d.ts:127](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L127)
+[main.d.ts:127](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L127)
 
 ___
 
@@ -448,7 +448,7 @@ Sets the Request To Send (RTS) control signal
 
 #### Defined in
 
-[main.d.ts:136](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L136)
+[main.d.ts:136](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L136)
 
 ___
 
@@ -471,7 +471,7 @@ Sets the read ans write timeouts for the device
 
 #### Defined in
 
-[main.d.ts:120](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L120)
+[main.d.ts:120](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L120)
 
 ___
 
@@ -495,7 +495,7 @@ Number of bytes written to the device
 
 #### Defined in
 
-[main.d.ts:97](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L97)
+[main.d.ts:97](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L97)
 
 ___
 
@@ -518,4 +518,4 @@ Write a value to an EEPROM location
 
 #### Defined in
 
-[main.d.ts:160](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L160)
+[main.d.ts:160](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L160)

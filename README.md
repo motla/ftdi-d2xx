@@ -73,8 +73,11 @@ await quick_example();
 
 
 ## Docs
-- [ftdi-d2xx JavaScript implementation API](docs/Home.md)
 - [FTDI D2XX Programmer's Guide](https://ftdichip.com/wp-content/uploads/2020/08/D2XX_Programmers_GuideFT_000071.pdf)
+- [ftdi-d2xx JavaScript implementation API](docs/Home.md)
+
+###### :speech_balloon: NOTE: On Windows, FT_Reload() is implemented under FT_SetVIDPID().
+
 
 
 ## Note to Electron users
@@ -93,7 +96,7 @@ For security reasons, in the newest releases of Electron, you can only access No
 ## To do
 To be added if there is a need for it:
 - [ ] Add `FT_SetEventNotification` in a separate worker, with JS event handlers
-- [ ] Add `FT_Rescan`, `FT_Reload`, `FT_CyclePort`, `FT_Rescan`, `FT_Reload`, `FT_SetResetPipeRetryCount`, `FT_StopInTask`, `FT_RestartInTask`, `FT_SetDeadmanTimeout`. Hopefully with the latest drivers and recent hardware, these functions are not needed anymore.
+- [ ] Add `FT_Rescan`, `FT_CyclePort`, `FT_SetResetPipeRetryCount`, `FT_StopInTask`, `FT_RestartInTask`, `FT_SetDeadmanTimeout`. Hopefully with the latest drivers and recent hardware, these functions are not needed anymore.
 - [ ] Add `FT_SetChars` function
 - [ ] Add the other `FT_EE_*` functions
 

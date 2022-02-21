@@ -33,7 +33,7 @@ The device description
 
 #### Defined in
 
-[main.d.ts:5](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L5)
+[main.d.ts:5](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L5)
 
 ___
 
@@ -45,7 +45,7 @@ Will be true if the device is currently open
 
 #### Defined in
 
-[main.d.ts:11](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L11)
+[main.d.ts:11](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L11)
 
 ___
 
@@ -57,7 +57,7 @@ The device serial number
 
 #### Defined in
 
-[main.d.ts:3](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L3)
+[main.d.ts:3](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L3)
 
 ___
 
@@ -71,7 +71,7 @@ NOTE: See `utils.c` for the list of possible types
 
 #### Defined in
 
-[main.d.ts:9](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L9)
+[main.d.ts:9](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L9)
 
 ___
 
@@ -83,7 +83,7 @@ The device USB port location on the system
 
 #### Defined in
 
-[main.d.ts:17](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L17)
+[main.d.ts:17](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L17)
 
 ___
 
@@ -95,7 +95,7 @@ The device USB Product ID
 
 #### Defined in
 
-[main.d.ts:15](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L15)
+[main.d.ts:15](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L15)
 
 ___
 
@@ -107,7 +107,7 @@ The device USB speed (`high-speed` or `full-speed`)
 
 #### Defined in
 
-[main.d.ts:19](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L19)
+[main.d.ts:19](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L19)
 
 ___
 
@@ -119,4 +119,4 @@ The device USB Vendor ID
 
 #### Defined in
 
-[main.d.ts:13](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L13)
+[main.d.ts:13](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L13)

@@ -29,7 +29,6 @@
 ### Functions
 
 - [getDeviceInfoList](./Home.md#getdeviceinfolist)
-- [getVIDPID](./Home.md#getvidpid)
 - [openDevice](./Home.md#opendevice)
 - [setVIDPID](./Home.md#setvidpid)
 
@@ -37,163 +36,163 @@
 
 ### FT\_BITS\_7
 
-• **FT\_BITS\_7**: `number`
+• `Const` **FT\_BITS\_7**: `number`
 
 #### Defined in
 
-[main.d.ts:194](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L194)
+[main.d.ts:190](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L190)
 
 ___
 
 ### FT\_BITS\_8
 
-• **FT\_BITS\_8**: `number`
+• `Const` **FT\_BITS\_8**: `number`
 
 #### Defined in
 
-[main.d.ts:193](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L193)
+[main.d.ts:189](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L189)
 
 ___
 
 ### FT\_FLOW\_DTR\_DSR
 
-• **FT\_FLOW\_DTR\_DSR**: `number`
+• `Const` **FT\_FLOW\_DTR\_DSR**: `number`
 
 #### Defined in
 
-[main.d.ts:204](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L204)
+[main.d.ts:200](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L200)
 
 ___
 
 ### FT\_FLOW\_NONE
 
-• **FT\_FLOW\_NONE**: `number`
+• `Const` **FT\_FLOW\_NONE**: `number`
 
 #### Defined in
 
-[main.d.ts:202](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L202)
+[main.d.ts:198](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L198)
 
 ___
 
 ### FT\_FLOW\_RTS\_CTS
 
-• **FT\_FLOW\_RTS\_CTS**: `number`
+• `Const` **FT\_FLOW\_RTS\_CTS**: `number`
 
 #### Defined in
 
-[main.d.ts:203](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L203)
+[main.d.ts:199](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L199)
 
 ___
 
 ### FT\_FLOW\_XON\_XOFF
 
-• **FT\_FLOW\_XON\_XOFF**: `number`
+• `Const` **FT\_FLOW\_XON\_XOFF**: `number`
 
 #### Defined in
 
-[main.d.ts:205](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L205)
+[main.d.ts:201](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L201)
 
 ___
 
 ### FT\_PARITY\_EVEN
 
-• **FT\_PARITY\_EVEN**: `number`
+• `Const` **FT\_PARITY\_EVEN**: `number`
 
 #### Defined in
 
-[main.d.ts:199](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L199)
+[main.d.ts:195](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L195)
 
 ___
 
 ### FT\_PARITY\_MARK
 
-• **FT\_PARITY\_MARK**: `number`
+• `Const` **FT\_PARITY\_MARK**: `number`
 
 #### Defined in
 
-[main.d.ts:200](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L200)
+[main.d.ts:196](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L196)
 
 ___
 
 ### FT\_PARITY\_NONE
 
-• **FT\_PARITY\_NONE**: `number`
+• `Const` **FT\_PARITY\_NONE**: `number`
 
 #### Defined in
 
-[main.d.ts:197](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L197)
+[main.d.ts:193](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L193)
 
 ___
 
 ### FT\_PARITY\_ODD
 
-• **FT\_PARITY\_ODD**: `number`
+• `Const` **FT\_PARITY\_ODD**: `number`
 
 #### Defined in
 
-[main.d.ts:198](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L198)
+[main.d.ts:194](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L194)
 
 ___
 
 ### FT\_PARITY\_SPACE
 
-• **FT\_PARITY\_SPACE**: `number`
+• `Const` **FT\_PARITY\_SPACE**: `number`
 
 #### Defined in
 
-[main.d.ts:201](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L201)
+[main.d.ts:197](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L197)
 
 ___
 
 ### FT\_PURGE\_RX
 
-• **FT\_PURGE\_RX**: `number`
+• `Const` **FT\_PURGE\_RX**: `number`
 
 #### Defined in
 
-[main.d.ts:206](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L206)
+[main.d.ts:202](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L202)
 
 ___
 
 ### FT\_PURGE\_TX
 
-• **FT\_PURGE\_TX**: `number`
+• `Const` **FT\_PURGE\_TX**: `number`
 
 #### Defined in
 
-[main.d.ts:207](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L207)
+[main.d.ts:203](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L203)
 
 ___
 
 ### FT\_STOP\_BITS\_1
 
-• **FT\_STOP\_BITS\_1**: `number`
+• `Const` **FT\_STOP\_BITS\_1**: `number`
 
 #### Defined in
 
-[main.d.ts:195](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L195)
+[main.d.ts:191](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L191)
 
 ___
 
 ### FT\_STOP\_BITS\_2
 
-• **FT\_STOP\_BITS\_2**: `number`
+• `Const` **FT\_STOP\_BITS\_2**: `number`
 
 #### Defined in
 
-[main.d.ts:196](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L196)
+[main.d.ts:192](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L192)
 
 ___
 
 ### library\_version
 
-• **library\_version**: `string`
+• `Const` **library\_version**: `string`
 
 Current D2XX library version number
 
 #### Defined in
 
-[main.d.ts:190](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L190)
+[main.d.ts:186](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L186)
 
 ## Functions
 
@@ -209,28 +208,7 @@ Get the list of FTDI devices connected to the system
 
 #### Defined in
 
-[main.d.ts:167](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L167)
-
-___
-
-### getVIDPID
-
-▸ **getVIDPID**(): `Object`
-
-Retrieve the current VID and PID combination from within the internal device list table.
-
-#### Returns
-
-`Object`
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `pid` | `number` | Device Product ID (PID) |
-| `vid` | `number` | Device Vendor ID (VID) |
-
-#### Defined in
-
-[main.d.ts:182](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L182)
+[main.d.ts:167](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L167)
 
 ___
 
@@ -254,7 +232,7 @@ Device object
 
 #### Defined in
 
-[main.d.ts:173](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L173)
+[main.d.ts:173](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L173)
 
 ___
 
@@ -262,7 +240,10 @@ ___
 
 ▸ **setVIDPID**(`vid`, `pid`): `void`
 
-Include a custom VID and PID combination within the internal device list table. This will allow the driver to load for the specified VID and PID combination.
+This allows the driver to load only for the specified VID and PID combination.
+
+IMPORTANT: On Windows platforms, this function forces a reload of the driver.
+Please note that this function will not work correctly on 64-bit Windows when called from a 32-bit application.
 
 #### Parameters
 
@@ -277,4 +258,4 @@ Include a custom VID and PID combination within the internal device list table. 
 
 #### Defined in
 
-[main.d.ts:179](https://github.com/motla/ftdi-d2xx/blob/1ab01b2/main.d.ts#L179)
+[main.d.ts:183](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L183)

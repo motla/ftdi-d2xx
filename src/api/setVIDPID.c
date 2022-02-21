@@ -23,7 +23,11 @@ napi_value setVIDPID(napi_env env, napi_callback_info info) {
   utils_check(napi_get_value_uint32(env, argv[1], &pid));
 
   // Set the custom VID and PID combination to FTDI driver
-  utils_check(FT_SetVIDPID((DWORD)vid, (DWORD)pid));
+  #ifdef _WIN32
+    utils_check(FT_Reload((WORD)vid, (WORD)pid));
+  #else
+    utils_check(FT_SetVIDPID((DWORD)vid, (DWORD)pid));
+  #endif
 
   return NULL;
 }

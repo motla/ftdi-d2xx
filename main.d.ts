@@ -172,19 +172,15 @@ export function getDeviceInfoList(): Promise<FTDI_DeviceInfo[]>;
  */
 export function openDevice(serial_number: string): Promise<FTDI_Device>;
 
-/** Include a custom VID and PID combination within the internal device list table. This will allow the driver to load for the specified VID and PID combination.
+/** This allows the driver to load only for the specified VID and PID combination.
+ * 
+ * IMPORTANT: On Windows platforms, this function forces a reload of the driver.
+ * Please note that this function will not work correctly on 64-bit Windows when called from a 32-bit application.
+ * 
  * @param vid Device Vendor ID (VID)
  * @param pid Device Product ID (PID)
  */
 export function setVIDPID(vid: number, pid: number): void;
-
-/** Retrieve the current VID and PID combination from within the internal device list table. */
-export function getVIDPID(): {
-  /** Device Vendor ID (VID) */
-  vid: number,
-  /** Device Product ID (PID) */
-  pid: number
-}
 
 /** Current D2XX library version number */
 export const library_version: string;

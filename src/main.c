@@ -4,7 +4,6 @@
 #include "api/getDeviceInfoList.h"
 #include "api/openDevice.h"
 #include "api/setVIDPID.h"
-#include "api/getVIDPID.h"
 #include "constants.h"
 #include "module_data.h"
 #include "ftd2xx.h"
@@ -46,7 +45,6 @@ static napi_value init_module(napi_env env, napi_value exports) {
     { "getDeviceInfoList", NULL, getDeviceInfoList, NULL, NULL, NULL, napi_enumerable, module_data },
     { "openDevice", NULL, openDevice, NULL, NULL, NULL, napi_enumerable, module_data },
     { "setVIDPID", NULL, setVIDPID, NULL, NULL, NULL, napi_enumerable, NULL },
-    { "getVIDPID", NULL, getVIDPID, NULL, NULL, NULL, napi_enumerable, NULL },
 
     // Constants
     { "library_version", NULL, NULL, NULL, NULL, version, napi_default, NULL },

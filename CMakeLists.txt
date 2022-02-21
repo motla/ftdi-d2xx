@@ -35,7 +35,6 @@ list(APPEND SRC "src/api/FTDI_Device_write.c")
 list(APPEND SRC "src/api/FTDI_Device.c")
 list(APPEND SRC "src/api/FTDI_DeviceInfo.c")
 list(APPEND SRC "src/api/getDeviceInfoList.c")
-list(APPEND SRC "src/api/getVIDPID.c")
 list(APPEND SRC "src/api/openDevice.c")
 list(APPEND SRC "src/api/setVIDPID.c")
 
@@ -46,6 +45,7 @@ include_directories("inc")
 link_directories("lib/${CMAKE_SYSTEM_NAME}")
 link_directories("lib/${CMAKE_SYSTEM_NAME}/${CMAKE_SYSTEM_PROCESSOR}")
 list(APPEND LIB "ftd2xx")
+add_definitions("-DFTD2XX_STATIC")
 
 # Generate a .node library from declared files using CMake.js
 include_directories(${CMAKE_JS_INC})
