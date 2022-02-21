@@ -85,11 +85,11 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
 // Create a deferred JavaScript `Promise` and an async queue work item
 napi_value openDevice(napi_env env, napi_callback_info info) {
   // Get JavaScript `argc`/`argv` passed to the function
-  const size_t nb_args = 1; // number of expected arguments
-  size_t argc = nb_args; // size of the argv buffer
-  napi_value argv[nb_args];
+  #define NB_ARGS 1 // number of expected arguments
+  size_t argc = NB_ARGS; // size of the argv buffer
+  napi_value argv[NB_ARGS];
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-  if(utils_check(argc < nb_args, "Missing argument", "missarg")) return NULL;
+  if(utils_check(argc < NB_ARGS, "Missing argument", "missarg")) return NULL;
 
   // Check that the serial number argument is a string
   napi_valuetype type;

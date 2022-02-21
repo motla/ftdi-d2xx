@@ -36,11 +36,11 @@ static void finalize_cb(napi_env env, void* finalize_data, void* finalize_hint) 
 // Class constructor (runs either the class function is called using `new` or not)
 static napi_value constructor(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to the instance of the class and get `argc`/`argv` passed to the constructor
-  const size_t nb_args = 1; // number of expected arguments
-  size_t argc = nb_args; // size of the argv buffer
-  napi_value this_arg, argv[nb_args];
+  #define NB_ARGS 1 // number of expected arguments
+  size_t argc = NB_ARGS; // size of the argv buffer
+  napi_value this_arg, argv[NB_ARGS];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
-  if(utils_check(argc < nb_args)) return NULL; // check that all expected arguments were passed
+  if(utils_check(argc < NB_ARGS)) return NULL; // check that all expected arguments were passed
 
   // Add instance properties
   const napi_property_descriptor props[] = {
