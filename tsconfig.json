@@ -5,6 +5,7 @@
     "out": "docs",
     "publicPath": "./",
     "theme": "github-wiki",
-    "readme": "none"
+    "readme": "none",
+    "disableSources": true
   }
 }

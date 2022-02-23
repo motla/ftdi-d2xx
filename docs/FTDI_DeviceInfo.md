@@ -31,10 +31,6 @@
 
 The device description
 
-#### Defined in
-
-[main.d.ts:5](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L5)
-
 ___
 
 ### is\_open
@@ -43,10 +39,6 @@ ___
 
 Will be true if the device is currently open
 
-#### Defined in
-
-[main.d.ts:11](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L11)
-
 ___
 
 ### serial\_number
@@ -54,10 +46,6 @@ ___
 • `Readonly` **serial\_number**: `string`
 
 The device serial number
-
-#### Defined in
-
-[main.d.ts:3](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L3)
 
 ___
 
@@ -69,10 +57,6 @@ The device model type (FT232R, FT2232H)
 
 NOTE: See `utils.c` for the list of possible types
 
-#### Defined in
-
-[main.d.ts:9](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L9)
-
 ___
 
 ### usb\_loc\_id
@@ -80,10 +64,6 @@ ___
 • `Readonly` **usb\_loc\_id**: `number`
 
 The device USB port location on the system
-
-#### Defined in
-
-[main.d.ts:17](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L17)
 
 ___
 
@@ -93,10 +73,6 @@ ___
 
 The device USB Product ID
 
-#### Defined in
-
-[main.d.ts:15](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L15)
-
 ___
 
 ### usb\_speed
@@ -105,10 +81,6 @@ ___
 
 The device USB speed (`high-speed` or `full-speed`)
 
-#### Defined in
-
-[main.d.ts:19](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L19)
-
 ___
 
 ### usb\_vid
@@ -116,7 +88,3 @@ ___
 • `Readonly` **usb\_vid**: `number`
 
 The device USB Vendor ID
-
-#### Defined in
-
-[main.d.ts:13](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L13)

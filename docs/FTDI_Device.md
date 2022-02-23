@@ -53,10 +53,6 @@
 
 The device serial number
 
-#### Defined in
-
-[main.d.ts:24](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L24)
-
 ## Accessors
 
 ### driver\_version
@@ -68,10 +64,6 @@ Getter to the device driver version
 #### Returns
 
 `string`
-
-#### Defined in
-
-[main.d.ts:79](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L79)
 
 ___
 
@@ -92,10 +84,6 @@ Getter to device information
 | `usb_pid` | `number` | The device USB Product ID |
 | `usb_vid` | `number` | The device USB Vendor ID |
 
-#### Defined in
-
-[main.d.ts:28](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L28)
-
 ___
 
 ### is\_connected
@@ -107,10 +95,6 @@ Getter to device connection status
 #### Returns
 
 `boolean`
-
-#### Defined in
-
-[main.d.ts:26](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L26)
 
 ___
 
@@ -135,10 +119,6 @@ Getter to device modem status
 | `parity_error` | `boolean` | PE (Parity Error) flag |
 | `ring_indicator` | `boolean` | RI (Ring Indicator) flag |
 
-#### Defined in
-
-[main.d.ts:59](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L59)
-
 ___
 
 ### status
@@ -153,16 +133,12 @@ Getter to device status
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `events` | { `line`: `boolean` ; `modem`: `boolean` ; `rxchar`: `boolean`  } | Current state of the event status |
+| `events` | `Object` | Current state of the event status |
 | `events.line` | `boolean` | Will be true if a change in the line status has been detected by the device |
 | `events.modem` | `boolean` | Will be true if a change in the modem signals has been detected by the device |
 | `events.rxchar` | `boolean` | Will be true if a character has been received by the device |
 | `rx_queue_bytes` | `number` | Number of characters in the receive queue |
 | `tx_queue_bytes` | `number` | Number of characters in the transmit queue |
-
-#### Defined in
-
-[main.d.ts:42](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L42)
 
 ## Methods
 
@@ -178,10 +154,6 @@ IMPORTANT: Device object is considered dead after this function has been called.
 
 `Promise`<`void`\>
 
-#### Defined in
-
-[main.d.ts:85](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L85)
-
 ___
 
 ### clrDtr
@@ -193,10 +165,6 @@ Clears the Data Terminal Ready (DTR) control signal
 #### Returns
 
 `void`
-
-#### Defined in
-
-[main.d.ts:133](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L133)
 
 ___
 
@@ -210,10 +178,6 @@ Clears the Request To Send (RTS) control signal
 
 `void`
 
-#### Defined in
-
-[main.d.ts:139](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L139)
-
 ___
 
 ### eraseEE
@@ -225,10 +189,6 @@ Erases the device EEPROM
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[main.d.ts:163](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L163)
 
 ___
 
@@ -247,10 +207,6 @@ Purges receive and transmit buffers in the device
 #### Returns
 
 `void`
-
-#### Defined in
-
-[main.d.ts:102](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L102)
 
 ___
 
@@ -272,10 +228,6 @@ Read data from the device
 
 Bytes read from the device
 
-#### Defined in
-
-[main.d.ts:91](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L91)
-
 ___
 
 ### readEE
@@ -296,10 +248,6 @@ Read a value from an EEPROM location
 
 EEPROM value (16 bit)
 
-#### Defined in
-
-[main.d.ts:154](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L154)
-
 ___
 
 ### resetDevice
@@ -311,10 +259,6 @@ Send a reset command to the device
 #### Returns
 
 `void`
-
-#### Defined in
-
-[main.d.ts:148](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L148)
 
 ___
 
@@ -334,10 +278,6 @@ Sets the baud rate for the device
 
 `void`
 
-#### Defined in
-
-[main.d.ts:107](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L107)
-
 ___
 
 ### setBreakOff
@@ -350,10 +290,6 @@ Resets the BREAK condition for the device
 
 `void`
 
-#### Defined in
-
-[main.d.ts:145](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L145)
-
 ___
 
 ### setBreakOn
@@ -365,10 +301,6 @@ Sets the BREAK condition for the device
 #### Returns
 
 `void`
-
-#### Defined in
-
-[main.d.ts:142](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L142)
 
 ___
 
@@ -390,10 +322,6 @@ Sets the data characteristics for the device
 
 `void`
 
-#### Defined in
-
-[main.d.ts:114](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L114)
-
 ___
 
 ### setDtr
@@ -405,10 +333,6 @@ Sets the Data Terminal Ready (DTR) control signal
 #### Returns
 
 `void`
-
-#### Defined in
-
-[main.d.ts:130](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L130)
 
 ___
 
@@ -430,10 +354,6 @@ Sets the flow control for the device
 
 `void`
 
-#### Defined in
-
-[main.d.ts:127](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L127)
-
 ___
 
 ### setRts
@@ -445,10 +365,6 @@ Sets the Request To Send (RTS) control signal
 #### Returns
 
 `void`
-
-#### Defined in
-
-[main.d.ts:136](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L136)
 
 ___
 
@@ -468,10 +384,6 @@ Sets the read ans write timeouts for the device
 #### Returns
 
 `void`
-
-#### Defined in
-
-[main.d.ts:120](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L120)
 
 ___
 
@@ -493,10 +405,6 @@ Write data to the device
 
 Number of bytes written to the device
 
-#### Defined in
-
-[main.d.ts:97](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L97)
-
 ___
 
 ### writeEE
@@ -515,7 +423,3 @@ Write a value to an EEPROM location
 #### Returns
 
 `Promise`<`void`\>
-
-#### Defined in
-
-[main.d.ts:160](https://github.com/motla/ftdi-d2xx/blob/38e724e/main.d.ts#L160)
