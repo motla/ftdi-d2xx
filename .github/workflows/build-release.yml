@@ -1,6 +1,13 @@
 name: Build Release for each available platform
 
-on: [push]
+on:
+  push:
+    paths:
+      - '**.js'
+      - '**.c'
+      - '**.h'
+      - '**.a'
+      - '**.lib'
 
 jobs:
   build-release:
