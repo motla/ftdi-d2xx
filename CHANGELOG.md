@@ -1,3 +1,6 @@
+## v1.1.1
+- just adding the "electron" keyword for NPM search algorithm
+
 ## v1.1.0
 - setVIDPID() has been modified to be asynchronous, because of the need for FT_Reload call on Windows
 - bugfix: rare potential crash if malloc fails on the getDeviceInfoList function
