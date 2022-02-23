@@ -25,6 +25,7 @@ typedef struct {
 // This function runs on a worker thread.
 // It has no access to the JavaScript. Only FTDI functions are called here.
 static void execute_callback(napi_env env, void* data) {
+  (void) env; // hide unused parameter warning
   async_data_t* async_data = (async_data_t*) data;
   DWORD nb_devices = 0;
 
@@ -41,7 +42,10 @@ static void execute_callback(napi_env env, void* data) {
 
     // Allocate dynamic memory for device info list based on nb_devices
     async_data->device_info_list = malloc(sizeof(FT_DEVICE_LIST_INFO_NODE) * nb_devices);
-    if(utils_check(async_data->device_info_list == NULL, "Malloc failed", "malloc")) return;
+    if(!async_data->device_info_list) {
+      async_data->ftStatus = FT_INSUFFICIENT_RESOURCES;
+      return;
+    }
     
     // Fill the allocated memory with the list of device info
     async_data->ftStatus = FT_GetDeviceInfoList(async_data->device_info_list, &nb_devices);
