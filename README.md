@@ -77,6 +77,7 @@ await quick_example();
 - [ftdi-d2xx JavaScript implementation API](docs/Home.md)
 
 ###### :speech_balloon: NOTE: On Windows, FT_Reload() is implemented under FTDI.setVIDPID().
+###### :speech_balloon: See the included FTDI D2XX driver library versions in the [CHANGELOG.md](CHANGELOG.md) file.
 
 
 
