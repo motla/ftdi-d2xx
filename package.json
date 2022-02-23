@@ -1,8 +1,14 @@
 {
   "name": "ftdi-d2xx",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Pre-compiled FTDI D2XX drivers for Node.js (Node-API/CMake)",
-  "keywords": ["ftdi", "d2xx", "usb", "serial", "driver"],
+  "keywords": [
+    "ftdi",
+    "d2xx",
+    "usb",
+    "serial",
+    "driver"
+  ],
   "license": "LGPL-3.0-or-later",
   "repository": {
     "type": "git",
