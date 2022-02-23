@@ -1,3 +1,7 @@
+## v1.1.0
+- setVIDPID() has been modified to be asynchronous, because of the need for FT_Reload call on Windows
+- bugfix: rare potential crash if malloc fails on the getDeviceInfoList function
+
 ## v1.0.0
 - First release
 - Contains the ftd2xx library from https://ftdichip.com/drivers/d2xx-drivers/
