@@ -2,10 +2,6 @@
 
 ## Table of contents
 
-### Constructors
-
-- [constructor](./FTDI_Device.md#constructor)
-
 ### Properties
 
 - [serial\_number](./FTDI_Device.md#serial_number)
@@ -40,10 +36,6 @@
 - [writeEE](./FTDI_Device.md#writeee)
 
 ## Constructors
-
-### constructor
-
-• **new FTDI_Device**()
 
 ## Properties
 

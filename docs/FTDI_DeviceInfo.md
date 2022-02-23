@@ -2,10 +2,6 @@
 
 ## Table of contents
 
-### Constructors
-
-- [constructor](./FTDI_DeviceInfo.md#constructor)
-
 ### Properties
 
 - [description](./FTDI_DeviceInfo.md#description)
@@ -18,10 +14,6 @@
 - [usb\_vid](./FTDI_DeviceInfo.md#usb_vid)
 
 ## Constructors
-
-### constructor
-
-• **new FTDI_DeviceInfo**()
 
 ## Properties
 
