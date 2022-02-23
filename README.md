@@ -100,6 +100,8 @@ To be added if there is a need for it:
 - [ ] Add `FT_SetChars` function
 - [ ] Add the other `FT_EE_*` functions
 
+## Sponsor
+The work for the library wrapper has been sponsored by [ONWI](https://www.onwi.fr/), a small electronics design office and production unit based near Lyon, France.
 
 ## Licensing
 This library is distributed under the terms of the [GNU LGPLv3](LICENSE).
