@@ -180,7 +180,7 @@ export function openDevice(serial_number: string): Promise<FTDI_Device>;
  * @param vid Device Vendor ID (VID)
  * @param pid Device Product ID (PID)
  */
-export function setVIDPID(vid: number, pid: number): void;
+export function setVIDPID(vid: number, pid: number): Promise<void>;
 
 /** Current D2XX library version number */
 export const library_version: string;
