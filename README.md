@@ -2,7 +2,7 @@
 
 ## Features
 - Asynchronous, non-blocking functions (use [`Promises`](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) or [`async/await`](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await))
-- Pre-compiled for Windows / macOS / ~~Linux~~ (soon)
+- Pre-compiled for Windows / macOS / Linux
 - Compatible with [Electron](https://www.electronjs.org/) (see [the note](#note-to-electron-users) below)
 - Includes static FTDI Driver vendor libraries
 - Written in pure C language using [Node-API](https://nodejs.org/api/n-api.html#node-api)
