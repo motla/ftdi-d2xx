@@ -29,9 +29,9 @@ declare class FTDI_Device {
   get info(): {
     /** The device description */
     readonly description: string;
-    /** The device model type (FT232R, FT2232H)
+    /** The device model type (`"FT232R"`, `"FT2232H"`, ...)
      * 
-     * NOTE: See `utils.c` for the list of possible types */
+     * NOTE: See `src/utils.c` for the list of possible types */
     readonly type: string;
     /** The device USB Vendor ID */
     readonly usb_vid: number;

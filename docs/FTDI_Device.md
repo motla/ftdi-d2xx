@@ -70,7 +70,7 @@ Getter to device information
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `description` | `string` | The device description |
-| `type` | `string` | The device model type (FT232R, FT2232H)  NOTE: See `utils.c` for the list of possible types |
+| `type` | `string` | The device model type (`"FT232R"`, `"FT2232H"`, ...)  NOTE: See `src/utils.c` for the list of possible types |
 | `usb_pid` | `number` | The device USB Product ID |
 | `usb_vid` | `number` | The device USB Vendor ID |
 
