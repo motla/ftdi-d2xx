@@ -22,8 +22,9 @@ declare class FTDI_DeviceInfo {
 declare class FTDI_Device {
   /** The device serial number */
   readonly serial_number: string;
-  /** Getter to device connection status: if `true`, the device is still connected to the system. If `false`, the Device has been
-   * disconnected and should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object. */
+  /** Getter to device connection status:
+   * - If `true`, the device is still connected to the system
+   * - If `false`, the device has been disconnected and should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object. */
   get is_connected(): boolean;
   /** Getter to device information */
   get info(): {

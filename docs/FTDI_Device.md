@@ -80,8 +80,9 @@ ___
 
 • `get` **is_connected**(): `boolean`
 
-Getter to device connection status: if `true`, the device is still connected to the system. If `false`, the Device has been
-disconnected and should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
+Getter to device connection status:
+- If `true`, the device is still connected to the system
+- If `false`, the device has been disconnected and should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
 
 #### Returns
 
