@@ -36,9 +36,11 @@
 
 ### library\_version
 
-• **library\_version**: `string`
+• `Const` **library\_version**: `string`
 
 Current D2XX library version number
+
+**`readonly`**
 
 ## Functions
 

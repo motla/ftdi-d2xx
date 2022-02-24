@@ -3,11 +3,11 @@ declare class FTDI_DeviceInfo {
   readonly serial_number: string;
   /** The device description */
   readonly description: string;
-  /** The device model type (FT232R, FT2232H)
+  /** The device model type (`"FT232R"`, `"FT2232H"`, ...)
    * 
-   * NOTE: See `utils.c` for the list of possible types */
+   * NOTE: See `src/utils.c` for the list of possible types */
   readonly type: string;
-  /** Will be true if the device is currently open */
+  /** Is `true` if the device is currently open */
   readonly is_open: boolean;
   /** The device USB Vendor ID */
   readonly usb_vid: number;
@@ -22,7 +22,8 @@ declare class FTDI_DeviceInfo {
 declare class FTDI_Device {
   /** The device serial number */
   readonly serial_number: string;
-  /** Getter to device connection status */
+  /** Getter to device connection status: if `true`, the device is still connected to the system. If `false`, the Device has been
+   * disconnected and should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object. */
   get is_connected(): boolean;
   /** Getter to device information */
   get info(): {
@@ -46,11 +47,11 @@ declare class FTDI_Device {
     readonly tx_queue_bytes: number;
     /** Current state of the event status */
     readonly events: {
-      /** Will be true if a character has been received by the device */
+      /** Is `true` if a character has been received by the device */
       readonly rxchar: boolean;
-      /** Will be true if a change in the modem signals has been detected by the device */
+      /** Is `true` if a change in the modem signals has been detected by the device */
       readonly modem: boolean;
-      /** Will be true if a change in the line status has been detected by the device */
+      /** Is `true` if a change in the line status has been detected by the device */
       readonly line: boolean;
     }
   }
@@ -80,25 +81,25 @@ declare class FTDI_Device {
 
   /** Close the device
    * 
-   * IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will trigger an error. Device should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object.
+   * IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will throw an error. Device should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object.
    */
   close(): Promise<void>;
 
-  /** Read data from the device
+  /** Reads data from the device
    * @param nb_bytes_to_read Number of bytes to read from the device
    * @returns Bytes read from the device
    */
   read(nb_bytes_to_read: number): Promise<Uint8Array>;
 
-  /** Write data to the device
+  /** Writes data to the device
    * @param data_to_write Bytes to be written to the device
    * @returns Number of bytes written to the device
-  */
+   */
   write(data_to_write: Uint8Array): Promise<number>;
 
   /** Purges receive and transmit buffers in the device
    * @param mask Combination of FT_PURGE_RX and FT_PURGE_TX
-  */
+   */
   purge(mask: number): void;
 
   /** Sets the baud rate for the device
@@ -147,13 +148,13 @@ declare class FTDI_Device {
   /** Send a reset command to the device */
   resetDevice(): void;
 
-  /** Read a value from an EEPROM location
+  /** Reads a value from an EEPROM location
    * @param word_offset EEPROM location to read from
    * @returns EEPROM value (16 bit)
    */
   readEE(word_offset: number): Promise<number>;
 
-  /** Write a value to an EEPROM location
+  /** Writes a value to an EEPROM location
    * @param word_offset EEPROM location to write to
    * @param value EEPROM value (16 bit)
    */
@@ -182,7 +183,8 @@ export function openDevice(serial_number: string): Promise<FTDI_Device>;
  */
 export function setVIDPID(vid: number, pid: number): Promise<void>;
 
-/** Current D2XX library version number */
+/** Current D2XX library version number
+ * @readonly */
 export const library_version: string;
 
 // Constants

@@ -13,8 +13,6 @@
 - [usb\_speed](./FTDI_DeviceInfo.md#usb_speed)
 - [usb\_vid](./FTDI_DeviceInfo.md#usb_vid)
 
-## Constructors
-
 ## Properties
 
 ### description
@@ -29,7 +27,7 @@ ___
 
 • `Readonly` **is\_open**: `boolean`
 
-Will be true if the device is currently open
+Is `true` if the device is currently open
 
 ___
 
@@ -45,9 +43,9 @@ ___
 
 • `Readonly` **type**: `string`
 
-The device model type (FT232R, FT2232H)
+The device model type (`"FT232R"`, `"FT2232H"`, ...)
 
-NOTE: See `utils.c` for the list of possible types
+NOTE: See `src/utils.c` for the list of possible types
 
 ___
 

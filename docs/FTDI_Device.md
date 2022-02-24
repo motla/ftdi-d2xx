@@ -35,8 +35,6 @@
 - [write](./FTDI_Device.md#write)
 - [writeEE](./FTDI_Device.md#writeee)
 
-## Constructors
-
 ## Properties
 
 ### serial\_number
@@ -82,7 +80,8 @@ ___
 
 • `get` **is_connected**(): `boolean`
 
-Getter to device connection status
+Getter to device connection status: if `true`, the device is still connected to the system. If `false`, the Device has been
+disconnected and should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
 
 #### Returns
 
@@ -125,10 +124,10 @@ Getter to device status
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `events` | `Object` | Current state of the event status |
-| `events.line` | `boolean` | Will be true if a change in the line status has been detected by the device |
-| `events.modem` | `boolean` | Will be true if a change in the modem signals has been detected by the device |
-| `events.rxchar` | `boolean` | Will be true if a character has been received by the device |
+| `events` | { `line`: `boolean` ; `modem`: `boolean` ; `rxchar`: `boolean`  } | Current state of the event status |
+| `events.line` | `boolean` | Is `true` if a change in the line status has been detected by the device |
+| `events.modem` | `boolean` | Is `true` if a change in the modem signals has been detected by the device |
+| `events.rxchar` | `boolean` | Is `true` if a character has been received by the device |
 | `rx_queue_bytes` | `number` | Number of characters in the receive queue |
 | `tx_queue_bytes` | `number` | Number of characters in the transmit queue |
 
@@ -140,7 +139,7 @@ Getter to device status
 
 Close the device
 
-IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will trigger an error. Device should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
+IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will throw an error. Device should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
 
 #### Returns
 
@@ -206,7 +205,7 @@ ___
 
 ▸ **read**(`nb_bytes_to_read`): `Promise`<`Uint8Array`\>
 
-Read data from the device
+Reads data from the device
 
 #### Parameters
 
@@ -226,7 +225,7 @@ ___
 
 ▸ **readEE**(`word_offset`): `Promise`<`number`\>
 
-Read a value from an EEPROM location
+Reads a value from an EEPROM location
 
 #### Parameters
 
@@ -383,7 +382,7 @@ ___
 
 ▸ **write**(`data_to_write`): `Promise`<`number`\>
 
-Write data to the device
+Writes data to the device
 
 #### Parameters
 
@@ -403,7 +402,7 @@ ___
 
 ▸ **writeEE**(`word_offset`, `value`): `Promise`<`void`\>
 
-Write a value to an EEPROM location
+Writes a value to an EEPROM location
 
 #### Parameters
 
