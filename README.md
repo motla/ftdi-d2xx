@@ -90,7 +90,7 @@ For security reasons, in the newest releases of Electron, you can only access No
   - This file shall contain (or require) all your functions related to FTDI access.
   - This file shall contain a `contextBridge` to expose your objects and functions globally to the renderer process ([more info here](https://www.electronjs.org/docs/latest/api/context-bridge#usage)).
   - This file shall be associated to the `BrowserWindow` of your application using `webPreferences.preload` field ([more info here](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts)).
-  - **Important:** information exchanged in the pipe between **main process** and **renderer process** (Electron calls it IPC) is **serialized**. You can see that if like you were passing a JSON file in a text format. [Only these data types](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#supported_types) are supported ([more info here](https://www.electronjs.org/docs/latest/tutorial/ipc#object-serialization)).
+  - **Important:** information exchanged in the pipe between **main process** and **renderer process** (Electron calls it IPC) is **serialized**. It's like if data was converted in a JSON file format before being passed. [Only these data types](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#supported_types) are supported ([more info here](https://www.electronjs.org/docs/latest/tutorial/ipc#object-serialization)).
 - Disabling the security and allowing Node.js to run in the **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content) - not recommended).
 
 
