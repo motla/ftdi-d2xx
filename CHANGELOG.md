@@ -1,3 +1,7 @@
+## v1.1.2
+- Print the correct arch in error message when arch is not compiled (main.js)
+- Precisions in the README.md file concerning Electron IPC
+
 ## v1.1.1
 - just adding the "electron" keyword for NPM search algorithm
 
