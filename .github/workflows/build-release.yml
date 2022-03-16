@@ -3,7 +3,7 @@ name: Build Release for each available platform
 on:
   push:
     paths:
-      - '**.js'
+      - 'CMakeLists.txt'
       - '**.c'
       - '**.h'
       - '**.a'
