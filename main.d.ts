@@ -128,6 +128,24 @@ declare class FTDI_Device {
    */
   setFlowControl(flow_control: number, xon: number, xoff: number): void;
 
+  /**
+   * Puts the device in a mode other than the default UART or FIFO mode.
+   * 
+   * @param {number} mask 
+   * Sets up which bits are inputs and which are outputs. 
+   * A bit value of 0 sets the corresponding pin to an input, a bit value of 1 sets the corresponding pin to an output. 
+   * In the case of CBUS Bit Bang, the upper nibble of this value controls which pins are inputs and outputs, while the lower nibble controls which of the outputs are high and low.
+   * @param {number} bit_mode
+   * For FT232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
+   * For FT2232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
+   * For FT4232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG.
+   * For FT232R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG.
+   * For FT245R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG.
+   * For FT2232 devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL.
+   * For FT232B and FT245B devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG.
+   */
+  setBitMode(mask: number, bit_mode: number): void;
+
   /** Sets the Data Terminal Ready (DTR) control signal */
   setDtr(): void;
 
@@ -204,3 +222,11 @@ export const FT_FLOW_DTR_DSR: number;
 export const FT_FLOW_XON_XOFF: number;
 export const FT_PURGE_RX: number;
 export const FT_PURGE_TX: number;
+export const FT_BITMODE_RESET: number;
+export const FT_BITMODE_ASYNC_BITBANG: number;
+export const FT_BITMODE_MPSSE: number;
+export const FT_BITMODE_SYNC_BITBANG: number;
+export const FT_BITMODE_MCU_HOST: number;
+export const FT_BITMODE_FAST_SERIAL: number;
+export const FT_BITMODE_CBUS_BITBANG: number;
+export const FT_BITMODE_SYNC_FIFO: number;
