@@ -19,5 +19,13 @@ constants_t initialize_constants(napi_env env) {
   utils_check(napi_create_uint32(env, FT_FLOW_XON_XOFF, &(constants.flow_xon_xoff)));
   utils_check(napi_create_uint32(env, FT_PURGE_RX, &(constants.purge_rx)));
   utils_check(napi_create_uint32(env, FT_PURGE_TX, &(constants.purge_tx)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_RESET, &(constants.bit_mode_reset)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_ASYNC_BITBANG, &(constants.bit_mode_async_bitbang)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_MPSSE, &(constants.bit_mode_mpsse)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_SYNC_BITBANG, &(constants.bit_mode_sync_bitbang)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_MCU_HOST, &(constants.bit_mode_mcu_host)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_FAST_SERIAL, &(constants.bit_mode_fast_serial)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_CBUS_BITBANG, &(constants.bit_mode_cbus_bitbang)));
+  utils_check(napi_create_uint32(env, FT_BITMODE_SYNC_FIFO, &(constants.bit_mode_sync_fifo)));
   return constants;
 }

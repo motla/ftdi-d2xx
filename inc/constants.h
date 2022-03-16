@@ -19,6 +19,14 @@ typedef struct {
   napi_value flow_xon_xoff;
   napi_value purge_rx;
   napi_value purge_tx;
+  napi_value bit_mode_reset;
+  napi_value bit_mode_async_bitbang;
+  napi_value bit_mode_mpsse;
+  napi_value bit_mode_sync_bitbang;
+  napi_value bit_mode_mcu_host;
+  napi_value bit_mode_fast_serial;
+  napi_value bit_mode_cbus_bitbang;
+  napi_value bit_mode_sync_fifo;
 } constants_t;
 
 constants_t initialize_constants(napi_env env);
