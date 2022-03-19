@@ -153,27 +153,6 @@ declare class FTDI_Device {
    */
   setFlowControl(flow_control: number, xon: number, xoff: number): void;
 
-  /** Sets the latency timer value (supported devices only)
-   * @param timer Latency timer value, in milliseconds. Valid range is 2 to 255.
-   */
-  setLatencyTimer(timer: number): void;
-
-  /** Enables different chip modes (puts the device in a mode other than the default UART or FIFO mode).
-   * @param mask Bit mode mask
-   * Sets up which bits are inputs and which are outputs. 
-   * A bit value of 0 sets the corresponding pin to an input, a bit value of 1 sets the corresponding pin to an output. 
-   * In the case of CBUS Bit Bang, the upper nibble of this value controls which pins are inputs and outputs, while the lower nibble controls which of the outputs are high and low.
-   * @param bit_mode Mode value. Can be one of the following:
-   * For FT232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
-   * For FT2232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
-   * For FT4232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG.
-   * For FT232R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG.
-   * For FT245R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG.
-   * For FT2232 devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL.
-   * For FT232B and FT245B devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG.
-   */
-  setBitMode(mask: number, bit_mode: number): void;
-
   /** Sets the Data Terminal Ready (DTR) control signal */
   setDtr(): void;
 
@@ -209,6 +188,41 @@ declare class FTDI_Device {
 
   /** Erases the device EEPROM */
   eraseEE(): Promise<void>;
+
+  /** Sets the latency timer value (supported devices only)
+   * @param timer Latency timer value, in milliseconds. Valid range is 2 to 255.
+   */
+  setLatencyTimer(timer: number): void;
+
+  /** Enables different chip modes (puts the device in a mode other than the default UART or FIFO mode).
+    * @param mask Bit mode mask
+    * Sets up which bits are inputs and which are outputs. 
+    * A bit value of 0 sets the corresponding pin to an input, a bit value of 1 sets the corresponding pin to an output. 
+    * In the case of CBUS Bit Bang, the upper nibble of this value controls which pins are inputs and outputs, while the lower nibble controls which of the outputs are high and low.
+    * @param bit_mode Mode value. Can be one of the following:
+    * For FT232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
+    * For FT2232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
+    * For FT4232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG.
+    * For FT232R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG.
+    * For FT245R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG.
+    * For FT2232 devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL.
+    * For FT232B and FT245B devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG.
+    */
+  setBitMode(mask: number, bit_mode: number): void;
+
+  /** Sets the USB request transfer size
+   * 
+   * This function can be used to change the transfer sizes from the default transfer size of 4096 bytes to
+   * better suit the application requirements. Transfer sizes must be set to a multiple of 64 bytes between 64
+   * bytes and 64k bytes.
+   * When FT_SetUSBParameters is called, the change comes into effect immediately and any data that was
+   * held in the driver at the time of the change is lost.
+   * Note that, at present, only `in_transfer_size` is supported by the FTDI vendor driver.
+   *
+   * @param in_transfer_size Transfer size in bits for USB IN request
+   * @param out_transfer_size Transfer size in bits for USB OUT request (unsupported yet)
+   */
+  setUSBParameters(in_transfer_size: number, out_transfer_size: number): void;
 }
 
 /** Get the list of FTDI devices connected to the system */

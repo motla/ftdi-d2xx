@@ -70,8 +70,6 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "setDataCharacteristics", NULL, device_setDataCharacteristics, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setTimeouts", NULL, device_setTimeouts, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setFlowControl", NULL, device_setFlowControl, NULL, NULL, NULL, napi_enumerable, NULL },
-    { "setLatencyTimer", NULL, device_setLatencyTimer, NULL, NULL, NULL, napi_enumerable, NULL },
-    { "setBitMode", NULL, device_setBitMode, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setDtr", NULL, device_setDtr, NULL, NULL, NULL, napi_enumerable, NULL },
     { "clrDtr", NULL, device_clrDtr, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setRts", NULL, device_setRts, NULL, NULL, NULL, napi_enumerable, NULL },
@@ -82,6 +80,9 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "readEE", NULL, device_readEE, NULL, NULL, NULL, napi_enumerable, NULL },
     { "writeEE", NULL, device_writeEE, NULL, NULL, NULL, napi_enumerable, NULL },
     { "eraseEE", NULL, device_eraseEE, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setLatencyTimer", NULL, device_setLatencyTimer, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setBitMode", NULL, device_setBitMode, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setUSBParameters", NULL, device_setUSBParameters, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 

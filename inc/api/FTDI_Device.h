@@ -34,6 +34,7 @@ napi_value device_setDataCharacteristics(napi_env env, napi_callback_info info);
 napi_value device_setFlowControl(napi_env env, napi_callback_info info);
 napi_value device_setLatencyTimer(napi_env env, napi_callback_info info);
 napi_value device_setTimeouts(napi_env env, napi_callback_info info);
+napi_value device_setUSBParameters(napi_env env, napi_callback_info info);
 napi_value device_setDtr(napi_env env, napi_callback_info info);
 napi_value device_setRts(napi_env env, napi_callback_info info);
 napi_value device_setBreakOn(napi_env env, napi_callback_info info);
