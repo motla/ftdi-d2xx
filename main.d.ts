@@ -80,6 +80,23 @@ declare class FTDI_Device {
   /** Getter to the device driver version */
   get driver_version(): string;
 
+  /** Gets the instantaneous value of the data bus
+   * 
+   * For a description of available bit modes for the FT232R, see the application note "Bit Bang Modes for the
+   * FT232R and FT245R".
+   * 
+   * For a description of available bit modes for the FT2232, see the application note "Bit Mode Functions for
+   * the FT2232".
+   * 
+   * For a description of bit bang modes for the FT232B and FT245B, see the application note
+   * "FT232B/FT245B Bit Bang Mode".
+   * 
+   * For a description of bit modes supported by the FT4232H and FT2232H devices, please see the IC data
+   * sheets.
+   * 
+   * These application notes are available for download from the FTDI website. */
+  get bit_mode(): number;
+
   /** Close the device
    * 
    * IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will throw an error. Device should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object.

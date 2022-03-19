@@ -72,6 +72,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "status", NULL, NULL, device_get_status, NULL, NULL, napi_enumerable, NULL },
     { "modem_status", NULL, NULL, device_get_modem_status, NULL, NULL, napi_enumerable, NULL },
     { "driver_version", NULL, NULL, device_get_driver_version, NULL, NULL, napi_enumerable, NULL },
+    { "bit_mode", NULL, NULL, device_get_bit_mode, NULL, NULL, napi_enumerable, NULL },
 
     // Functions
     { "close", NULL, device_close, NULL, NULL, NULL, napi_enumerable, NULL },
@@ -82,7 +83,7 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "setDataCharacteristics", NULL, device_setDataCharacteristics, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setTimeouts", NULL, device_setTimeouts, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setFlowControl", NULL, device_setFlowControl, NULL, NULL, NULL, napi_enumerable, NULL },
-    {"setBitMode", NULL, device_setBitMode, NULL, NULL, NULL, napi_enumerable, NULL},
+    { "setBitMode", NULL, device_setBitMode, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setDtr", NULL, device_setDtr, NULL, NULL, NULL, napi_enumerable, NULL },
     { "clrDtr", NULL, device_clrDtr, NULL, NULL, NULL, napi_enumerable, NULL },
     { "setRts", NULL, device_setRts, NULL, NULL, NULL, napi_enumerable, NULL },
