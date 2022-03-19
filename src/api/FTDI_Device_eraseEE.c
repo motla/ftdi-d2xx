@@ -72,7 +72,7 @@ napi_value device_eraseEE(napi_env env, napi_callback_info info) {
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
 
   // Get the class instance data containing FTDI device handle
   utils_check(napi_unwrap(env, this_arg, (void**)&(async_data->instance_data)));

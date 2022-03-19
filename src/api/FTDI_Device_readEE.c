@@ -73,16 +73,16 @@ napi_value device_readEE(napi_env env, napi_callback_info info) {
   size_t argc = NB_ARGS; // size of the argv buffer
   napi_value this_arg, argv[NB_ARGS];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
-  if(utils_check(argc < NB_ARGS, "Missing argument", "missarg")) return NULL;
+  if(utils_check(argc < NB_ARGS, "Missing argument", ERR_MISSARG)) return NULL;
 
   // Check that the EEPROM location argument is a number
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_number, "EEPROM location must be a number", "wrongarg")) return NULL;
+  if(utils_check(type != napi_number, "EEPROM location must be a number", ERR_WRONGARG)) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
 
   // Get the class instance data containing FTDI device handle
   utils_check(napi_unwrap(env, this_arg, (void**)&(async_data->instance_data)));

@@ -39,7 +39,7 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
 
   // Create and wrap C instance data containing the FTDI device handle that will be set by calling `device_set_instance_handler()`
   device_instance_data_t* instance_data = malloc(sizeof(device_instance_data_t)); // allocate memory for instance data
-  if(utils_check(instance_data == NULL, "Malloc failed", "malloc")) return NULL;
+  if(utils_check(instance_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
   memset(instance_data, 0, sizeof(device_instance_data_t)); // initialize instance data to zeros
   utils_check(napi_wrap(env, this_arg, instance_data, finalize_cb, NULL, NULL));
 

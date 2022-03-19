@@ -119,7 +119,7 @@ napi_value getDeviceInfoList(napi_env env, napi_callback_info info) {
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
   
   // Copy the global module data pointer to the async instance data
   utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&(async_data->module_data))));

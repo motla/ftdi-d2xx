@@ -89,16 +89,16 @@ napi_value openDevice(napi_env env, napi_callback_info info) {
   size_t argc = NB_ARGS; // size of the argv buffer
   napi_value argv[NB_ARGS];
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-  if(utils_check(argc < NB_ARGS, "Missing argument", "missarg")) return NULL;
+  if(utils_check(argc < NB_ARGS, "Missing argument", ERR_MISSARG)) return NULL;
 
   // Check that the serial number argument is a string
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_string, "FTDI device serial number must be a string", "wrongarg")) return NULL;
+  if(utils_check(type != napi_string, "FTDI device serial number must be a string", ERR_WRONGARG)) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
 
   // Copy the global module data pointer to the async instance data
   utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&(async_data->module_data))));

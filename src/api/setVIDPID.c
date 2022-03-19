@@ -76,18 +76,18 @@ napi_value setVIDPID(napi_env env, napi_callback_info info) {
   size_t argc = NB_ARGS; // size of the argv buffer
   napi_value argv[NB_ARGS];
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-  if(utils_check(argc < NB_ARGS, "Missing argument", "missarg")) return NULL;
+  if(utils_check(argc < NB_ARGS, "Missing argument", ERR_MISSARG)) return NULL;
 
   // Check that the VID/PID arguments are numbers
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_number, "Vendor ID must be a number", "wrongarg")) return NULL;
+  if(utils_check(type != napi_number, "Vendor ID must be a number", ERR_WRONGARG)) return NULL;
   utils_check(napi_typeof(env, argv[1], &type));
-  if(utils_check(type != napi_number, "Product ID must be a number", "wrongarg")) return NULL;
+  if(utils_check(type != napi_number, "Product ID must be a number", ERR_WRONGARG)) return NULL;
 
   // Allocate memory for async instance data structure
   async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
+  if(utils_check(async_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
 
   // Convert JavaScript numbers to C values
   utils_check(napi_get_value_uint32(env, argv[0], &async_data->vid));

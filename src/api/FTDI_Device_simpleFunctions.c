@@ -14,7 +14,7 @@ static napi_value device_simpleFunctions(napi_env env, napi_callback_info info, 
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check the device is open if its handle is still there
-  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", ERR_DEADOBJ)) return NULL;
 
   // Update FTDI device
   switch(type) {
