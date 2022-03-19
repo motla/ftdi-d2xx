@@ -128,14 +128,12 @@ declare class FTDI_Device {
    */
   setFlowControl(flow_control: number, xon: number, xoff: number): void;
 
-  /**
-   * Puts the device in a mode other than the default UART or FIFO mode.
-   * 
-   * @param {number} mask 
+  /** Enables different chip modes (puts the device in a mode other than the default UART or FIFO mode).
+   * @param mask Required value for bit mode mask
    * Sets up which bits are inputs and which are outputs. 
    * A bit value of 0 sets the corresponding pin to an input, a bit value of 1 sets the corresponding pin to an output. 
    * In the case of CBUS Bit Bang, the upper nibble of this value controls which pins are inputs and outputs, while the lower nibble controls which of the outputs are high and low.
-   * @param {number} bit_mode
+   * @param bit_mode Mode value. Can be one of the following:
    * For FT232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
    * For FT2232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO.
    * For FT4232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG.

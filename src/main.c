@@ -63,14 +63,14 @@ static napi_value init_module(napi_env env, napi_value exports) {
     { "FT_FLOW_XON_XOFF", NULL, NULL, NULL, NULL, constants.flow_xon_xoff, napi_default, NULL },
     { "FT_PURGE_RX", NULL, NULL, NULL, NULL, constants.purge_rx, napi_default, NULL },
     { "FT_PURGE_TX", NULL, NULL, NULL, NULL, constants.purge_tx, napi_default, NULL },
-    {"FT_BITMODE_RESET", NULL, NULL, NULL, NULL, constants.bit_mode_reset, napi_default, NULL},
-    {"FT_BITMODE_ASYNC_BITBANG", NULL, NULL, NULL, NULL, constants.bit_mode_async_bitbang, napi_default, NULL},
-    {"FT_BITMODE_MPSSE", NULL, NULL, NULL, NULL, constants.bit_mode_mpsse, napi_default, NULL},
-    {"FT_BITMODE_SYNC_BITBANG", NULL, NULL, NULL, NULL, constants.bit_mode_sync_bitbang, napi_default, NULL},
-    {"FT_BITMODE_MCU_HOST", NULL, NULL, NULL, NULL, constants.bit_mode_mcu_host, napi_default, NULL},
-    {"FT_BITMODE_FAST_SERIAL", NULL, NULL, NULL, NULL, constants.bit_mode_fast_serial, napi_default, NULL},
-    {"FT_BITMODE_CBUS_BITBANG", NULL, NULL, NULL, NULL, constants.bit_mode_cbus_bitbang, napi_default, NULL},
-    {"FT_BITMODE_SYNC_FIFO", NULL, NULL, NULL, NULL, constants.bit_mode_sync_fifo, napi_default, NULL},
+    { "FT_BITMODE_RESET", NULL, NULL, NULL, NULL, constants.bit_mode_reset, napi_default, NULL },
+    { "FT_BITMODE_ASYNC_BITBANG", NULL, NULL, NULL, NULL, constants.bit_mode_async_bitbang, napi_default, NULL },
+    { "FT_BITMODE_MPSSE", NULL, NULL, NULL, NULL, constants.bit_mode_mpsse, napi_default, NULL },
+    { "FT_BITMODE_SYNC_BITBANG", NULL, NULL, NULL, NULL, constants.bit_mode_sync_bitbang, napi_default, NULL },
+    { "FT_BITMODE_MCU_HOST", NULL, NULL, NULL, NULL, constants.bit_mode_mcu_host, napi_default, NULL },
+    { "FT_BITMODE_FAST_SERIAL", NULL, NULL, NULL, NULL, constants.bit_mode_fast_serial, napi_default, NULL },
+    { "FT_BITMODE_CBUS_BITBANG", NULL, NULL, NULL, NULL, constants.bit_mode_cbus_bitbang, napi_default, NULL },
+    { "FT_BITMODE_SYNC_FIFO", NULL, NULL, NULL, NULL, constants.bit_mode_sync_fifo, napi_default, NULL },
 
     // Symbol.toStringTag
     { NULL, symbol_to_string_tag, NULL, NULL, NULL, tag_name, napi_enumerable, NULL }
