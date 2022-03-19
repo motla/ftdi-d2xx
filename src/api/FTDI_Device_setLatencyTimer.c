@@ -1,11 +1,11 @@
-#include "api/FTDI_Device_setTimeouts.h"
+#include "api/FTDI_Device_setLatencyTimer.h"
 #include "api/FTDI_Device.h"
 #include "ftd2xx.h"
 #include "utils.h"
 
-napi_value device_setTimeouts(napi_env env, napi_callback_info info) {
+napi_value device_setLatencyTimer(napi_env env, napi_callback_info info) {
   // Get JavaScript `this` corresponding to this instance of the class and `argc`/`argv` passed to the function
-  #define NB_ARGS 2 // number of expected arguments
+  #define NB_ARGS 1 // number of expected arguments
   size_t argc = NB_ARGS; // size of the argv buffer
   napi_value this_arg, argv[NB_ARGS];
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
@@ -19,12 +19,12 @@ napi_value device_setTimeouts(napi_env env, napi_callback_info info) {
   if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
 
   // Check arguments, and convert JavaScript values to C values
-  uint32_t read_timeout, write_timeout;
-  if(utils_check(napi_get_value_uint32(env, argv[0], &read_timeout), "Read timeout must be a number", "wrongarg")) return NULL;
-  if(utils_check(napi_get_value_uint32(env, argv[1], &write_timeout), "Write timeout must be a number", "wrongarg")) return NULL;
+  uint32_t timer;
+  if(utils_check(napi_get_value_uint32(env, argv[0], &timer), "Latency timer value must be a number", "wrongarg")) return NULL;
+  if(utils_check((timer < 2 || timer > 255), "Latency timer value must be in the range 2-255", "wrongarg")) return NULL;
 
   // Update FTDI device
-  utils_check(FT_SetTimeouts(instance_data->ftHandle, (ULONG)read_timeout, (ULONG)write_timeout));
+  utils_check(FT_SetLatencyTimer(instance_data->ftHandle, (UCHAR)timer));
 
   return NULL;
 }

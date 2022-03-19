@@ -188,7 +188,7 @@ napi_value device_get_bit_mode(napi_env env, napi_callback_info info) {
   // Check the device is open if its handle is still there
   if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
 
-  // Get bit mode from FTDI
+  // Get info from FTDI
   UCHAR BitMode;
   if(utils_check(FT_GetBitMode(instance_data->ftHandle, &BitMode))) return NULL;
 
@@ -196,4 +196,27 @@ napi_value device_get_bit_mode(napi_env env, napi_callback_info info) {
   napi_value bit_mode;
   utils_check(napi_create_uint32(env, BitMode, &bit_mode));
   return bit_mode;
+}
+
+
+napi_value device_get_latency_timer(napi_env env, napi_callback_info info) {
+  // Get JavaScript `this` corresponding to this instance of the class
+  napi_value this_arg;
+  utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
+
+  // Get the class instance data containing FTDI device handle
+  device_instance_data_t* instance_data;
+  utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
+
+  // Check the device is open if its handle is still there
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
+
+  // Get info from FTDI
+  UCHAR LatencyTimer;
+  if(utils_check(FT_GetBitMode(instance_data->ftHandle, &LatencyTimer))) return NULL;
+
+  // Convert values to JavaScript
+  napi_value latency_timer;
+  utils_check(napi_create_uint32(env, LatencyTimer, &latency_timer));
+  return latency_timer;
 }

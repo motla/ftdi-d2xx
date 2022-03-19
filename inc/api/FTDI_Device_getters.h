@@ -9,5 +9,6 @@ napi_value device_get_modem_status(napi_env env, napi_callback_info info);
 napi_value device_get_driver_version(napi_env env, napi_callback_info info);
 napi_value device_get_status(napi_env env, napi_callback_info info);
 napi_value device_get_bit_mode(napi_env env, napi_callback_info info);
+napi_value device_get_latency_timer(napi_env env, napi_callback_info info);
 
 #endif

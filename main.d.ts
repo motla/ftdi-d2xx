@@ -80,7 +80,15 @@ declare class FTDI_Device {
   /** Getter to the device driver version */
   get driver_version(): string;
 
-  /** Gets the instantaneous value of the data bus
+  /** Getter to the current value of the latency timer (supported devices only)
+   * 
+   * In the FT8U232AM and FT8U245AM devices, the receive buffer timeout that is used to flush remaining
+   * data from the receive buffer was fixed at 16 ms. In all other FTDI devices, this timeout is programmable
+   * and can be set at 1 ms intervals between 2ms and 255 ms. This allows the device to be better optimized
+   * for protocols requiring faster response times from short data packets. */
+   get latency_timer(): number;
+
+  /** Getter to the instantaneous value of the data bus
    * 
    * For a description of available bit modes for the FT232R, see the application note "Bit Bang Modes for the
    * FT232R and FT245R".
@@ -122,7 +130,7 @@ declare class FTDI_Device {
 
   /** Sets the baud rate for the device
    * @param baud_rate The baud rate to set to the device (bits per second)
-  */
+   */
   setBaudRate(baud_rate: number): void;
 
   /** Sets the data characteristics for the device
@@ -145,8 +153,13 @@ declare class FTDI_Device {
    */
   setFlowControl(flow_control: number, xon: number, xoff: number): void;
 
+  /** Sets the latency timer value (supported devices only)
+   * @param timer Latency timer value, in milliseconds. Valid range is 2 to 255.
+   */
+  setLatencyTimer(timer: number): void;
+
   /** Enables different chip modes (puts the device in a mode other than the default UART or FIFO mode).
-   * @param mask Required value for bit mode mask
+   * @param mask Bit mode mask
    * Sets up which bits are inputs and which are outputs. 
    * A bit value of 0 sets the corresponding pin to an input, a bit value of 1 sets the corresponding pin to an output. 
    * In the case of CBUS Bit Bang, the upper nibble of this value controls which pins are inputs and outputs, while the lower nibble controls which of the outputs are high and low.
