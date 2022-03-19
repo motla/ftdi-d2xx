@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-#include "api/FTDI_Device_getters.h"
 #include "api/FTDI_Device.h"
 #include "ftd2xx.h"
 #include "utils.h"

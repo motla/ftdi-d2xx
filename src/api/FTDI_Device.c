@@ -2,21 +2,6 @@
 #include <string.h>
 
 #include "api/FTDI_Device.h"
-#include "api/FTDI_Device_close.h"
-#include "api/FTDI_Device_eraseEE.h"
-#include "api/FTDI_Device_getters.h"
-#include "api/FTDI_Device_purge.h"
-#include "api/FTDI_Device_read.h"
-#include "api/FTDI_Device_readEE.h"
-#include "api/FTDI_Device_setBaudRate.h"
-#include "api/FTDI_Device_setBitMode.h"
-#include "api/FTDI_Device_setDataCharacteristics.h"
-#include "api/FTDI_Device_setFlowControl.h"
-#include "api/FTDI_Device_setLatencyTimer.h"
-#include "api/FTDI_Device_setTimeouts.h"
-#include "api/FTDI_Device_simpleFunctions.h"
-#include "api/FTDI_Device_write.h"
-#include "api/FTDI_Device_writeEE.h"
 #include "utils.h"
 
 

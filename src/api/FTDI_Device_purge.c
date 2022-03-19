@@ -1,4 +1,3 @@
-#include "api/FTDI_Device_purge.h"
 #include "api/FTDI_Device.h"
 #include "ftd2xx.h"
 #include "utils.h"
