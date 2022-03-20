@@ -15,7 +15,9 @@ typedef struct {
   module_data_t* module_data;
 
   // Data passed to execute_callback
-  char serial_number[128];
+  char serial_number[128]; // 16 bytes would have been sufficient
+  uint32_t usb_location;
+  char description[128]; // 64 bytes would have been sufficient
 
   // Data passed to complete_callback
   FT_STATUS ftStatus;
@@ -31,7 +33,14 @@ static void execute_callback(napi_env env, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
   // Open FTDI device
-  async_data->ftStatus = FT_OpenEx(async_data->serial_number, FT_OPEN_BY_SERIAL_NUMBER, &(async_data->ftHandle));
+  if(async_data->serial_number[0]) {
+    async_data->ftStatus = FT_OpenEx(async_data->serial_number, FT_OPEN_BY_SERIAL_NUMBER, &(async_data->ftHandle));
+  } else if(async_data->usb_location) {
+    //TODO check default value on unsupported Linux
+    async_data->ftStatus = FT_OpenEx((PVOID)(size_t)async_data->usb_location, FT_OPEN_BY_LOCATION, &(async_data->ftHandle));
+  } else if(async_data->description[0]) {
+    async_data->ftStatus = FT_OpenEx(async_data->description, FT_OPEN_BY_DESCRIPTION, &(async_data->ftHandle));
+  } else async_data->ftStatus = FT_INVALID_PARAMETER;
 }
 
 
@@ -91,20 +100,53 @@ napi_value openDevice(napi_env env, napi_callback_info info) {
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
   if(utils_check(argc < NB_ARGS, "Missing argument", ERR_MISSARG)) return NULL;
 
-  // Check that the serial number argument is a string
+  // Check that the argument is a string or an object
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_string, "FTDI device serial number must be a string", ERR_WRONGARG)) return NULL;
+  if(utils_check((type != napi_string || type != napi_object), "openDevice argument must be a serial number (string) or an object containing a device identifier", ERR_WRONGARG)) return NULL;
 
-  // Allocate memory for async instance data structure
-  async_data_t* async_data = malloc(sizeof(async_data_t));
+  // If the argument is an object, check that it has valid properties to identify the device
+  size_t arg_length;
+  uint32_t usb_location = 0;
+  napi_value arg_key, serial_number = NULL, usb_loc_id = NULL, description = NULL;
+  napi_valuetype arg_type;
+  if(type == napi_object) {
+    // Check the serial_number argument
+    utils_check(napi_create_string_utf8(env, "serial_number", NAPI_AUTO_LENGTH, &arg_key));
+    utils_check(napi_get_property(env, argv[0], arg_key, &serial_number));
+    utils_check(napi_typeof(env, serial_number, &arg_type));
+    arg_length = 0;
+    if(arg_type == napi_string) utils_check(napi_get_value_string_utf8(env, serial_number, NULL, 0, &arg_length));
+    if(!arg_length) {
+      serial_number = NULL;
+      // Check the usb_loc_id argument
+      utils_check(napi_create_string_utf8(env, "usb_loc_id", NAPI_AUTO_LENGTH, &arg_key));
+      utils_check(napi_get_property(env, argv[0], arg_key, &usb_loc_id));
+      utils_check(napi_typeof(env, usb_loc_id, &arg_type));
+      if(arg_type == napi_number) utils_check(napi_get_value_uint32(env, usb_loc_id, &usb_location));
+      if(!usb_location) {
+        // Check the description argument
+        utils_check(napi_create_string_utf8(env, "description", NAPI_AUTO_LENGTH, &arg_key));
+        utils_check(napi_get_property(env, argv[0], arg_key, &description));
+        utils_check(napi_typeof(env, description, &arg_type));
+        arg_length = 0;
+        if(arg_type == napi_string) utils_check(napi_get_value_string_utf8(env, description, NULL, 0, &arg_length));
+        if(utils_check(!arg_length, "openDevice argument object must contain either serial_number, usb_loc_id or description properties.", ERR_WRONGARG)) return NULL;
+      }
+    }
+  } else if(type == napi_string) serial_number = argv[0]; // in case argv[0] is a string representing the device serial number
+
+  // Allocate memory for async instance data structure, and initialize it with zeros
+  async_data_t* async_data = calloc(1, sizeof(async_data_t));
   if(utils_check(async_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
 
   // Copy the global module data pointer to the async instance data
   utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&(async_data->module_data))));
 
   // Get the device serial number from argument and copy it to the async instance data
-  utils_check(napi_get_value_string_utf8(env, argv[0], async_data->serial_number, sizeof(async_data->serial_number), NULL));
+  if(serial_number) utils_check(napi_get_value_string_utf8(env, serial_number, async_data->serial_number, sizeof(async_data->serial_number), NULL));
+  else if(usb_location) async_data->usb_location = usb_location;
+  else if(description) utils_check(napi_get_value_string_utf8(env, description, async_data->description, sizeof(async_data->description), NULL));
 
   // Create a deferred `Promise` which we will resolve at the completion of the work
   napi_value promise;
