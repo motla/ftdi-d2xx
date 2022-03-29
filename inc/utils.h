@@ -24,6 +24,7 @@ bool utils_test_throw(int assertion, const char* assertion_str, napi_env env, co
 #define ERR_DEADOBJ "deadobj"
 #define ERR_MALLOC "malloc"
 #define ERR_USBLOST "usblost"
+#define ERR_UNEXPECTED "unexpected"
 
 // Convert napi_status to C string
 const char* utils_napi_status_to_string(napi_status status);
