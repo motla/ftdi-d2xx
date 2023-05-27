@@ -1,7 +1,6 @@
 name: Build Release for each available platform
 
 on:
-  workflow_dispatch:
   push:
     paths:
       - 'CMakeLists.txt'
@@ -9,6 +8,7 @@ on:
       - '**.h'
       - '**.a'
       - '**.lib'
+  workflow_dispatch:
 
 jobs:
   build-release:
