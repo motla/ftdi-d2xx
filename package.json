@@ -33,9 +33,9 @@
     "typedoc": "typedoc"
   },
   "devDependencies": {
-    "cmake-js": "^6.3.0",
-    "typedoc": "^0.22.11",
-    "typedoc-github-wiki-theme": "^1.0.0",
-    "typedoc-plugin-markdown": "^3.11.12"
+    "cmake-js": "^7.2.1",
+    "typedoc": "^0.24.7",
+    "typedoc-github-wiki-theme": "^1.1.0",
+    "typedoc-plugin-markdown": "^3.15.3"
   }
 }
