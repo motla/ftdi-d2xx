@@ -3,6 +3,7 @@
   "typedocOptions": {
     "entryPoints": ["main.d.ts"],
     "out": "docs",
+    "plugin": ["typedoc-plugin-markdown", "typedoc-github-wiki-theme"],
     "publicPath": "./",
     "theme": "github-wiki",
     "readme": "none",
