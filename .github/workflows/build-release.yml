@@ -22,15 +22,15 @@ jobs:
     steps:
     
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@latest
     
     - name: Setup latest CMake and Ninja
       uses: lukka/get-cmake@latest
     
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@latest
       with:
-        node-version: 16.x
+        node-version: latest
     
     - name: Install NPM dependencies
       run: npm install
@@ -39,7 +39,7 @@ jobs:
       run: npm run cmake:rebuild-release
 
     - name: Upload .node artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@latest
       with:
         name: Node files in the build folder
         path: build/Release/*.node
