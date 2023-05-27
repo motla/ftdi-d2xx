@@ -1,7 +1,7 @@
 name: Build Release for each available platform
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   push:
     paths:
       - 'CMakeLists.txt'
