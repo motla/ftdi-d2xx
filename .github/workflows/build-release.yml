@@ -39,7 +39,7 @@ jobs:
       run: npm run cmake:rebuild-release
 
     - name: Upload .node artifact
-      uses: actions/upload-artifact@latest
+      uses: actions/upload-artifact@v3
       with:
         name: Node files in the build folder
         path: build/Release/*.node
