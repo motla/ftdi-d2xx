@@ -3,11 +3,12 @@ name: Build Release for each available platform
 on:
   push:
     paths:
-      - '**.js'
+      - 'CMakeLists.txt'
       - '**.c'
       - '**.h'
       - '**.a'
       - '**.lib'
+  workflow_dispatch:
 
 jobs:
   build-release:

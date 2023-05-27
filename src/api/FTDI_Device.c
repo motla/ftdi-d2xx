@@ -2,19 +2,6 @@
 #include <string.h>
 
 #include "api/FTDI_Device.h"
-#include "api/FTDI_Device_close.h"
-#include "api/FTDI_Device_getters.h"
-#include "api/FTDI_Device_purge.h"
-#include "api/FTDI_Device_read.h"
-#include "api/FTDI_Device_readEE.h"
-#include "api/FTDI_Device_writeEE.h"
-#include "api/FTDI_Device_eraseEE.h"
-#include "api/FTDI_Device_setBaudRate.h"
-#include "api/FTDI_Device_simpleFunctions.h"
-#include "api/FTDI_Device_setDataCharacteristics.h"
-#include "api/FTDI_Device_setFlowControl.h"
-#include "api/FTDI_Device_setTimeouts.h"
-#include "api/FTDI_Device_write.h"
 #include "utils.h"
 
 
@@ -52,7 +39,7 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
 
   // Create and wrap C instance data containing the FTDI device handle that will be set by calling `device_set_instance_handler()`
   device_instance_data_t* instance_data = malloc(sizeof(device_instance_data_t)); // allocate memory for instance data
-  if(utils_check(instance_data == NULL, "Malloc failed", "malloc")) return NULL;
+  if(utils_check(instance_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
   memset(instance_data, 0, sizeof(device_instance_data_t)); // initialize instance data to zeros
   utils_check(napi_wrap(env, this_arg, instance_data, finalize_cb, NULL, NULL));
 
@@ -71,6 +58,8 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "status", NULL, NULL, device_get_status, NULL, NULL, napi_enumerable, NULL },
     { "modem_status", NULL, NULL, device_get_modem_status, NULL, NULL, napi_enumerable, NULL },
     { "driver_version", NULL, NULL, device_get_driver_version, NULL, NULL, napi_enumerable, NULL },
+    { "latency_timer", NULL, NULL, device_get_latency_timer, NULL, NULL, napi_enumerable, NULL },
+    { "bit_mode", NULL, NULL, device_get_bit_mode, NULL, NULL, napi_enumerable, NULL },
 
     // Functions
     { "close", NULL, device_close, NULL, NULL, NULL, napi_enumerable, NULL },
@@ -91,6 +80,9 @@ void device_initialize_class(napi_env env, napi_value* result) {
     { "readEE", NULL, device_readEE, NULL, NULL, NULL, napi_enumerable, NULL },
     { "writeEE", NULL, device_writeEE, NULL, NULL, NULL, napi_enumerable, NULL },
     { "eraseEE", NULL, device_eraseEE, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setLatencyTimer", NULL, device_setLatencyTimer, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setBitMode", NULL, device_setBitMode, NULL, NULL, NULL, napi_enumerable, NULL },
+    { "setUSBParameters", NULL, device_setUSBParameters, NULL, NULL, NULL, napi_enumerable, NULL },
   };
   size_t nb_props = sizeof(props) / sizeof(napi_property_descriptor);
 

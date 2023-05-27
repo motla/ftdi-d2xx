@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-#include "api/FTDI_Device_getters.h"
 #include "api/FTDI_Device.h"
 #include "ftd2xx.h"
 #include "utils.h"
@@ -33,7 +32,7 @@ napi_value device_get_info(napi_env env, napi_callback_info info) {
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check the device is open if its handle is still there
-  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", ERR_DEADOBJ)) return NULL;
 
   // Get info from FTDI
   FT_DEVICE ftDevice;
@@ -76,7 +75,7 @@ napi_value device_get_modem_status(napi_env env, napi_callback_info info) {
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check the device is open if its handle is still there
-  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", ERR_DEADOBJ)) return NULL;
 
   // Get info from FTDI
   ULONG ModemStatus;
@@ -116,7 +115,7 @@ napi_value device_get_driver_version(napi_env env, napi_callback_info info) {
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check the device is open if its handle is still there
-  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", ERR_DEADOBJ)) return NULL;
 
   // Get info from FTDI
   DWORD DriverVersion;
@@ -141,7 +140,7 @@ napi_value device_get_status(napi_env env, napi_callback_info info) {
   utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
 
   // Check the device is open if its handle is still there
-  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", "deadobj")) return NULL;
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", ERR_DEADOBJ)) return NULL;
 
   // Get info from FTDI
   DWORD RxBytes, TxBytes, EventStatus;
@@ -173,4 +172,50 @@ napi_value device_get_status(napi_env env, napi_callback_info info) {
   utils_check(napi_create_object(env, &object));
   utils_check(napi_define_properties(env, object, nb_props, props));
   return object;
+}
+
+
+napi_value device_get_bit_mode(napi_env env, napi_callback_info info) {
+  // Get JavaScript `this` corresponding to this instance of the class
+  napi_value this_arg;
+  utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
+
+  // Get the class instance data containing FTDI device handle
+  device_instance_data_t* instance_data;
+  utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
+
+  // Check the device is open if its handle is still there
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", ERR_DEADOBJ)) return NULL;
+
+  // Get info from FTDI
+  UCHAR BitMode;
+  if(utils_check(FT_GetBitMode(instance_data->ftHandle, &BitMode))) return NULL;
+
+  // Convert values to JavaScript
+  napi_value bit_mode;
+  utils_check(napi_create_uint32(env, BitMode, &bit_mode));
+  return bit_mode;
+}
+
+
+napi_value device_get_latency_timer(napi_env env, napi_callback_info info) {
+  // Get JavaScript `this` corresponding to this instance of the class
+  napi_value this_arg;
+  utils_check(napi_get_cb_info(env, info, NULL, NULL, &this_arg, NULL));
+
+  // Get the class instance data containing FTDI device handle
+  device_instance_data_t* instance_data;
+  utils_check(napi_unwrap(env, this_arg, (void**)(&instance_data)));
+
+  // Check the device is open if its handle is still there
+  if(utils_check(instance_data->ftHandle == NULL, "Dead device object", ERR_DEADOBJ)) return NULL;
+
+  // Get info from FTDI
+  UCHAR LatencyTimer;
+  if(utils_check(FT_GetBitMode(instance_data->ftHandle, &LatencyTimer))) return NULL;
+
+  // Convert values to JavaScript
+  napi_value latency_timer;
+  utils_check(napi_create_uint32(env, LatencyTimer, &latency_timer));
+  return latency_timer;
 }

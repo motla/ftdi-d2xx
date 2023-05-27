@@ -18,6 +18,14 @@ bool utils_test_throw(int assertion, const char* assertion_str, napi_env env, co
 // To force displaying the explicit FT_STATUS code, write FT_|ftStatus
 #define FT_ 0
 
+// Predefined error codes
+#define ERR_MISSARG "missarg"
+#define ERR_WRONGARG "wrongarg"
+#define ERR_DEADOBJ "deadobj"
+#define ERR_MALLOC "malloc"
+#define ERR_USBLOST "usblost"
+#define ERR_UNEXPECTED "unexpected"
+
 // Convert napi_status to C string
 const char* utils_napi_status_to_string(napi_status status);
 

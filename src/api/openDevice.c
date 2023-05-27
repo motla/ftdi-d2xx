@@ -15,7 +15,10 @@ typedef struct {
   module_data_t* module_data;
 
   // Data passed to execute_callback
-  char serial_number[128];
+  DWORD open_by_mode;
+  char serial_number[128]; // 16 bytes would have been sufficient
+  uint32_t usb_location;
+  char description[128]; // 64 bytes would have been sufficient
 
   // Data passed to complete_callback
   FT_STATUS ftStatus;
@@ -31,7 +34,20 @@ static void execute_callback(napi_env env, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
   // Open FTDI device
-  async_data->ftStatus = FT_OpenEx(async_data->serial_number, FT_OPEN_BY_SERIAL_NUMBER, &(async_data->ftHandle));
+  switch(async_data->open_by_mode) {
+    case FT_OPEN_BY_SERIAL_NUMBER:
+      async_data->ftStatus = FT_OpenEx(async_data->serial_number, FT_OPEN_BY_SERIAL_NUMBER, &async_data->ftHandle);
+      break;
+    case FT_OPEN_BY_LOCATION:
+      async_data->ftStatus = FT_OpenEx((PVOID)(size_t)async_data->usb_location, FT_OPEN_BY_LOCATION, &async_data->ftHandle);
+      break;
+    case FT_OPEN_BY_DESCRIPTION:
+      async_data->ftStatus = FT_OpenEx(async_data->description, FT_OPEN_BY_DESCRIPTION, &async_data->ftHandle);
+      break;
+    default:
+      async_data->ftStatus = FT_NOT_SUPPORTED;
+      break;
+  }
 }
 
 
@@ -43,7 +59,12 @@ static void complete_callback(napi_env env, napi_status status, void* data) {
   async_data_t* async_data = (async_data_t*) data;
 
   // Manage FTDI error if any. Otherwise, process the return value
-  if(!utils_check(async_data->ftStatus == FT_DEVICE_NOT_FOUND, "FTDI device not found with this serial number", "FT_DEVICE_NOT_FOUND")
+  if(!utils_check(async_data->ftStatus == FT_DEVICE_NOT_FOUND,
+      (async_data->open_by_mode == FT_OPEN_BY_SERIAL_NUMBER) ?  "FTDI device not found with this serial number" :
+      ((async_data->open_by_mode == FT_OPEN_BY_LOCATION) ?      "FTDI device not found with this location" :
+      ((async_data->open_by_mode == FT_OPEN_BY_DESCRIPTION) ?   "FTDI device not found with this description" :
+                                                                "FTDI device not found")),
+      "FT_DEVICE_NOT_FOUND")
     && !utils_check(async_data->ftStatus == FT_DEVICE_NOT_OPENED, "FTDI device could not be opened. It is maybe already open", "FT_DEVICE_NOT_OPENED")
     && !utils_check(FT_|async_data->ftStatus)) { // manage other errors
 
@@ -89,22 +110,65 @@ napi_value openDevice(napi_env env, napi_callback_info info) {
   size_t argc = NB_ARGS; // size of the argv buffer
   napi_value argv[NB_ARGS];
   utils_check(napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-  if(utils_check(argc < NB_ARGS, "Missing argument", "missarg")) return NULL;
+  if(utils_check(argc < NB_ARGS, "Missing argument", ERR_MISSARG)) return NULL;
 
-  // Check that the serial number argument is a string
+  // Check that the argument is a string or an object
   napi_valuetype type;
   utils_check(napi_typeof(env, argv[0], &type));
-  if(utils_check(type != napi_string, "FTDI device serial number must be a string", "wrongarg")) return NULL;
+  if(utils_check((type != napi_string && type != napi_object), "openDevice argument must be a serial number (string) or an object containing a device identifier", ERR_WRONGARG)) return NULL;
 
-  // Allocate memory for async instance data structure
-  async_data_t* async_data = malloc(sizeof(async_data_t));
-  if(utils_check(async_data == NULL, "Malloc failed", "malloc")) return NULL;
+  // If the argument is an object, check that it has valid properties to identify the device
+  size_t arg_length;
+  uint32_t usb_location = 0;
+  napi_value arg_key, serial_number = NULL, usb_loc_id = NULL, description = NULL;
+  napi_valuetype arg_type;
+  if(type == napi_object) {
+    // Check the usb_loc_id argument
+    utils_check(napi_create_string_utf8(env, "usb_loc_id", NAPI_AUTO_LENGTH, &arg_key));
+    utils_check(napi_get_property(env, argv[0], arg_key, &usb_loc_id));
+    utils_check(napi_typeof(env, usb_loc_id, &arg_type));
+    if(arg_type == napi_number) utils_check(napi_get_value_uint32(env, usb_loc_id, &usb_location));
+    if(!usb_location) {
+      // Check the serial_number argument
+      utils_check(napi_create_string_utf8(env, "serial_number", NAPI_AUTO_LENGTH, &arg_key));
+      utils_check(napi_get_property(env, argv[0], arg_key, &serial_number));
+      utils_check(napi_typeof(env, serial_number, &arg_type));
+      arg_length = 0;
+      if(arg_type == napi_string) utils_check(napi_get_value_string_utf8(env, serial_number, NULL, 0, &arg_length));
+      if(!arg_length) {
+        serial_number = NULL;
+        // Check the description argument
+        utils_check(napi_create_string_utf8(env, "description", NAPI_AUTO_LENGTH, &arg_key));
+        utils_check(napi_get_property(env, argv[0], arg_key, &description));
+        utils_check(napi_typeof(env, description, &arg_type));
+        arg_length = 0;
+        if(arg_type == napi_string) utils_check(napi_get_value_string_utf8(env, description, NULL, 0, &arg_length));
+        if(utils_check(!arg_length, "openDevice argument object must contain either a `serial_number` (string), a `usb_loc_id` (number) or a `description` (string) property.", ERR_WRONGARG)) return NULL;
+      }
+    }
+  } else if(type == napi_string) serial_number = argv[0]; // in case argv[0] is a string representing the device serial number
+
+  // Allocate memory for async instance data structure, and initialize it with zeros
+  async_data_t* async_data = calloc(1, sizeof(async_data_t));
+  if(utils_check(async_data == NULL, "Malloc failed", ERR_MALLOC)) return NULL;
 
   // Copy the global module data pointer to the async instance data
   utils_check(napi_get_cb_info(env, info, NULL, NULL, NULL, (void**)(&(async_data->module_data))));
 
   // Get the device serial number from argument and copy it to the async instance data
-  utils_check(napi_get_value_string_utf8(env, argv[0], async_data->serial_number, sizeof(async_data->serial_number), NULL));
+  if(usb_location) {
+    async_data->usb_location = usb_location;
+    async_data->open_by_mode = FT_OPEN_BY_LOCATION;
+  }
+  else if(serial_number) {
+    utils_check(napi_get_value_string_utf8(env, serial_number, async_data->serial_number, sizeof(async_data->serial_number), NULL));
+    async_data->open_by_mode = FT_OPEN_BY_SERIAL_NUMBER;
+  }
+  else if(description) {
+    utils_check(napi_get_value_string_utf8(env, description, async_data->description, sizeof(async_data->description), NULL));
+    async_data->open_by_mode = FT_OPEN_BY_DESCRIPTION;
+  }
+  else utils_check(true, "Unexpected error", ERR_UNEXPECTED);
 
   // Create a deferred `Promise` which we will resolve at the completion of the work
   napi_value promise;

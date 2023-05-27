@@ -1,3 +1,9 @@
+## v1.2.0
+- User can now open a device from its Description or USB location, in addition to its Serial Number.
+- Support for `Device.setBitMode` thanks to @ArcherGu
+- Support for `Device.setUSBParameters` and `Device.setLatencyTimer`
+- Developer instructions in the README.md
+
 ## v1.1.2
 - Print the correct arch in error message when arch is not compiled (main.js)
 - Precisions in the README.md file concerning Electron IPC
