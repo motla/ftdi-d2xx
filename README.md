@@ -16,7 +16,7 @@
 ```bash
 npm install ftdi-d2xx
 ```
-###### In the top of your JavaScript file, add:
+###### On the top of your JavaScript file, add:
 ```js
 const FTDI = require('ftdi-d2xx'); // CommonJS syntax (.js files)
 // import FTDI from 'ftdi-d2xx'; // ESM syntax (.mjs files)
@@ -83,14 +83,14 @@ await quick_example();
 ## Note to Electron users
 As you may already know, Electron runs in two processes: a **main process** and a **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/process-model)).
 
-For security reasons, in the newest releases of Electron, you can only access Node.js inside the **main process**. However, you probably want to interact with this API using buttons, or displaying information result to the **renderer process**. It lets you two options:
+For security reasons, in the newest releases of Electron, you can only access Node.js inside the **main process**. However, you probably want to interact with this API using buttons, or to display information in the **renderer process**. It lets you two options:
 
-- Accessing this API only inside a `preload.js` file which has access to Node.js and can also export globals to the **renderer process** (recommended):
+- ***Option 1*** : Accessing this API only inside a `preload.js` file which has access to Node.js and can also export globals to the **renderer process** (recommended):
   - This file shall contain (or require) all your functions calling this FTDI library.
   - This file shall contain a `contextBridge` to expose your functions globally to the renderer process ([more info here](https://www.electronjs.org/docs/latest/api/context-bridge#usage)).
   - This file shall be associated to the `BrowserWindow` of your application using `webPreferences.preload` field ([more info here](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts)).
   - **Important:** information exchanged in the pipe between **main process** and **renderer process** (Electron calls it IPC) is **serialized**. That means data is converted in a JSON-like file format before being passed. [Only these data types](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#supported_types) are supported ([more info here](https://www.electronjs.org/docs/latest/tutorial/ipc#object-serialization)).
-- Disabling the security and allowing Node.js to run in the **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content) - not recommended).
+- ***Option 2*** : Disabling the security and allowing Node.js to run in the **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content) - not recommended).
 
 If you use a compiler for your Electron project and you get errors, make sure to exclude this library from compilation as a native library.
 
@@ -101,6 +101,19 @@ To be added if there is a need for it:
 - [ ] Add `FT_Rescan`, `FT_CyclePort`, `FT_SetResetPipeRetryCount`, `FT_StopInTask`, `FT_RestartInTask`, `FT_SetDeadmanTimeout`. Hopefully with the latest drivers and recent hardware, these functions are not needed anymore.
 - [ ] Add `FT_SetChars` function
 - [ ] Add the other `FT_EE_*` functions
+
+
+## Development
+- [Download and install CMake](https://cmake.org/download/) on your computer
+- Clone this repository, add your modifications if needed
+- Run `npm install` inside the repository to install development dependencies locally (cmake-js and typedoc)
+- Compile the code:
+  - Running `npm run cmake:rebuild-debug` will rebuild the debug version of `ftdi-d2xx.node` for your platform and processor under `build/Debug`
+  - Running `npm run cmake:rebuild-release` will build `ftdi-d2xx.platform.processor.node` under `build/Release`
+  - Running `npm run cmake:clean` will clean the `build` folder
+- Run `npm run node:test` to execute the `/test.js` file, which loads the Debug Build and runs basic initialization code followed by a REPL console to test function calls dynamically
+- Run `npm run typedoc` to regenerate the API documentation
+- Make a pull request to share your work
 
 
 ## Sponsor
