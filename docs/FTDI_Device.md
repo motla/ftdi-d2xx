@@ -8,9 +8,11 @@
 
 ### Accessors
 
+- [bit\_mode](./FTDI_Device.md#bit_mode)
 - [driver\_version](./FTDI_Device.md#driver_version)
 - [info](./FTDI_Device.md#info)
 - [is\_connected](./FTDI_Device.md#is_connected)
+- [latency\_timer](./FTDI_Device.md#latency_timer)
 - [modem\_status](./FTDI_Device.md#modem_status)
 - [status](./FTDI_Device.md#status)
 
@@ -25,13 +27,16 @@
 - [readEE](./FTDI_Device.md#readee)
 - [resetDevice](./FTDI_Device.md#resetdevice)
 - [setBaudRate](./FTDI_Device.md#setbaudrate)
+- [setBitMode](./FTDI_Device.md#setbitmode)
 - [setBreakOff](./FTDI_Device.md#setbreakoff)
 - [setBreakOn](./FTDI_Device.md#setbreakon)
 - [setDataCharacteristics](./FTDI_Device.md#setdatacharacteristics)
 - [setDtr](./FTDI_Device.md#setdtr)
 - [setFlowControl](./FTDI_Device.md#setflowcontrol)
+- [setLatencyTimer](./FTDI_Device.md#setlatencytimer)
 - [setRts](./FTDI_Device.md#setrts)
 - [setTimeouts](./FTDI_Device.md#settimeouts)
+- [setUSBParameters](./FTDI_Device.md#setusbparameters)
 - [write](./FTDI_Device.md#write)
 - [writeEE](./FTDI_Device.md#writeee)
 
@@ -44,6 +49,32 @@
 The device serial number
 
 ## Accessors
+
+### bit\_mode
+
+• `get` **bit_mode**(): `number`
+
+Getter to the instantaneous value of the data bus
+
+For a description of available bit modes for the FT232R, see the application note "Bit Bang Modes for the
+FT232R and FT245R".
+
+For a description of available bit modes for the FT2232, see the application note "Bit Mode Functions for
+the FT2232".
+
+For a description of bit bang modes for the FT232B and FT245B, see the application note
+"FT232B/FT245B Bit Bang Mode".
+
+For a description of bit modes supported by the FT4232H and FT2232H devices, please see the IC data
+sheets.
+
+These application notes are available for download from the FTDI website.
+
+#### Returns
+
+`number`
+
+___
 
 ### driver\_version
 
@@ -87,6 +118,23 @@ Getter to device connection status:
 #### Returns
 
 `boolean`
+
+___
+
+### latency\_timer
+
+• `get` **latency_timer**(): `number`
+
+Getter to the current value of the latency timer (supported devices only)
+
+In the FT8U232AM and FT8U245AM devices, the receive buffer timeout that is used to flush remaining
+data from the receive buffer was fixed at 16 ms. In all other FTDI devices, this timeout is programmable
+and can be set at 1 ms intervals between 2ms and 255 ms. This allows the device to be better optimized
+for protocols requiring faster response times from short data packets.
+
+#### Returns
+
+`number`
 
 ___
 
@@ -140,7 +188,8 @@ Getter to device status
 
 Close the device
 
-IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will throw an error. Device should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
+> **Warning**
+> IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will throw an error. Device should be reopened using the [openDevice](./Home.md#opendevice) function that will generate a new [FTDI_Device](./FTDI_Device.md) object.
 
 #### Returns
 
@@ -272,6 +321,25 @@ Sets the baud rate for the device
 
 ___
 
+### setBitMode
+
+▸ **setBitMode**(`mask`, `bit_mode`): `void`
+
+Enables different chip modes (puts the device in a mode other than the default UART or FIFO mode).
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `mask` | `number` | Bit mode mask Sets up which bits are inputs and which are outputs. A bit value of 0 sets the corresponding pin to an input, a bit value of 1 sets the corresponding pin to an output. In the case of CBUS Bit Bang, the upper nibble of this value controls which pins are inputs and outputs, while the lower nibble controls which of the outputs are high and low. |
+| `bit_mode` | `number` | Mode value. Can be one of the following: For FT232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO. For FT2232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL, FT_BIT_MODE_SYNC_FIFO. For FT4232H devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG. For FT232R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_CBUS_BITBANG. For FT245R devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_SYNC_BITBANG. For FT2232 devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG, FT_BIT_MODE_MPSSE, FT_BIT_MODE_SYNC_BITBANG, FT_BIT_MODE_MCU_HOST, FT_BIT_MODE_FAST_SERIAL. For FT232B and FT245B devices, valid values are FT_BIT_MODE_RESET, FT_BIT_MODE_ASYNC_BITBANG. |
+
+#### Returns
+
+`void`
+
+___
+
 ### setBreakOff
 
 ▸ **setBreakOff**(): `void`
@@ -348,6 +416,24 @@ Sets the flow control for the device
 
 ___
 
+### setLatencyTimer
+
+▸ **setLatencyTimer**(`timer`): `void`
+
+Sets the latency timer value (supported devices only)
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `timer` | `number` | Latency timer value, in milliseconds. Valid range is 2 to 255. |
+
+#### Returns
+
+`void`
+
+___
+
 ### setRts
 
 ▸ **setRts**(): `void`
@@ -372,6 +458,32 @@ Sets the read ans write timeouts for the device
 | :------ | :------ | :------ |
 | `read_timeout` | `number` | Read timeout in milliseconds |
 | `write_timeout` | `number` | Write timeout in milliseconds |
+
+#### Returns
+
+`void`
+
+___
+
+### setUSBParameters
+
+▸ **setUSBParameters**(`in_transfer_size`, `out_transfer_size`): `void`
+
+Sets the USB request transfer size
+
+This function can be used to change the transfer sizes from the default transfer size of 4096 bytes to
+better suit the application requirements. Transfer sizes must be set to a multiple of 64 bytes between 64
+bytes and 64k bytes.
+When FT_SetUSBParameters is called, the change comes into effect immediately and any data that was
+held in the driver at the time of the change is lost.
+Note that, at present, only `in_transfer_size` is supported by the FTDI vendor driver.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `in_transfer_size` | `number` | Transfer size in bits for USB IN request |
+| `out_transfer_size` | `number` | Transfer size in bits for USB OUT request (unsupported yet) |
 
 #### Returns
 

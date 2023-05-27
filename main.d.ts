@@ -1,4 +1,6 @@
 declare class FTDI_DeviceInfo {
+  /** @hidden */ constructor();
+
   /** The device serial number */
   readonly serial_number: string;
   /** The device description */
@@ -20,6 +22,8 @@ declare class FTDI_DeviceInfo {
 }
 
 declare class FTDI_Device {
+  /** @hidden */ constructor();
+  
   /** The device serial number */
   readonly serial_number: string;
   /** Getter to device connection status:
@@ -107,7 +111,8 @@ declare class FTDI_Device {
 
   /** Close the device
    * 
-   * IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will throw an error. Device should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object.
+   * > **Warning**
+   * > IMPORTANT: Device object is considered dead after this function has been called. Any call to a function or getter of this object will throw an error. Device should be reopened using the {@link openDevice} function that will generate a new {@link FTDI_Device} object.
    */
   close(): Promise<void>;
 
@@ -228,11 +233,11 @@ declare class FTDI_Device {
 /** Get the list of FTDI devices connected to the system */
 export function getDeviceInfoList(): Promise<FTDI_DeviceInfo[]>;
 
-/** Try to open a device from its serial number
- * @param serial_number Device serial number
+/** Try to open a device
+ * @param identifier Device serial number (string), or an object containing either its `serial_number` (string), its `usb_loc_id` (number) or its `description` (string) property
  * @returns Device object
  */
-export function openDevice(serial_number: string): Promise<FTDI_Device>;
+export function openDevice(identifier: string | { serial_number?: string, usb_loc_id?: number, description?: string }): Promise<FTDI_Device>;
 
 /** This allows the driver to load only for the specified VID and PID combination.
  * 

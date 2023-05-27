@@ -10,6 +10,14 @@
 ### Variables
 
 - [library\_version](./Home.md#library_version)
+- FT\_BITMODE\_ASYNC\_BITBANG
+- FT\_BITMODE\_CBUS\_BITBANG
+- FT\_BITMODE\_FAST\_SERIAL
+- FT\_BITMODE\_MCU\_HOST
+- FT\_BITMODE\_MPSSE
+- FT\_BITMODE\_RESET
+- FT\_BITMODE\_SYNC\_BITBANG
+- FT\_BITMODE\_SYNC\_FIFO
 - FT\_BITS\_7
 - FT\_BITS\_8
 - FT\_FLOW\_DTR\_DSR
@@ -58,15 +66,15 @@ ___
 
 ### openDevice
 
-▸ **openDevice**(`serial_number`): `Promise`<[`FTDI_Device`](./FTDI_Device.md)\>
+▸ **openDevice**(`identifier`): `Promise`<[`FTDI_Device`](./FTDI_Device.md)\>
 
-Try to open a device from its serial number
+Try to open a device
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `serial_number` | `string` | Device serial number |
+| `identifier` | `string` \| { `description?`: `string` ; `serial_number?`: `string` ; `usb_loc_id?`: `number`  } | Device serial number (string), or an object containing either its `serial_number` (string), its `usb_loc_id` (number) or its `description` (string) property |
 
 #### Returns
 
