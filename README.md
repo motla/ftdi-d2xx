@@ -117,7 +117,7 @@ To be added if there is a need for it:
 
 
 ## Sponsor
-The work for the library wrapper has been sponsored by [ONWI](https://www.onwi.fr/), a small electronics design office and production unit based near Lyon, France.
+The original work for the library wrapper has been sponsored by [ONWI](https://www.onwi.fr/), a small electronics design office and production unit based near Lyon, France.
 
 
 ## Licensing
