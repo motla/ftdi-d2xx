@@ -1,6 +1,6 @@
 {
   "name": "ftdi-d2xx",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Pre-compiled FTDI D2XX drivers for Node.js (Node-API/CMake)",
   "keywords": [
     "ftdi",
