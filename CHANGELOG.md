@@ -1,3 +1,6 @@
+## v1.3.0
+- `device.serial_number` property is now **deprecated** as the device can be open with Description or USB location, in which case the serial number is not retrieved. Use the new property `device.info.serial_number` instead, which is a getter asking the driver for the device serial number.
+
 ## v1.2.0
 - User can now open a device from its Description or USB location, in addition to its Serial Number.
 - Support for `Device.setBitMode` thanks to @ArcherGu

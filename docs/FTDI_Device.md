@@ -2,10 +2,6 @@
 
 ## Table of contents
 
-### Properties
-
-- [serial\_number](./FTDI_Device.md#serial_number)
-
 ### Accessors
 
 - [bit\_mode](./FTDI_Device.md#bit_mode)
@@ -39,14 +35,6 @@
 - [setUSBParameters](./FTDI_Device.md#setusbparameters)
 - [write](./FTDI_Device.md#write)
 - [writeEE](./FTDI_Device.md#writeee)
-
-## Properties
-
-### serial\_number
-
-• `Readonly` **serial\_number**: `string`
-
-The device serial number
 
 ## Accessors
 
@@ -101,7 +89,8 @@ Getter to device information
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `description` | `string` | The device description |
-| `type` | `string` | The device model type (`"FT232R"`, `"FT2232H"`, ...)  NOTE: See `src/utils.c` for the list of possible types |
+| `serial_number` | `string` | The device serial number |
+| `type` | `string` | The device model type (`"FT232R"`, `"FT2232H"`, ...) NOTE: See `src/utils.c` for the list of possible types |
 | `usb_pid` | `number` | The device USB Product ID |
 | `usb_vid` | `number` | The device USB Vendor ID |
 

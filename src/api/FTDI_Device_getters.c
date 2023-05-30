@@ -52,7 +52,7 @@ napi_value device_get_info(napi_env env, napi_callback_info info) {
   // Return JavaScript object containing infos
   napi_value object;
   const napi_property_descriptor props[] = {
-    //{ "serial_number", NULL, NULL, NULL, NULL, serial_number, napi_enumerable, NULL }, // omit S/N as it is already set by Device constructor
+    { "serial_number", NULL, NULL, NULL, NULL, serial_number, napi_enumerable, NULL },
     { "description", NULL, NULL, NULL, NULL, description, napi_enumerable, NULL },
     { "type", NULL, NULL, NULL, NULL, type, napi_enumerable, NULL },
     { "usb_vid", NULL, NULL, NULL, NULL, usb_vid, napi_enumerable, NULL },

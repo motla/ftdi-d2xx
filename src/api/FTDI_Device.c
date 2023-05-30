@@ -29,6 +29,8 @@ static napi_value constructor(napi_env env, napi_callback_info info) {
   utils_check(napi_get_cb_info(env, info, &argc, argv, &this_arg, NULL));
   if(utils_check(argc < NB_ARGS)) return NULL; // check that all expected arguments were passed
 
+  // DEPRECATED BLOCK: IN THE NEXT MAJOR RELEASE, THE CONSTRUCTOR SHOULD TAKE NO ARGUMENT (this block should be deleted)
+  // (because if the device is opened via Description or USB location, the serial_number is unknown, it is retrieved later using device.info.serial_number)
   // Add instance properties
   const napi_property_descriptor props[] = {
     // the first argument passed to the constructor contains the SerialNumber
