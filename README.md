@@ -1,7 +1,7 @@
 # FTDI D2XX Driver for Node.js
 
 ## Features
-- Asynchronous, non-blocking functions (use [`Promises`](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) or [`async/await`](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await))
+- Asynchronous, non-blocking functions (use [`Promises`](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises) or [`async/await`](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises#async_and_await))
 - Pre-compiled for Windows / macOS / Linux
 - Compatible with [Electron](https://www.electronjs.org/) (see [the note](#note-to-electron-users) below)
 - Includes static FTDI Driver vendor libraries
