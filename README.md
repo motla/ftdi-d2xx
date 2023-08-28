@@ -81,6 +81,9 @@ await quick_example();
 
 
 ## Note to Electron users
+
+> :warning: **Currently, Device.read() does not work with Electron v20.3.9+:** See [Issue 7](https://github.com/motla/ftdi-d2xx/issues/7)
+
 As you may already know, Electron runs in two processes: a **main process** and a **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/process-model)).
 
 For security reasons, in the newest releases of Electron, you can only access Node.js inside the **main process**. However, you probably want to interact with this API using buttons, or to display information in the **renderer process**. It lets you two options:
