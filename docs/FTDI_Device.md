@@ -246,6 +246,8 @@ ___
 
 Reads data from the device
 
+> :warning: **Currently, Device.read() does not work with Electron v20.3.9+:** See [Issue 7](https://github.com/motla/ftdi-d2xx/issues/7)
+
 #### Parameters
 
 | Name | Type | Description |
