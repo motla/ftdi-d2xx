@@ -57,8 +57,8 @@ async function quick_example() {
       const response = await device.read(4); // expected response byte length (will return either if this is reached or after an RX timeout)
       console.log(`${response.byteLength} bytes were received:`, response);
 
-      // If TXD and RXD pins are connected together, you should get Uint8Array(4) [1, 2, 3, 4] immediately
-      // If not, you should get Uint8Array(0) [] after 1 second of timeout
+      // If TXD and RXD pins are connected together, you should get Uint8Array(4)[1, 2, 3, 4] immediately
+      // If not, you should get Uint8Array(0)[] after 1 second of timeout
 
       // Close the device (device object must then be recreated using openDevice)
       device.close();
