@@ -12,11 +12,12 @@
 
 
 ## Installation
-###### In your Node.js project folder, run:
+In your Node.js project folder, run:
 ```bash
 npm install ftdi-d2xx
 ```
-###### On the top of your JavaScript file, add:
+
+On the top of your JavaScript file, add:
 ```js
 const FTDI = require('ftdi-d2xx'); // CommonJS syntax (.js files)
 // import FTDI from 'ftdi-d2xx'; // ESM syntax (.mjs files)
@@ -79,8 +80,11 @@ await quick_example();
 - [FTDI D2XX Programmer's Guide](https://ftdichip.com/wp-content/uploads/2020/08/D2XX_Programmers_GuideFT_000071.pdf)
 - [ftdi-d2xx JavaScript implementation API](docs/Home.md)
 
-###### :speech_balloon: NOTE: On Windows, FT_Reload() is implemented under FTDI.setVIDPID().
-###### :speech_balloon: See the included FTDI D2XX driver library versions in the [CHANGELOG.md](CHANGELOG.md) file.
+> [!NOTE]
+> On Windows, FT_Reload() is implemented under FTDI.setVIDPID().
+
+> [!NOTE]
+> See the included FTDI D2XX driver library versions in the [CHANGELOG.md](CHANGELOG.md) file.
 
 
 ## Note to Electron users
@@ -97,7 +101,8 @@ For security reasons, in the newest releases of Electron, you can only access No
   - **Note:** for the above reason, exposing the `FTDI` library object or functions directly to the **renderer process** doesn't work (it would be a bad security practice anyway).
 - ***Option 2*** : Disabling the security and allowing Node.js to run in the **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content) - not recommended).
 
-###### :speech_balloon: If you use a compiler for your Electron project and you get errors, make sure to exclude this library from compilation as a native library.
+> [!IMPORTANT]
+> If you use a compiler for your Electron project and you get errors, make sure to exclude this library from compilation as a native library.
 
 
 ## To do
