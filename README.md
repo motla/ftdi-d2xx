@@ -38,7 +38,7 @@ async function quick_example() {
     if(list.length) {
   
       // Try to open the first device from the list
-      device = await FTDI.openDevice(list[0].serial_number);
+      device = await FTDI.openDevice(list[0].serial_number); // alternatively openDevice({ usb_loc_id: list[0].usb_loc_id });
       console.log(`One device open:`, device);
 
       // Setup the device
@@ -53,8 +53,11 @@ async function quick_example() {
   
       // Wait to receive from the RXD pin
       console.log(`Trying to receive data...`);
-      const response = await device.read(8); // expected response byte length
+      const response = await device.read(4); // expected response byte length (will return either if this is reached or after an RX timeout)
       console.log(`${response.byteLength} bytes were received:`, response);
+
+      // If TXD and RXD pins are connected together, you should get Uint8Array(4) [1, 2, 3, 4] immediately
+      // If not, you should get Uint8Array(0) [] after 1 second of timeout
 
       // Close the device (device object must then be recreated using openDevice)
       device.close();
@@ -82,20 +85,19 @@ await quick_example();
 
 ## Note to Electron users
 
-> :warning: **Currently, Device.read() does not work with Electron v20.3.9+:** See [Issue 7](https://github.com/motla/ftdi-d2xx/issues/7)
-
 As you may already know, Electron runs in two processes: a **main process** and a **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/process-model)).
 
 For security reasons, in the newest releases of Electron, you can only access Node.js inside the **main process**. However, you probably want to interact with this API using buttons, or to display information in the **renderer process**. It lets you two options:
 
 - ***Option 1*** : Accessing this API only inside a `preload.js` file which has access to Node.js and can also export globals to the **renderer process** (recommended):
+  - This file shall be associated to the `BrowserWindow` of your application using `webPreferences.preload` field with `webPreferences.sandbox` set to `false` to enable external modules loading ([more info here](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts)).
   - This file shall contain (or require) all your functions calling this FTDI library.
   - This file shall contain a `contextBridge` to expose your functions globally to the renderer process ([more info here](https://www.electronjs.org/docs/latest/api/context-bridge#usage)).
-  - This file shall be associated to the `BrowserWindow` of your application using `webPreferences.preload` field ([more info here](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts)).
   - **Important:** information exchanged in the pipe between **main process** and **renderer process** (Electron calls it IPC) is **serialized**. That means data is converted in a JSON-like file format before being passed. [Only these data types](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#supported_types) are supported ([more info here](https://www.electronjs.org/docs/latest/tutorial/ipc#object-serialization)).
+  - **Note:** for the above reason, exposing the `FTDI` library object or functions directly to the **renderer process** doesn't work (it would be a bad security practice anyway).
 - ***Option 2*** : Disabling the security and allowing Node.js to run in the **renderer process** ([more info here](https://www.electronjs.org/docs/latest/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content) - not recommended).
 
-If you use a compiler for your Electron project and you get errors, make sure to exclude this library from compilation as a native library.
+###### :speech_balloon: If you use a compiler for your Electron project and you get errors, make sure to exclude this library from compilation as a native library.
 
 
 ## To do

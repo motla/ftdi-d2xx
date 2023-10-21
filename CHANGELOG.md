@@ -1,3 +1,6 @@
+## v1.3.1
+- Fix [Issue 7](https://github.com/motla/ftdi-d2xx/issues/7): making `Device.read()` work with Electron v20.3.9+ (replacing an externally managed ArrayBuffer by a Node-API managed ArrayBuffer at the cost of using `memcpy()` to fill it)
+
 ## v1.3.0
 - `device.serial_number` property is now **deprecated** as the device can be open with Description or USB location, in which case the serial number is not retrieved. Use the new property `device.info.serial_number` instead, which is a getter asking the driver for the device serial number.
 

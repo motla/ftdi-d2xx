@@ -5,6 +5,8 @@
 #include <node_api.h>
 #include "ftd2xx.h"
 
+#define NODE_API_NO_EXTERNAL_BUFFERS_ALLOWED // this line can safely be commented for environments where external buffers are allowed (not the case of Electron)
+
 // Error management (SOURCE_PATH_SIZE is set in CMakeLists.txt in order to hide absolute file tree)
 typedef struct {
   char* dummy; // workaround to avoid empty struct initialization which is illegal in C99
